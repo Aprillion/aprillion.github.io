@@ -6,12 +6,20 @@
     <style>
       html {
         background: white;
-        animation: background 3s;
+        animation: background_in 3s;
         padding: 5em 0;
       }
-      @keyframes background {
+      html.out {
+        background: #fea;
+        transition: background_out .3s;
+      }
+      @keyframes background_in {
           from { background: #fea; }
           to   {}
+      }
+      @keyframes background_out {
+          from {}
+          to   { background: #fea; }
       }
       body {
         max-width: 750px;
@@ -60,5 +68,12 @@
       <li>add evolution image, favicon and my photo</li>
       <li>add links to linkedin, github, ...</li>
       <li>publish more projects or add links to their github pages</li>
+    </ul>
+
+    <script>
+        window.onbeforeunload = function(e){
+          document.documentElement.className = 'out';
+        }
+    </script>
   </body>
 </html>
