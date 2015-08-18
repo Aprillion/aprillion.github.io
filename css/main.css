@@ -2,23 +2,31 @@ html {
     background: #ffe;
     padding: 5em 0;
     font: 12pt "Century Schoolbook", sans-serif;
+    transition: 1s;
 }
 body {
     max-width: 800px;
-    box-sizing: border-box;
     margin: auto;
-    padding: 50px;
+    padding: 25px;
     background: linear-gradient(90deg, #fea, transparent 5%, transparent 95%, #fea);
     border-radius: 50px;
     transition: 1s;
 }
-html.fadein body {
-    max-width: 750px;
-    padding: 50px 25px;
+@media screen and (min-width: 850px){
+    html.fadein body {
+        padding: 25px 50px;
+    }
+    html.fadein body:hover {
+        padding: 25px 35px;
+    }
 }
-html.fadein body:hover {
-    max-width: 770px;
-    padding: 50px 35px;
+@media screen and (max-width: 500px){
+    html {
+        padding: 0;
+    }
+    body {
+        padding: 10px;
+    }
 }
 ul {
     list-style-type: none;
