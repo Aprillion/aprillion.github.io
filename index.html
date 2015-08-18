@@ -1,59 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
     <title>Peter Aprillion Hozák</title>
-    <style>
-      html {
-        background: white;
-        animation: background_in 2s;
-        padding: 5em 0;
-      }
-      html.out {
-        background: #fea;
-        transition: background_out .5s;
-      }
-      @keyframes background_in {
-          from { background: #fea; }
-          to   {}
-      }
-      @keyframes background_out {
-          from {}
-          to   { background: #fea; }
-      }
-      body {
-        max-width: 750px;
-        box-sizing: border-box;
-        margin: auto;
-        padding: 1em;
-        font: 12pt "Century Schoolbook", sans-serif;
-        background: linear-gradient(90deg, #fea, transparent 5%, transparent 95%, #fea);
-        border-radius: 50px;
-      }
-      ul {
-        list-style-type: none;
-      }
-      li {
-        display: inline-flex;
-        background: #fea;
-        color: #620;
-        border-radius: 20px;
-        padding: 2px 10px;
-        margin: 2px;
-        transition: .3s;
-      }
-      a {
-        color: inherit;
-      }
-      a:visited {
-        color: gray;
-      }
-      li:hover {
-        background: #fd9;
-        border-radius: 7px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
+
   <body>
     <h1>Peter Aprillion Hozák</h1>
     Highlighted projects:
@@ -71,9 +23,12 @@
     </ul>
 
     <script>
+        window.onload = function(e){
+          document.documentElement.className = 'fadein';
+        };
         window.onbeforeunload = function(e){
-          document.documentElement.className = 'out';
-        }
+          document.documentElement.className = '';
+        };
     </script>
   </body>
 </html>
