@@ -14,10 +14,10 @@ body {
 }
 @media screen and (min-width: 850px){
     html.fadein body {
-        padding: 25px 50px;
+        padding: 25px 35px;
     }
     html.fadein body:hover {
-        padding: 25px 35px;
+        padding: 25px 50px;
     }
 }
 @media screen and (max-width: 500px){
