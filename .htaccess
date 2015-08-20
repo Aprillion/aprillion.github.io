@@ -1,0 +1,2 @@
+RewriteEngine  on
+RewriteRule    "http://hozak.info"  "http://peter.hozak.info" [PT]
