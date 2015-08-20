@@ -1,8 +1,12 @@
 html {
     background: #ffe;
-    padding: 5em 0;
     font: 12pt "Century Schoolbook", sans-serif;
     transition: 1s;
+}
+@media screen and (min-height: 40em) {
+    html {
+        padding: 5em 0;
+    }
 }
 body {
     max-width: 800px;
@@ -18,14 +22,6 @@ body {
     }
     html.fadein body:hover {
         padding: 25px 50px;
-    }
-}
-@media screen and (max-width: 500px){
-    html {
-        padding: 0;
-    }
-    body {
-        padding: 10px;
     }
 }
 ul {
