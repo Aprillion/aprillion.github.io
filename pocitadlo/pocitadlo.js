@@ -79,7 +79,7 @@ function skuskaZakladne()
 		document.getElementById("zakIny").focus();
 	} else {
 		alertSkore();
-		pravaStrana += "<strong> ...to sa teda nerovná!</strong>";
+		pravaStrana += "<strong> ...to sa teda nerovnÃ¡!</strong>";
 	}
 	document.getElementById("zakLStrVys").innerHTML = lavaStrana;
 	document.getElementById("zakPStrVys").innerHTML = "&nbsp;= " + pravaStrana;
@@ -120,7 +120,7 @@ function skuskaRovnice()
 		document.getElementById("rovIny").focus();
 	} else {
 		alertSkore();
-		pravaStrana += "<strong> ...to sa teda nerovná!</strong>";
+		pravaStrana += "<strong> ...to sa teda nerovnÃ¡!</strong>";
 	}
 	document.getElementById("rovLStrVys").innerHTML = lavaStrana;
 	document.getElementById("rovPStrVys").innerHTML = "&nbsp;= " + pravaStrana;
@@ -132,10 +132,10 @@ function alertSkore()
 {
 		var trvanie = Math.round((poslednyDobryCas - zaciatok) / 100)/10;
 		var priemer = Math.round(trvanie/spravnych*100)/100;
-		var spr = "Bohuia¾ nesprávny vısledok, Vaše aktuálne skóre je:\n\n"+spravnych+" správnych príkladov";
-		var trv = (isNaN(trvanie) || trvanie < 0)?"":(" za\n"+trvanie+" sekúnd");
-		var prie = (isNaN(priemer) || priemer < 0)?"":(", èo je\n"+priemer+" sekúnd na príklad v priemere.");
-		var tip = (isNaN(priemer) || priemer < 0) || priemer > 5?"\n\nTip: pre vynulovanie èasu po preèítaní tejto správy stlaète Enter alebo kliknite na 'Resetova', po napísaní vısledku stlaète Enter alebo kliknite na 'Je to správne?' a po potvrdení správnosti vısledku stlaète Enter alebo kliknite na 'Novı príklad' - pri pouití klávesy Enter namiesto klikania môete vırazne skráti Váš priemernı èas.":(priemer < 3)?"\n\nVıborne!":"\n\nPoèíta, poèíta, poèíta!";
+		var spr = "BohuÅ¾iaÄ¾ nesprÃ¡vny vÃ½sledok, VaÅ¡e aktuÃ¡lne skÃ³re je:\n\n"+spravnych+" sprÃ¡vnych prÃ­kladov";
+		var trv = (isNaN(trvanie) || trvanie < 0)?"":(" za\n"+trvanie+" sekÃºnd");
+		var prie = (isNaN(priemer) || priemer < 0)?"":(", Äo je\n"+priemer+" sekÃºnd na prÃ­klad v priemere.");
+		var tip = (isNaN(priemer) || priemer < 0) || priemer > 5?"\n\nTip: pre vynulovanie Äasu po preÄÃ­tanÃ­ tejto sprÃ¡vy stlaÄte Enter alebo kliknite na 'ResetovaÅ¥', po napÃ­sanÃ­ vÃ½sledku stlaÄte Enter alebo kliknite na 'Je to sprÃ¡vne?' a po potvrdenÃ­ sprÃ¡vnosti vÃ½sledku stlaÄte Enter alebo kliknite na 'NovÃ½ prÃ­klad' - pri pouÅ¾itÃ­ klÃ¡vesy Enter namiesto klikania mÃ´Å¾ete vÃ½razne skrÃ¡tiÅ¥ VÃ¡Å¡ priemernÃ½ Äas.":(priemer < 3)?"\n\nVÃ½borne!":"\n\nPoÄÃ­taÅ¥, poÄÃ­taÅ¥, poÄÃ­taÅ¥!";
 		var message = spr + trv + prie + tip;
 		alert(message);
 		var cas = new Date();
@@ -147,7 +147,7 @@ function alertSkore()
 function setStopky()
 {
 	var cas = new Date();
-	document.getElementById("cas").innerHTML = Math.round((cas.getTime() - zaciatok) / 1000) + " sekúnd ";
+	document.getElementById("cas").innerHTML = Math.round((cas.getTime() - zaciatok) / 1000) + " sekÃºnd ";
 	document.getElementById("spravne").innerHTML = spravnych;
 	setTimeout("setStopky()","200");
 }
