@@ -20,7 +20,7 @@ body {
     html.fadein body {
         padding: 25px 35px;
     }
-    html.fadein body:hover {
+    html.fadein:hover body {
         padding: 25px 50px;
     }
 }
@@ -28,7 +28,7 @@ ul {
     list-style-type: none;
 }
 li {
-    display: inline-flex;
+    display: inline-block;
     background: #fea;
     color: #740;
     border-radius: 20px;
@@ -43,6 +43,37 @@ li:hover {
 a {
     color: inherit;
 }
+a:hover {
+    color: black;
+}
 a:visited {
     color: gray;
+}
+a:visited:hover {
+    color: #666;
+}
+section {
+    border-style: solid;
+    border-width: 0 2px;
+    border-color: transparent;
+    border-radius: 10px;
+    transition: .5s;
+}
+section:hover {
+    border-color: #fd9;
+}
+h1 {
+    font-size: 2em;
+}
+h2 {
+    font-size: 1.2em;
+}
+h2, h2 ~ p {
+    padding-left: .5em;
+}
+h3 {
+    font-size: 1em;
+}
+h3, h3 ~ p {
+    padding-left: 1em;
 }
