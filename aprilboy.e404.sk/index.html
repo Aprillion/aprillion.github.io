@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+
+<title>aprilBoy's gallery</title>
+
+<meta name="author" content="Peter Hozak" />
+<meta name="copyright" content="&copy; 2007 peter aprilBoy hozak" />
+<meta name="description" content="aprilBoy's official website and photo gallery" />
+<meta name="keywords" content="photo, photography, photograph, foto, gallery, galery, picture, pic, image, img, flower, green, unusual, natural, april boy" />
+
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en" />
+
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="default.css" id="defstyle" title="default" media="all" />
+
+<script src="default.js" type="text/javascript"></script>
+<script type="text/javascript">
+ <!--//<![CDATA[
+
+	if (navigator.appName.indexOf("Internet Explorer") != -1) {
+		document.write('<link href="IE.css" rel="stylesheet" media="all" />')
+	}
+	//global variables
+	var folder = null;
+	var nr = null;
+	var key = 0;
+	var srcArray = new Array();
+	
+	function setFolder (newFolder) {
+		folder = newFolder;
+		nr = 1;
+	}
+	
+	function addItem (file, note, name)
+	{
+		if (file) {
+			var name = (name) ? name : file.substring(0, file.indexOf('.jpg'));
+			var fileMINI = "images/"+folder+"/MINI/"+file;
+			var file = "images/"+folder+"/"+file;
+		 }
+		 else {
+			var name = "unknown";
+			var fileMINI = "images/logo.png";
+			var file = "images/logo.png";
+		}
+		note = (note) ? ("("+note+")") : "&nbsp;";
+		srcArray[key] = fileMINI;
+		document.write('<li><a href="javascript:openImg(\'a'+key+'\',\''+file+'\',\''+name+'\');" id="a'+key+'" title="">');
+		document.write('<img id="img'+key+'" src="images/logo.png" alt="" title="">');
+		document.write('<span><strong>'+name+'</strong></span><b>; </b>');
+		document.write('<span class="note">'+note+'</span>');
+		document.write('</a></li>');
+		nr++;
+		key++;
+	}
+ //]]>-->
+</script>
+
+</head>
+
+<body onload="initPage();">
+
+<div><img src="images/heading.png" id="heading" alt="" /></div>
+
+<ul id="menu">
+	
+	<li id="home">
+	 <div id="space1"> </div>
+	 <h2 class="active">home</h2>
+	 <div>
+		<ul>
+	 		<li>
+			 <img src="images/logo1.jpg" id="logo1" alt="logo" title="" />
+			 <img src="images/logo1.jpg" id="logo2" alt="logo" title="" />
+			 <img src="images/logo1.jpg" id="logo3" alt="logo" title="" />
+			 <img src="images/logo1.jpg" id="logo" alt="logo" title="" />
+			 <h1>the world of the photographer</h1>
+			</li>
+		</ul>
+	 </div>
+	</li>
+
+	<li>
+	 <h2>flowers</h2>
+	 <div>
+	 	<script type="text/javascript">
+		 <!--
+			setFolder("flowers");
+			document.write("<ul>");
+				addItem("Rainy Pink.jpg");
+				addItem("Neon Flower.jpg", "adjusted colors");
+				addItem("Yellow Iris.jpg");
+				addItem("Formula Tulip.jpg");
+				addItem("Bean Flower.jpg");
+				addItem("White Dreams.jpg");
+				addItem("Cut Me.jpg");
+				addItem("Forget-me-not.jpg");
+				addItem("Gardens of Paris.jpg");
+				addItem("Chestnut Flower.jpg");
+			document.write("</ul>");
+		 -->
+		</script>
+	 </div>
+	</li>
+	
+	<li>
+	 <h2>green</h2>
+	 <div>
+	 	<script type="text/javascript">
+		 <!--
+			setFolder("green");
+			document.write("<ul>");
+				addItem("Crops Before.jpg");
+				addItem("Green Water.jpg");
+				addItem("Garlic Way.jpg");
+				addItem("White Tulip.jpg");
+				addItem("Eaves.jpg");
+				addItem("Night Bench.jpg");
+				addItem("Cucumbers.jpg");
+				addItem("Leaves Paris.jpg");
+				addItem("Cranberry.jpg");
+			document.write("</ul>");
+		 -->
+		</script>
+	 </div>
+	</li>
+	
+	<li>
+	 <h2>lamps</h2>
+	 <div>
+	 	<script type="text/javascript">
+		 <!--
+			setFolder("lamps");
+			document.write("<ul>");
+				addItem("Paris Lamp 1.jpg");
+				addItem("Paris Lamp 2.jpg");
+				addItem("Paris Lamp 3.jpg");
+				addItem("Paris Lamp 4.jpg");
+				addItem("Paris Lamp 5.jpg");
+				addItem("Monte Carlo Lamp 1.jpg");
+				addItem("Monte Carlo Lamp 2.jpg");
+				addItem("Monte Carlo Lamp 3.jpg");
+			document.write("</ul>");
+		 -->
+		</script>
+	 </div>
+	</li>
+	
+	<li>
+	 <h2>others</h2>
+	 <div>
+	 	<script type="text/javascript">
+		 <!--
+			setFolder("others");
+			document.write("<ul>");
+				addItem("Cloudy Sun.jpg", "new");
+				addItem("Rainbow.jpg", "new");
+				addItem("Mc Donalds.jpg");
+				addItem("Leaves Banner.jpg");
+				addItem("Car to Nowhere.jpg");
+				addItem("Eifel Tower.jpg");
+				addItem("Sunset.jpg");
+				addItem("Moon Eclipse.jpg");
+				addItem("Rainy Bench.jpg");
+				addItem("Little Grass.jpg");
+				addItem("River.jpg");
+				addItem("Morning City.jpg", "prague");
+				addItem("Trees of a City.jpg", "paris");
+				addItem("Footprint.jpg", "yes, it`s blood");
+				addItem("Aquarium.jpg");
+			document.write("</ul>");
+		 -->
+		</script>
+	 </div>
+	</li>
+	
+	<li>
+	 <h2>people</h2>
+	 <div>
+	 	<script type="text/javascript">
+		 <!--
+			setFolder("people");
+			document.write("<ul>");
+				addItem("Man.jpg");
+				addItem("Woman.jpg");
+				addItem("Boy.jpg");
+				addItem("Girl.jpg");
+			document.write("</ul>");
+		 -->
+		</script>
+	 </div>
+	</li>
+	
+	<li id="about">
+	 <h2>what's behind</h2>
+	 <div>
+	  <ul>
+		<li>
+			<span><strong>"Dial 888, the desire to watch TV, no matter what's on it"</strong></span><b><br /></b>
+			<span>"I don't feel like dialing anything at all now"</span><b><br /></b>
+			<span><strong>"Then dial 3"</strong></span><b><br /></b>
+			<span>"I can't dial a setting that stimulates my cerebral cortex into wanting to dial! If I don't want to dial, I don't want to dial that most of all.."</span><b><br /></b>
+			<span><cite title='in "Do Androids Dream of Electric Sheep?" &nbsp; &copy; Philip K. Dick 1968'>Philip K. Dick</cite></span>
+	   </li>
+	  </ul>
+	 </div>
+	</li>
+</ul>
+
+<div id="footer"><a href="mailto:peter.hozak@gmail.com">&copy; 2007 peter hoz&aacute;k</a></div>
+
+<script type="text/javascript">
+ <!--
+	setSizesExecute();
+	window.onresize = setSizes;
+ -->
+</script>
+
+</body>
+
+</html>

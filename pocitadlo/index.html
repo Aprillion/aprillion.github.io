@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk">
+
+<head>
+	<title>Počítadlo</title>
+	<meta name="author" content="Peter Hozak" />
+	<meta name="copyright" content="&copy; 2007 peter aprilBoy hozak" />
+	<meta name="description" content="cvicenie pocitania spamati" />
+	<meta name="keywords" content="pocitanie, matematika, aritmetika, algebra, elementarna algebra, plus, minus, krat, deleno, nasobilka, rovnica, rovnice" />
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1250" />
+	<meta http-equiv="Content-Language" content="sk" />
+	<script src="pocitadlo.js" type="text/javascript"></script>
+	<link rel="shortcut icon" href="http://aprilboy.e404.sk/images/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="pocitadlo.css" title="Gray (default)" media="all" />
+	<!--[if lte IE 6]>
+		<style type="text/css">
+		img#logo {
+			filter: alpha(opacity=20);
+		}
+		fieldset, div#stopky, legend {
+			background: #ffe;
+			filter: alpha(opacity=85);
+		}
+		input.cislo, option, div#footer a {
+			background: #fffffa;
+		}
+		</style>
+	<![endif]-->
+</head>
+
+<body>
+
+<form action="">
+ <fieldset>
+	<img src="logo.png" id="logo" alt=""/>
+	<h1>Viete počítať spamäti?</h1>
+ </fieldset>
+ <div id="stopky">
+	<span id="spravne"></span><span>. správny príklad za</span><br />
+	<span id="cas"></span> &nbsp;<input type="button" id="resetCas" value="Resetovať" />
+ </div>
+</form>
+
+<form id="zakladne" action=""> 
+ <fieldset>
+	<legend>Základné operácie</legend>
+	<div>
+		<span id="zakLStrZad" class="lavaStr"></span><span id="zakPStrZad"></span>
+		<input type="text" id="zakCislo" class="cislo" size="1" maxlength="4" value="?" />
+		<input type="submit" id="zakSkuska" class="skuska" value="Je to správne?" title="Enter" />
+	</div>
+	<div>
+		<span id="zakLStrVys" class="lavaStr"></span><span id="zakPStrVys"><br /></span>
+	</div>
+	<table>
+	 <tr>
+	 	<td><input type="button" id="zakIny" class="iny" value="Nový príklad" /></td>
+		<td><input type="radio" id="zakNarL" name="narocnost" value="10" checked="checked" /></td>
+		<td><input type="radio" id="zakNarS" name="narocnost" value="99" /></td>
+		<td><input type="radio" id="zakNarT" name="narocnost" value="999" /></td>
+		<td>
+			<select id="zakOperacia">
+			 <option value="s">Sčítanie</option>
+			 <option value="o">Odčítanie</option>
+			 <option value="n" selected="selected">Násobenie</option>
+			 <option value="d">Delenie</option>
+			</select>
+		</td>
+	 </tr>
+	 <tr>
+		<td></td>
+		<td><label for="zakNarL">Ľahký</label></td>
+		<td><label for="zakNarS">Stredný</label></td>
+		<td><label for="zakNarT">Ťažší</label></td>
+		<td></td>
+	 </tr>
+	</table>
+ </fieldset>
+</form>
+
+<form id="rovnica" action="">
+ <fieldset>
+	<legend>Rovnica</legend>
+	<div>
+		<span id="rovLStrZad" class="lavaStr"></span><span id="rovPStrZad"></span>
+		<input type="text" id="rovCislo" class="cislo" size="1" maxlength="4" value="?" />
+		<input type="submit" id="rovSkuska" class="skuska" value="Je to správne?" title="Enter" />
+	</div>
+	<div>
+		<span id="rovLStrVys" class="lavaStr"></span><span id="rovPStrVys"><br /></span>
+	</div>
+	<table>
+	 <tr>
+	 	<td><input type="button" id="rovIny" class="iny" value="Nový príklad" /></td>
+		<td><input type="radio" id="rovNarL" name="narocnost" value="10" checked="checked" /></td>
+		<td><input type="radio" id="rovNarS" name="narocnost" value="99" /></td>
+		<td><input type="radio" id="rovNarT" name="narocnost" value="999" /></td>
+		<td>
+			<select id="rovOperacia">
+			 <option value="o1" selected="selected">a + b + c = d + ?</option>
+			</select>
+		</td>
+	 </tr>
+	 <tr>
+		<td></td>
+		<td><label for="rovNarL">Ľahký</label></td>
+		<td><label for="rovNarS">Stredný</label></td>
+		<td><label for="rovNarT">Ťažší</label></td>
+	 </tr>
+	</table>
+ </fieldset>
+
+ <div id="footer"><a href="mailto:peter.hozak@gmail.com">&copy; 2007 peter hoz&aacute;k,</a> <a href="http://www.mozilla.sk/download/">optimalized for Firefox</div>
+</form>
+
+<script type="text/javascript">
+	<!--
+	initPage();
+	//-->
+</script>
+</body>
+</html>

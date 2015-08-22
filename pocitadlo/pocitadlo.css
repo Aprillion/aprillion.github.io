@@ -1,0 +1,119 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	background: #fff url("background.jpg") fixed no-repeat top right;
+	color: #443;
+	font: normal 1em Verdana, sans-serif;
+	text-align: center;
+}
+
+b {
+	display: none;
+}
+
+img#logo {
+	position: absolute;
+	top: 15px;
+	left: 1%;
+}
+
+form {
+	width: 520px;
+	margin: auto;
+	text-align: left;
+}
+
+fieldset, div#stopky {
+	margin-top: 20px;
+	border: 2px solid black;
+	border-color: #443 #aa9 #aa9 #443;
+	background: #ffe url("background.png") fixed no-repeat top right;
+	cursor: default;
+}
+
+div#stopky {
+	position: absolute;
+	float: left;
+	top: 3.9em;
+	right: 2%;
+	padding: 3px 7px;
+	text-align: right;
+}
+
+div#stopky span {
+	line-height: 1.3em;
+}
+
+h1 {
+	text-align: center;
+	margin: 5px;
+}
+
+legend {
+	border: 2px solid #443;
+	border-width: 0 2px;
+	padding: 5px 8px;
+	background: #ffe url("background.png") fixed no-repeat top right;
+	font-weight: bold;
+}
+
+fieldset div {
+	margin: 10px 0 20px 0;
+}
+
+span.lavaStr {
+	display: block;
+	float: left;
+	clear: left;
+	width: 150px;
+	text-align: right;
+}
+
+input.cislo, select {
+	border: 1px solid black;
+	border-color: #aa9 #443 #443 #aa9;
+	background: #fffffa url("background.png") fixed no-repeat top right;
+	text-align: center;
+}
+
+input.cislo {
+	width: 2em;
+}
+
+option {
+	background: #fffffa url("background.png") fixed no-repeat top right;
+}
+
+input.cislo, input.skuska {
+	margin: 0 5px;
+	vertical-align: text-top;
+}
+
+input.iny {
+	float: left;
+	margin-left: 120px;
+}
+
+table td {
+	border: 0 solid black;
+	margin: 0;
+	padding: 0 2px;
+	font-size: 0.7em;
+	text-align: center;
+}
+
+div#footer {
+	text-align: right;
+	padding-bottom: 10px;
+}
+
+div#footer a {
+	background: #fff url("background.png") fixed no-repeat top right;
+	color: #aa9;
+	text-decoration: none;
+	font: italic normal 1em "Courier New", monospace;
+}
+
+div#footer a:hover, div#footer a:focus {
+	text-decoration: underline;
+}

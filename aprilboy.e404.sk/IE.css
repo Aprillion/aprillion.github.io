@@ -1,0 +1,21 @@
+body {
+	_width: 790px;
+	_margin: auto;
+}
+
+img#heading {
+	_left: 89px;
+}
+
+h2 {
+	_margin: -9px 0 -9px 14px;
+	_border-width: 4px;
+}
+
+li li, h1, li div ul {
+	_background: black;
+}
+
+li li a img {
+	position: static;
+}

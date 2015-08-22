@@ -1,0 +1,233 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #fff url("images/background.jpg") fixed no-repeat bottom left;
+	color: #887;
+	font: normal 1em Verdana, Helvetica, sans-serif;
+}
+
+b {
+	display: none;
+}
+
+img#heading {
+	position: absolute;
+	top: 10%;
+	left: 90px;
+	margin: -40px 0 0 0;
+	z-index: 1000;
+}
+
+ul#menu {
+	position: absolute;
+	top: 10%;
+ 	margin: 0;
+	border: 0 solid #ddc;
+	border-width: 3px 0;
+ 	padding: 2px 0;
+ 	width: 100%;
+	min-width: 774px;
+	height: 444px;
+	list-style: none;
+}
+
+div#space1 {
+	position: static;
+	margin: 0;
+	height: 26px;
+}
+
+h2 {
+	position: relative;
+	margin: 0;
+	border-right: 4px solid #ddc;
+	padding: 6px 10px 10px 0;
+	width: 250px;
+	z-index: 10;
+	font-size: 23px;
+	line-height: 29px;
+	text-align: right;
+	cursor: pointer;
+	font-weight: normal;
+}
+
+h2:hover, h2.hover {
+	color: #554;
+}
+
+h2:active, h2.active {
+	border-color: #332;
+	padding: 7px 7px 9px 3px;
+	color: #332;
+}
+
+li#home h2, li#about h2 {
+	font-style: italic;
+}
+
+li#home div {
+	visibility: visible;
+}
+
+li#home img {
+	visibility: hidden;
+	position: absolute;
+	bottom: 80px;
+	right: 15px;
+	width: 79px;
+	height: 79px;
+}
+
+li#home img#logo1 {
+	visibility: visible;
+}
+
+h1 {
+	position: absolute;
+	right: 0;
+	bottom: 10px;
+	padding: 0 20px 0 8px;
+	background: #000 url("images/background2.jpg") fixed no-repeat bottom left;
+	color: #887;
+	font-weight: normal;
+}
+
+li#self h2 {
+	font-size: 1em;
+}
+
+li div {
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	z-index: 0;
+}
+
+li div ul {
+	margin: 4px 0 0 260px;
+	border-left: 4px solid #ddc;
+	padding: 0;
+	height: 440px;
+	background: #000 url("images/background1.jpg") fixed no-repeat bottom left;
+	overflow: auto;
+	list-style: none;
+}
+
+li li {
+	clear: left;
+	margin: 10px 0 10px 20px;
+	height: 81px;
+	padding: 1px;
+	background: transparent url("images/background2.jpg") fixed no-repeat bottom left;
+}
+
+li li a {
+	text-decoration: none;
+	color: #887;
+}
+
+li li a img {
+	position: relative;
+	float: left;
+	vertical-align: middle;
+	margin: 0 10px 10px 0;
+	border: 1px solid #110;
+	width: 79px;
+	height: 79px;
+	background: transparent url("images/logo.png") no-repeat center;
+}
+
+li li span {
+	display: block;
+	padding: 15px 0 0 10px;
+	font-weight: normal;
+}
+
+li li span strong {
+	font-weight: bold;
+}
+
+li li a:visited span, li li a.visited span {
+	color: #554;
+}
+
+li li a:hover span, li li.hover a span {
+	color: #aa9;
+}
+
+li li a:hover img, li li.hover a img, li li a:focus img {
+	border-color: #887 #443 #443 #887;
+	margin: -1px 11px 11px -1px;
+	
+}
+
+li li a span.note {
+	color: #554;
+	font-style: italic;
+}
+
+li li a:active img {
+	border-color: #554 #aa9 #aa9 #554;
+	margin: 1px 9px 9px 1px;
+}
+
+li li a:active span, li li a:focus span {
+	color: #ffe;
+}
+
+li#about li span {
+	margin-left: 30%;
+	padding-right: 30px;
+	text-align: right;
+	cursor: default;
+}
+
+li#about li span strong {
+	color: #ddc;
+}
+
+li#about cite {
+	font-style: italic;
+	color: #ddc;
+}
+
+div#footer a {
+	position: absolute;
+	top: 10%;
+	right: 0;
+	margin: 465px 20px 10px 0;
+	font: italic bold 20px "Courier New", Courier, monospace;
+	color: #aa9;
+	text-decoration: none;
+}
+
+div#footer a:hover {
+	text-decoration: underline;
+	color: #887;
+}
+
+body.image, body.image table, body.image tr, body.image td, body.image a, body.image img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body.image {
+	background: #000;
+}
+
+body.image table, body.image td {
+	width: 100%;
+	height: 100%;
+	vertical-align: middle;
+	text-align: center;
+}
+
+body.image img {
+	border: 1px solid #110;
+}

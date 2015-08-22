@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="Windows-1250"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk">
+
+<head>
+	<title>opera bug</title>
+	<style type="text/css">
+	#cont {
+		position: absolute;
+		bottom: 5%;
+		left: 50%;
+		margin-left: -300px;
+		width: 600px;
+		height: 100px;
+		background: red;
+	}
+	#crop {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100px;
+		background: green;
+	}
+	</style>
+</head>
+
+<body>
+
+<div id="cont" onmouseover="document.getElementById('crop').style.display='block'" onmouseout="document.getElementById('crop').style.display='none'">
+	<div id="crop">
+		top left .................................................... top center ................................................... top right
+		<br />
+		<br />
+		<br />
+		bottom left ........................................... bottom center .......................................... bottom right
+	</div>
+just mouseover here...
+</div>
+
+</body>
+</html>

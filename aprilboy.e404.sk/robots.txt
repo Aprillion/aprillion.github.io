@@ -1,0 +1,8 @@
+# robots.txt for http://aprilboy.e404.sk/
+
+User-agent: *
+Disallow: /aktualne/
+Disallow: /new/
+Disallow: /art4/
+Disallow: /dragonspaintings/
+Disallow: /studiocamel/

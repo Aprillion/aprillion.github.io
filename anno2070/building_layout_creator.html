@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+	<meta charset="utf-8" />
+	<title>Anno 2070 building layout creator v0.1</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<!--
+	<script src="anno.js"></script>
+	<link rel="stylesheet" href="anno.css" />
+	-->
+	<style type="text/css">
+		html, body {
+			margin: 10px;
+			padding: 0;
+			font-family: Arial, sans-serif;
+		}
+		div#canvas {
+			position: relative;
+			width: 20px;
+			height: 4em;
+			background: gray;
+			text-align: center;
+		}
+		div.draggable {
+			position: absolute;
+			top: 20px;
+			left: 40px;
+			width: 78px;
+			height: 78px;
+			background: rgba(0%,0%,100%,0.5)
+				url('http://images2.wikia.nocookie.net/__cb20111130021239/anno2070/images/b/b0/Warehouse-icon.png')
+				center no-repeat;
+			outline: 2px solid gray;
+		}
+		div#depot {
+			top: 200px;
+			left: 400px;
+		}
+
+		.note {
+			color: gray;
+			font-size: small;
+		}
+	</style>
+	<script>
+		function setDraggables() {
+			//make objects draggable [using jQuery UI], but ignore object that are already draggable (with class ui-draggable)
+			$('.draggable').not('.ui-draggable').mousedown(function(e) {
+				//copy object when Ctrl is pressed before dragging and call this function for the new object
+				//rotate on Shift + click
+				//delete on Alt + click
+				if(e.ctrlKey) {
+					$('#canvas').append($(this).clone().removeClass('ui-draggable'))
+					setDraggables()
+				}else if(e.shiftKey) {
+					$width = $(this).css('width')
+					$(this).css('width', $(this).css('height'))
+					$(this).css('height', $width)
+				}else if(e.altKey) {
+					$(this).remove()
+				}
+			})
+			$('.draggable').not('.ui-draggable').draggable({grid:[20,20]})
+		}
+
+		$(document).ready(function() {
+			$('#canvas').draggable()
+			setDraggables()
+			$('#create_building').click(function(e) {
+				e.preventDefault()
+
+				//grid of tiles of 20x20 pixels, border is 2px wide, borders of adjacent building can overlay
+				// to do: validate values instead of replace ...
+				$x = $('#create_x').val().replace('<script','%$#@^!?') * 20 - 2
+				$y = $('#create_y').val().replace('<script','%$#@^!?') * 20 - 2
+				$color = $('#create_color').val().replace('<script','%$#@^!?')
+				$icon = $('#create_icon').val().replace('<script','%$#@^!?')
+				$label = $('#create_label').val().replace('<script','%$#@^!?')
+				$style = 'width: ' + $x + 'px'
+				$style += '; height: ' + $y + 'px'
+				$style += '; background-color: ' + $color
+				$style += '; background-image: url(\'' + $icon + '\')'
+				$style += '; ' + $('#create_label_style').val().replace('<script','%$#@^!?')
+
+				$('#canvas').append('<div class="draggable" style="'+$style+'">' + $label + '</div>')
+				setDraggables()
+			})
+		})
+	</script>
+  </head>
+  <body>
+	<h1><a href="https://www.ubisoft.com/en-US/game/anno-2070">Anno 2070</a> building layout creator v0.1_beta_2011-12-06</h1>
+	<ul>
+		<li>Create a building <span class="note">(press Tab to move to other field, Enter to create object)</span></li>
+		<li>Drag &amp; Drop</li>
+		<li><b>Ctrl + click = copy</b></li>
+		<li><b>Shift + click = rotate</b></li>
+		<li><b>Alt + click = delete</b></li>
+		<li>Use PrintScreen to capture the layout <span class="note">(then you can paste[Ctrl+V] it to Paint, crop and save as .png)</span></li>
+	</ul>
+	<form>
+		Size: <input id="create_x" size=2 value=3 /> x <input id="create_y" size=2 value=3 ><br />
+		HTML color*: <input id="create_color" size=20 value="green" /><br />
+		Icon url**: <input id="create_icon" size=100 value="http://images1.wikia.nocookie.net/__cb20111120171849/anno2070/images/d/da/Rice.png" /><br />
+		Label:<input id="create_label" size="5" value="1" /> with style="<input id="create_label_style" size=40 value="text-align:right;" />"<br />
+		<span class="note">* for transparent designs use rgba(0%,100%,0%,0.5)</span><br />
+		<span class="note">** see <a href="http://anno2070.wikia.com/wiki/Icons">Icons</a> on wikia, url is in the image properties [in Firefox use rightclick, View Image Info]</span><br />
+		<button id="create_building">Create</button>
+	</form>
+
+	<div id="canvas">
+		<br />&#x2195;
+		<div class="draggable" id="depot"></div>
+	</div>
+  </body>
+</html>
