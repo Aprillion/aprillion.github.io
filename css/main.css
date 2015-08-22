@@ -1,4 +1,5 @@
 html {
+    min-width: 320px;
     background: #ffe;
     font: 12pt "Century Schoolbook", sans-serif;
     transition: 1s;
@@ -6,6 +7,11 @@ html {
 @media screen and (min-height: 40em) {
     html {
         padding: 5em 0;
+    }
+}
+@media screen and (max-width: 450px) {
+    html {
+        padding: 0;
     }
 }
 body {
@@ -16,7 +22,7 @@ body {
     border-radius: 50px;
     transition: 1s;
 }
-@media screen and (min-width: 850px){
+@media screen and (min-width: 900px){
     html.fadein body {
         padding: 25px 35px;
     }
@@ -76,4 +82,28 @@ h3 {
 }
 h3, h3 ~ p {
     padding-left: 1em;
+}
+#right_container {
+    position: relative;
+    float: right;
+    min-width: 227px;
+    padding-top: 295px;
+}
+#photo_bg, #photo_fg {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    width: 227px;
+    height: 291px;
+    border: 1px solid #fea;
+    box-shadow: 1px 2px 2px #740;
+    border-radius: 50px;
+    transition: .5s ease-in-out;
+}
+#photo_fg {
+    opacity: 0;
+}
+#right_container:hover #photo_fg {
+    opacity: 1;
+    box-shadow: 1px 2px 2px black;
 }
