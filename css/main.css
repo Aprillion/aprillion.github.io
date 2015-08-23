@@ -6,7 +6,6 @@ html {
     background: #ffe url("../images/evolution.png") no-repeat center bottom;
     padding-bottom: 5em;
     font: 12pt "Century Schoolbook", sans-serif;
-    opacity: .7;
 }
 @media screen and (min-height: 50em) {
     html {
@@ -24,9 +23,6 @@ body {
     padding: 25px;
     background: linear-gradient(90deg, #fea, transparent 5%, transparent 95%, #fea);
     border-radius: 50px;
-}
-html.fadein {
-    opacity: 1;
 }
 @media screen and (min-width: 900px){
     html.fadein body {
