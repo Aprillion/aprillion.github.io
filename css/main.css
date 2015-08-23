@@ -123,6 +123,9 @@ h3 {
     box-shadow: 1px 2px 2px #740;
     border-radius: 50px;
 }
+#photo_bg {
+    background: url("../images/photo_bg.jpg") no-repeat top right;
+}
 #photo_fg {
     opacity: 0;
 }
