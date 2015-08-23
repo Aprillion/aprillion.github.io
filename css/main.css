@@ -3,17 +3,19 @@
 }
 html {
     min-width: 320px;
-    background: #ffe;
+    background: #ffe url("../images/evolution.png") no-repeat center bottom;
+    padding-bottom: 5em;
     font: 12pt "Century Schoolbook", sans-serif;
+    opacity: .7;
 }
 @media screen and (min-height: 50em) {
     html {
-        padding: 5em 0;
+        padding-top: 5em;
     }
 }
 @media screen and (max-width: 510px) {
     html {
-        padding: 0;
+        padding-top: 0;
     }
 }
 body {
@@ -22,6 +24,9 @@ body {
     padding: 25px;
     background: linear-gradient(90deg, #fea, transparent 5%, transparent 95%, #fea);
     border-radius: 50px;
+}
+html.fadein {
+    opacity: 1;
 }
 @media screen and (min-width: 900px){
     html.fadein body {
