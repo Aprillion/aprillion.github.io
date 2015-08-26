@@ -6,7 +6,7 @@ html {
     /*original picture from https://commons.wikimedia.org/wiki/File:Evolution-des-wissens.jpg*/
     background: white url("../images/evolution.png") no-repeat center bottom;
     padding-bottom: 5em;
-    font: 12pt "Century Schoolbook", sans-serif;
+    font: 12pt Arial, sans-serif;
 }
 @media screen and (min-height: 50em) {
     html {
