@@ -1,12 +1,12 @@
 * {
-    transition: .5s;
+    transition: .3s;
 }
 html {
     min-width: 320px;
     /*original picture from https://commons.wikimedia.org/wiki/File:Evolution-des-wissens.jpg*/
     background: white url("../images/evolution.png") no-repeat center bottom;
     padding-bottom: 5em;
-    font: 12pt Arial, sans-serif;
+    font: 17px Arial, sans-serif;
 }
 @media screen and (min-height: 50em) {
     html {
@@ -22,8 +22,6 @@ body {
     max-width: 800px;
     margin: auto;
     padding: 25px;
-    background: linear-gradient(90deg, #fea, transparent 5%, transparent 95%, #fea);
-    border-radius: 50px;
 }
 @media screen and (min-width: 900px){
     html.fadein body {
