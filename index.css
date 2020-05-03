@@ -1,0 +1,110 @@
+* {
+  transition: 0.2s cubic-bezier(1, 0.9, 0.5, 1.5);
+}
+@keyframes load {
+  0% {
+    background-position-x: 140%;
+  }
+  100% {
+    background-position-x: 0%;
+  }
+}
+html {
+  min-width: 250px;
+  /*original picture from https://commons.wikimedia.org/wiki/File:Evolution-des-wissens.jpg*/
+  background: white url("../images/evolution.png") no-repeat center bottom;
+  font: 17px Helvetica, sans-serif;
+  padding-bottom: 5em;
+  color: #310;
+}
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(to right, #fea 50%, #fb0, #fff) no-repeat;
+  background-size: 300%;
+  animation: load 1s;
+}
+body {
+  width: 100%;
+  max-width: 800px;
+  padding: 2%;
+  margin: auto;
+}
+ul {
+  list-style-type: none;
+  padding: 0 0 0 1em;
+  flex: 1;
+}
+li {
+  background: white;
+  border-radius: 0;
+  padding: 2px 10px;
+  margin: 2px;
+}
+li:hover {
+  background: #fea;
+  border-radius: 11px;
+}
+section:hover h3 {
+  transform: scale(1.1);
+}
+a {
+  color: #b80;
+  text-decoration-color: transparent;
+}
+a:visited {
+  color: #950;
+}
+a:hover {
+  text-decoration-color: currentColor;
+}
+section {
+  display: flex;
+  align-items: baseline;
+}
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1.2em;
+  margin: 1.2em 0;
+}
+h3 {
+  font-size: 1em;
+}
+h3,
+h3 ~ ul {
+  margin: 0.5em 0;
+}
+#right_container {
+  display: block;
+  position: relative;
+  right: 6px;
+  float: right;
+  width: 229px;
+  margin-left: 10px;
+  padding: 233px 0 1em 0;
+  border-radius: 11px;
+  text-align: center;
+}
+#right_container a {
+  display: block;
+  margin: 0 1em;
+}
+#photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 227px;
+  height: 227px;
+  box-shadow: 0 0 3px #740;
+  border-radius: 100px 100px 100px 10px;
+  filter: sepia(0.75);
+}
+#right_container a:hover #photo {
+  filter: sepia(0.25);
+  border-radius: 10px;
+}
