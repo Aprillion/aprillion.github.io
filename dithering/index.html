@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dithering demo</title>
+    <meta charset="UTF-8" />
+    <style type="text/css">
+      body {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        color: gray;
+        background-image: linear-gradient(90deg, white, green, black);
+      }
+      .first {
+        flex: 1;
+      }
+      .second {
+        /* https://developers.google.com/web/updates/2018/01/paintapi */
+        background-image: paint(dither);
+        flex: 1;
+        transition: 1s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="first">Regular</div>
+    <div class="second">
+      Dithering
+    </div>
+    <script>
+      CSS.paintWorklet.addModule("./dither-worker.js").then(console.log);
+    </script>
+  </body>
+</html>
