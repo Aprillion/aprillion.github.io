@@ -49,3 +49,7 @@ data_viewer
 recipe_explorer
 rosalind
 react-auto-height
+
+# http-server -S
+cert.pem
+key.pem

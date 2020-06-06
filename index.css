@@ -52,7 +52,7 @@ section:hover h3 {
   transform: scale(1.1);
 }
 a {
-  color: #b80;
+  color: #a60;
   text-decoration-color: transparent;
 }
 a:visited {
@@ -92,7 +92,7 @@ h3 ~ ul {
 }
 #right_container a {
   display: block;
-  margin: 0 1em;
+  padding: 0.4em 1em;
 }
 #photo {
   position: absolute;
