@@ -127,6 +127,7 @@ h3 ~ ul {
   box-shadow: 0 0 3px #740;
   border-radius: 100px 100px 100px 10px;
   filter: sepia(0.75);
+  transition: border-radius 0.2s cubic-bezier(1, 0.9, 0.5, 1.5);
 }
 #right_container a:hover #photo,
 #right_container a:focus #photo {
