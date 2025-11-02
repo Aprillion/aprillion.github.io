@@ -14,16 +14,6 @@ html {
   padding-bottom: 5em;
   color: #310;
 }
-html::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  height: 5px;
-  width: 100%;
-  background: linear-gradient(to right, #fea 50%, #fb0, #fff) no-repeat;
-  background-size: 300%;
-  animation: load 1s;
-}
 body {
   width: 100%;
   max-width: 800px;
@@ -44,15 +34,14 @@ li {
 }
 li:hover,
 li:focus-within {
-  background: #feab;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 8px 10px;
   margin: -4px 2px;
   transition: 0.2s ease-out;
 }
 li::before {
   content: '>';
-  color: #fea;
+  color: #ec9;
   position: absolute;
   transform: translateX(-15px);
   opacity: 0;
@@ -71,19 +60,28 @@ section:focus-within h3 {
   transform: scale(1.1);
 }
 a {
-  color: #a60;
-  text-decoration-color: transparent;
+  color: transparent;
+  background-image: linear-gradient(to right, #a60, goldenrod, #a60);
+  background-clip: text;
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  transition: background-position 0.2s ease-out;
 }
 a:visited {
-  color: #950;
+  background-image: linear-gradient(to right, #950, darkgoldenrod, #a60);
 }
 a:hover {
-  text-decoration-color: currentColor;
+  text-decoration-color: goldenrod;
+  background-position: 100% 50%;
 }
 a:focus {
-  text-decoration-color: currentColor;
+  text-decoration-color: goldenrod;
   text-decoration-thickness: 2px;
   outline: none;
+}
+a:visited:hover,
+a:visited:focus {
+  text-decoration-color: darkgoldenrod;
 }
 section {
   display: flex;
@@ -91,6 +89,11 @@ section {
 }
 h1 {
   font-size: 2em;
+  display: inline-block;
+  color: transparent;
+  background-image: linear-gradient(to right, black, darkgoldenrod);
+  background-clip: text;
+  margin: 0;
 }
 h2 {
   font-size: 1.2em;
@@ -117,6 +120,10 @@ h3 ~ ul {
 #right_container a {
   display: block;
   padding: 0.4em 1em;
+  background-position: 100% 50%;
+}
+#right_container a:hover {
+  background-position: 0% 50%;
 }
 #photo {
   position: absolute;
@@ -124,13 +131,12 @@ h3 ~ ul {
   right: 0;
   width: 227px;
   height: 227px;
-  box-shadow: 0 0 3px #740;
-  border-radius: 100px 100px 100px 10px;
+  border-radius: 100px 100px 100px 5px;
   filter: sepia(0.75);
   transition: border-radius 0.2s cubic-bezier(1, 0.9, 0.5, 1.5);
 }
 #right_container a:hover #photo,
 #right_container a:focus #photo {
   filter: sepia(0.25);
-  border-radius: 10px;
+  border-radius: 5px;
 }
