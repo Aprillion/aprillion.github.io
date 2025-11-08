@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Blindness Examples</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .example {
+        margin-bottom: 60px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .views {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .view {
+        flex: 1;
+        min-width: 200px;
+      }
+      .view h3 {
+        margin-top: 0;
+        font-size: 14px;
+        text-align: center;
+      }
+      .color-pair {
+        display: flex;
+        gap: 10px;
+      }
+      .color-box {
+        flex: 1;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+        border: 2px solid #333;
+      }
+
+      /* Deuteranopia filter */
+      .deuteranopia {
+        filter: url(#deuteranopia-filter);
+      }
+
+      /* Tritanopia filter */
+      .tritanopia {
+        filter: url(#tritanopia-filter);
+      }
+    </style>
+  </head>
+  <body>
+    <svg style="display: none">
+      <defs>
+        <!-- Deuteranopia simulation -->
+        <filter id="deuteranopia-filter">
+          <feColorMatrix
+            type="matrix"
+            values="0.625 0.375 0 0 0
+                    0.7 0.3 0 0 0
+                    0 0.3 0.7 0 0
+                    0 0 0 1 0"
+          />
+        </filter>
+
+        <!-- Tritanopia simulation -->
+        <filter id="tritanopia-filter">
+          <feColorMatrix
+            type="matrix"
+            values="0.95 0.05 0 0 0
+                    0 0.433 0.567 0 0
+                    0 0.475 0.525 0 0
+                    0 0 0 1 0"
+          />
+        </filter>
+      </defs>
+    </svg>
+
+    <h1>Color Pairs: OK for Deuteranopia, Bad for Tritanopia</h1>
+    <p>
+      Generated (ehm, hallucinated as colors easy to distinguish by people with
+      1 type of color blindness but bad for the other) by
+      <a href="https://t3.chat/share/slts3ye8es">Claude 4.5 Sonnet</a>, open in
+      Chrome
+    </p>
+
+    <div class="example">
+      <h2>Blue #0066CC vs Yellow #FFD700</h2>
+      <div class="views">
+        <div class="view">
+          <h3>Normal Vision</h3>
+          <div class="color-pair">
+            <div class="color-box" style="background: #0066cc; color: white">
+              Blue
+            </div>
+            <div class="color-box" style="background: #ffd700; color: black">
+              Yellow
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Deuteranopia ✅</h3>
+          <div class="color-pair deuteranopia">
+            <div class="color-box" style="background: #0066cc; color: white">
+              Blue
+            </div>
+            <div class="color-box" style="background: #ffd700; color: black">
+              Yellow
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Tritanopia ❌</h3>
+          <div class="color-pair tritanopia">
+            <div class="color-box" style="background: #0066cc; color: white">
+              Blue
+            </div>
+            <div class="color-box" style="background: #ffd700; color: black">
+              Yellow
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h2>Light Blue #87CEEB vs Pink #FFB6C1</h2>
+      <div class="views">
+        <div class="view">
+          <h3>Normal Vision</h3>
+          <div class="color-pair">
+            <div class="color-box" style="background: #87ceeb; color: black">
+              Light Blue
+            </div>
+            <div class="color-box" style="background: #ffb6c1; color: black">
+              Pink
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Deuteranopia ✅</h3>
+          <div class="color-pair deuteranopia">
+            <div class="color-box" style="background: #87ceeb; color: black">
+              Light Blue
+            </div>
+            <div class="color-box" style="background: #ffb6c1; color: black">
+              Pink
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Tritanopia ❌</h3>
+          <div class="color-pair tritanopia">
+            <div class="color-box" style="background: #87ceeb; color: black">
+              Light Blue
+            </div>
+            <div class="color-box" style="background: #ffb6c1; color: black">
+              Pink
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h2>Blue #0080FF vs Cyan #00CED1</h2>
+      <div class="views">
+        <div class="view">
+          <h3>Normal Vision</h3>
+          <div class="color-pair">
+            <div class="color-box" style="background: #0080ff; color: white">
+              Blue
+            </div>
+            <div class="color-box" style="background: #00ced1; color: black">
+              Cyan
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Deuteranopia ✅</h3>
+          <div class="color-pair deuteranopia">
+            <div class="color-box" style="background: #0080ff; color: white">
+              Blue
+            </div>
+            <div class="color-box" style="background: #00ced1; color: black">
+              Cyan
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Tritanopia ❌</h3>
+          <div class="color-pair tritanopia">
+            <div class="color-box" style="background: #0080ff; color: white">
+              Blue
+            </div>
+            <div class="color-box" style="background: #00ced1; color: black">
+              Cyan
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h2>Purple #800080 vs Red #DC143C</h2>
+      <div class="views">
+        <div class="view">
+          <h3>Normal Vision</h3>
+          <div class="color-pair">
+            <div class="color-box" style="background: #800080; color: white">
+              Purple
+            </div>
+            <div class="color-box" style="background: #dc143c; color: white">
+              Red
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Deuteranopia ✅</h3>
+          <div class="color-pair deuteranopia">
+            <div class="color-box" style="background: #800080; color: white">
+              Purple
+            </div>
+            <div class="color-box" style="background: #dc143c; color: white">
+              Red
+            </div>
+          </div>
+        </div>
+        <div class="view">
+          <h3>Tritanopia ❌</h3>
+          <div class="color-pair tritanopia">
+            <div class="color-box" style="background: #800080; color: white">
+              Purple
+            </div>
+            <div class="color-box" style="background: #dc143c; color: white">
+              Red
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
