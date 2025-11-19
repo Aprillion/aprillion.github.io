@@ -32,32 +32,22 @@ li {
   padding: 4px 10px;
   margin: 0 2px;
 }
-li:hover,
-li:focus-within {
-  border-radius: 5px;
-  padding: 8px 10px;
-  margin: -4px 2px;
-  transition: 0.2s ease-out;
-}
 li::before {
   content: '>';
-  color: #ec9;
+  color: #a60;
   position: absolute;
   transform: translateX(-15px);
   opacity: 0;
-  transition: opacity 0.3s, transform 0.2s;
+  transition: opacity 0.3s, transform 0.2s, color 0.2s;
 }
-li:hover::before,
+li:has(a:hover)::before,
 li:focus-within::before {
   transform: translateX(-23px);
+  color: goldenrod;
 }
 section:hover li::before,
 section:focus-within li::before {
   opacity: 1;
-}
-section:hover h3,
-section:focus-within h3 {
-  transform: scale(1.1);
 }
 a {
   color: transparent;

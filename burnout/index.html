@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="For a talk at Pyvo (Czech Python meetup) 2025-11-19"
+    />
+    <title>My burnout journey</title>
+    <style>
+      html {
+        font: 1.5rem "Comic Sans MS", sans-serif;
+        height: 100%;
+        background: black url("fire.jpg") center / auto 100% no-repeat fixed;
+        color: orange;
+        scroll-snap-type: y mandatory;
+        scroll-snap-align: start;
+      }
+      body {
+        margin: 0 auto;
+      }
+      main {
+        margin: 100vh auto 0;
+        border-radius: 5px;
+        min-height: 100vh;
+        background: linear-gradient(
+          to bottom,
+          #0000,
+          #0004 5%,
+          #000c 40%,
+          #000c 60%,
+          #4107
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-indent: 0.5em;
+      }
+      .max-width {
+        max-width: 800px;
+        padding: 0 1em;
+      }
+      h1 {
+        font-weight: normal;
+      }
+      a {
+        color: orange;
+      }
+      ul.plus-minus {
+        list-style: none;
+        padding-left: 1.5em;
+      }
+      ul.plus-minus li {
+        text-indent: -0.7em;
+      }
+      main,
+      ul,
+      footer {
+        scroll-snap-align: start;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <div class="max-width">
+        <header>
+          <span style="opacity: 0.5">&nbsp;https://peter.</span>hozak.info<span
+            style="opacity: 0.5"
+            >/burnout</span
+          >
+        </header>
+        <h1>My burnout journey</h1>
+        <p>
+          As a software developer, I've been on and off many projects over the
+          years - different role on the same project, another project in the
+          same company, and sometimes it's time to switch companies.
+        </p>
+        <p>It's a balance of what gives and takes my mental energy at work..</p>
+        <ul class="plus-minus">
+          <li>+ focus on real user problems</li>
+          <li>- starting from a solution, finding a problem that fits</li>
+          <li>+ clear steps forward</li>
+          <li>+ defined-enough scope <i>before</i> implementation</li>
+          <li>
+            - multiple stakeholders who all need to review
+            code/design/test/product fit and one of them doesn't have time, but
+            comes back few days later to reopen an issue
+          </li>
+          <li>
+            - merge conflicts between my own 6 PRs, because someone else renamed
+            a folder and I modified files with multiple features that all wait
+            for reviews
+          </li>
+          <li>+ quick review and merge, next iteration in next ticket</li>
+          <li>+ boring technology that solves a problem</li>
+          <li>+ new technology that solves a problem</li>
+          <li>- new technology because someone was a hype junkie</li>
+          <li>+ simple to start, infinite to master</li>
+          <li>
+            - learning cliff to start, then boring while impossible to remember
+            random config
+          </li>
+          <li>
+            - interviews with 5 rounds / whole-day project / recording myself
+            how I explain my thinking into the void
+          </li>
+          <li>+ just hopping on a project with ex-colleagues / friends</li>
+          <li>- back pain from long sitting</li>
+          <li>+ daily walks</li>
+          <li>- "almost" working tools</li>
+          <li>- LLM chatbot "agents"</li>
+          <li>+ community-driven events, conference volunteering, ...</li>
+        </ul>
+        <p>
+          ..and about what I can do to keep the balance positive at a given
+          environment. It's mostly about prevention, I have never collapsed from
+          burnout yet, but many times, it's been less fun than I would have
+          wanted.
+        </p>
+        <footer
+          title="This has been a talk at a meetup.. but let me know if I should write a standalone post."
+          style="padding: 10em 0 10em 7em"
+        >
+          Questions?
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>
