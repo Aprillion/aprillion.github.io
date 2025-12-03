@@ -14,23 +14,22 @@
         height: 100%;
         background: black url("fire.jpg") center / auto 100% no-repeat fixed;
         color: orange;
-        scroll-snap-type: y mandatory;
-        scroll-snap-align: start;
       }
       body {
-        margin: 0 auto;
+        margin: 0;
+        padding-bottom: 100vh;
       }
       main {
-        margin: 100vh auto 0;
+        margin: 0 auto;
         border-radius: 5px;
         min-height: 100vh;
         background: linear-gradient(
           to bottom,
           #0000,
-          #0004 5%,
+          #0004 10%,
           #000c 40%,
-          #000c 60%,
-          #4107
+          #000c 70%,
+          #0000
         );
         display: flex;
         flex-direction: column;
@@ -43,6 +42,8 @@
       }
       h1 {
         font-weight: normal;
+        text-indent: 0;
+        padding-left: 0.5rem;
       }
       a {
         color: orange;
@@ -53,11 +54,6 @@
       }
       ul.plus-minus li {
         text-indent: -0.7em;
-      }
-      main,
-      ul,
-      footer {
-        scroll-snap-align: start;
       }
       footer {
         padding-top: 10em;
