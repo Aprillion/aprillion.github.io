@@ -33,7 +33,7 @@ li {
   margin: 0 2px;
 }
 li::before {
-  content: '>';
+  content: ">";
   color: #a60;
   position: absolute;
   transform: translateX(-15px);
@@ -129,4 +129,14 @@ h3 ~ ul {
 #right_container a:focus #photo {
   filter: sepia(0.25);
   border-radius: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background: #111;
+    color: #ccc;
+  }
+  h1 {
+    background-image: linear-gradient(to right, #fff, darkgoldenrod);
+  }
 }
