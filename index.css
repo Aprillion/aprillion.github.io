@@ -149,7 +149,8 @@ h3 ~ ul {
 
 @media (prefers-color-scheme: dark) {
   html {
-    background: #111;
+    background-color: #111;
+    background-blend-mode: soft-light;
     color: #ccc;
   }
   h1 {
