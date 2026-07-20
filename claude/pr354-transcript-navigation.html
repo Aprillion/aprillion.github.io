@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<title>PR #354 transcript-navigation - status</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5a5a5a;
+    --line: #e2e2e2;
+    --card: #f7f7f8;
+    --accent: #0b5fff;
+    --code: #f0f0f2;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --fg: #e6e6e6;
+      --muted: #a0a4ab;
+      --line: #2a2e35;
+      --card: #1c1f25;
+      --accent: #6ea8ff;
+      --code: #22262d;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 2rem 1.1rem 4rem;
+    background: var(--bg);
+    color: var(--fg);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin: 0 0 .3rem;
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  code {
+    background: var(--code);
+    padding: .08em .35em;
+    border-radius: 4px;
+    font-size: .88em;
+  }
+
+  .legend {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .7rem .9rem;
+    margin: 1rem 0;
+    font-size: .9rem;
+  }
+
+  .legend span {
+    display: inline-block;
+    margin: .12rem .8rem .12rem 0;
+    white-space: nowrap;
+  }
+
+  ul.ledger {
+    list-style: none;
+    padding: 0;
+    margin: .4rem 0;
+  }
+
+  ul.ledger>li {
+    padding: .5rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  ul.ledger>li:first-child {
+    border-top: none;
+  }
+
+  .id {
+    font-weight: 700;
+  }
+
+  .ic {
+    font-size: 1.05em;
+  }
+
+  .why {
+    color: var(--muted);
+  }
+
+  .note {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .7rem .9rem;
+    margin: 1rem 0;
+  }
+
+  details {
+    margin: 2.2rem 0 .5rem;
+  }
+
+  details>summary {
+    font-size: 1.15rem;
+    padding: 0 0 .25rem;
+    margin-bottom: .5rem;
+    border-bottom: 2px solid var(--line);
+    cursor: pointer;
+  }
+
+  details>summary::marker {
+    color: var(--muted);
+  }
+</style>
+
+<main>
+
+  <h1>PR #354 &mdash; transcript navigation</h1>
+  <p><a href="https://github.com/meridianlabs-ai/ts-mono/pull/354">PR #354</a> (<code>ts-mono</code>, branch
+    <code>transcript-navigation</code>), from <a href="https://github.com/METR/hawk/issues/545">METR/hawk#545</a>.
+
+  <div class="legend">
+    <span>&#10060; user-reported broken</span>
+    <span>&#129514; agent-tested only</span>
+    <span>&#8987; ready for Peter's retest</span>
+    <span>&#9989; Peter personally verified</span>
+    <span>&#128584; resolved not-a-bug / declined / deferred</span>
+  </div>
+
+  <details>
+    <summary>What the PR delivers</summary>
+    <ul class="ledger">
+      <li>Keyboard turn navigation: <kbd>j</kbd>/<kbd>k</kbd> step turns, <kbd>gg</kbd>/<kbd>G</kbd> first/last,
+        Ctrl/Cmd+G go-to-turn bar, <kbd>h</kbd>/<kbd>l</kbd> agent lanes (+ visible lane buttons), <kbd>f</kbd> focus
+        &mdash; in both inspect and scout.</li>
+      <li>Focus view: dedicated event page (replaces LargeModal) with navbar, breadcrumbs, loading state, back/home to
+        origin surface, turn chevrons with keyboard-parity follow arm/disarm. Scope: browser and
+        extension log-dir mode.
+      </li>
+      <li>Event links: open in a new tab (ctrl/cmd/middle-click) or navigate in place.</li>
+      <li>Event-card fix (original bug): inner-tab clicks (Summary/Messages/API) keep the same turn and card-top
+        alignment (root cause: TanStack resizeItem scroll adjustment).</li>
+      <li>Fresh sample visit always lands at top (visit-scoped keys); no cross-visit scroll memory.</li>
+      <li>Arrow keys are the only prev/next sample stepper; modified arrows (Alt/Ctrl/Shift/Meta) pass through to
+        the browser.</li>
+      <li><code>?follow=1</code>: shareable URL that arms live-follow at mount (overrides deep-link stand-down);
+        carried into focus links when already following.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Charles round-2 items &#9989;</summary>
+    <p>Source: dragonstyle's review comment 2026-07-06T15:10:31Z. Re-verified by Peter 2026-07-20 pre-push.</p>
+
+    <ul class="ledger">
+      <li><span class="id">c.01</span> &#9989; <span class="why">"loading same data formatting is
+          inconsistent... show top navbar with activity bar animating underneath, loading sample data below in small
+          font with animated elipsis" &rarr; fixed: navbar + activity bar + animated ellipsis, scout parity.</span></li>
+
+      <li><span class="id">c.02</span> &#9989; <span class="why">"When we exit focus mode, we
+          should be sure to return to the transcript at this event" &rarr; fixed: back button exits focus view to the
+          originating transcript at the focused turn.</span></li>
+
+      <li><span class="id">c.03</span> &#9989; <span class="why">"the home button needs to return to the
+          original parent (log file or samples list)" &rarr; fixed: home / prev-next return to the correct origin
+          surface, relative path and focus view preserved. Scope: origin surface preserved; the /samples grid's
+          cross-log ordering at log boundaries is not (Sol P1-9).</span></li>
+
+      <li><span class="id">c.04</span> &#9989; <span class="why">"goto dialog needs additional padding... for
+          long turn counts, the prefill value can be truncated" &rarr; fixed: padded, auto-sizing input, floating
+          non-blocking bar (not a modal, per 2026-07-03 decision).</span></li>
+
+      <li><span class="id">c.05</span> &#9989; <span class="why">"left side of focus view only shows 'main'
+          rather than the path to the subagent" &rarr; fixed: breadcrumb shows full subagent path
+          (<code>useFocusLaneScope.ts</code>).</span></li>
+
+      <li><span class="id">c.06</span> &#9989; <span class="why">"turn counts seem sometimes inconsistent...
+          turn 1/12 and then... focus view shows turn 14/25" &rarr; fixed: transcript view, focus view, and outline
+          consistent (verified 14/14/14 on petri audit log).</span></li>
+
+      <li><span class="id">c.07</span> &#9989; <span class="why">"push the padding / margin out to right/left
+          align elements" &rarr; fixed.</span></li>
+    </ul>
+    <p class="note">Two inline Charles comments re-checked, both still satisfied: <code>getEventFocusUrl</code> in
+      shared <code>url.ts</code> since the original focus-page commit; <code>FocusTabContext</code> already refactored
+      to the callback pattern.</p>
+  </details>
+
+  <details>
+    <summary>Charles's "Fable" findings (2026-07-06T15:46:31Z)</summary>
+    <p>Charles's second CHANGES_REQUESTED review relayed an 8-item agentic-review list. Verdicts with file:line evidence
+      per item: #1&ndash;#7 fixed, #8 not reproducible.</p>
+    <ul class="ledger">
+      <li><span class="id">Fable #1</span> <span class="ic">&#129514;</span> VirtualList settle-guard latch on find
+        <span class="why">&rarr; FIXED, guard owned by <code>settleScrollToIndex</code>, every exit calls
+          <code>finish()</code> (<code>VirtualList.tsx:674-711</code>, <code>:405-435</code>).</span>
+      </li>
+      <li><span class="id">Fable #2</span> <span class="ic">&#129514;</span> FocusTurnView no scroll-reset on turn nav
+        <span class="why">&rarr; FIXED, resets scroll per turn and tab (<code>FocusTurnView.tsx:134-136</code>,
+          <code>:152</code>).</span>
+      </li>
+      <li><span class="id">Fable #3</span> <span class="ic">&#129514;</span> keyboard capture leak into preview surfaces
+        <span class="why">&rarr; FIXED, capture handlers bail on disconnected/hidden containers
+          (<code>useTranscriptKeyboardNavigation.ts:65-71</code>).</span>
+      </li>
+      <li><span class="id">Fable #4</span> <span class="ic">&#129514;</span> <code>?message=</code> deep links land
+        behind the pinned event header <span class="why">&rarr; FIXED, sticky-header offset restored via
+          <code>stuckHeaderHeight()</code> (<code>TranscriptViewNodes.tsx:412-440</code>, settle budget 90 frames at
+          <code>:447</code>); landing loop also fixed to abort on user input. Residuals verified 2026-07-20: mid-landing
+          chrome-height growth can end the re-park window early; a settle-cancellation path can skip parking. Parking
+          itself Peter-verified working in practice.</span></li>
+      <li><span class="id">Fable #5</span> <span class="ic">&#129514;&#9989;</span> <code>useScrollTrack.ts:67</code>
+        binary top-crossing check makes any event in the final viewport unreachable as "current" except the last <span
+          class="why">&rarr; FIXED, advancing detection point restored (<code>useScrollTrack.ts:14-24</code>); j/k steps
+          by index instead (t.43); 3 VirtualList race fixes + regression tests restored. Peter-verified 2026-07-20:
+          outline follows manual scroll correctly.</span></li>
+      <li><span class="id">Fable #6</span> <span class="ic">&#129514;&#9989;</span>
+        <code>TranscriptViewNodes.tsx:564</code> first <kbd>j</kbd> skips turn 1 when pre-turn content is on screen
+        <span class="why">&rarr; FIXED via scroll-history latch (mount reports ignored until the user actually scrolls;
+          folded into the components slice). Peter-verified 2026-07-20 on both log shapes: petri audit and hcast react.
+          Scope: verified for the load case (two log shapes); scrolling within a tall first turn before the first j
+          still misdirects (Sol P1-6), unfixed.</span>
+      </li>
+      <li><span class="id">Fable #7</span> <span class="ic">&#129514;</span> <code>GoToTurnBar.tsx:94</code> Ctrl+G
+        editable-target check misses shadow-DOM <code>&lt;vscode-textarea&gt;</code>/<code>&lt;select&gt;</code> <span
+          class="why">&rarr; FIXED, shared <code>isEditableTarget</code> pierces shadow DOM
+          (<code>GoToTurnBar.tsx:99-104</code>; <code>util/browser.ts:38-62</code>). Overlaps le.28.</span></li>
+      <li><span class="id">Fable #8</span> <span class="ic">&#129514;</span> <code>useFocusTurnNavigation.ts:190</code>
+        breadcrumb can navigate to the wrong agent instance when an earlier same-named sibling lane has direct turns
+        <span class="why">&rarr; NOT REPRODUCIBLE, crumbs resolve by row key + agent span id
+          (<code>useFocusLaneScope.ts:109-118</code>; <code>useFocusTurnNavigation.ts:292</code>).</span>
+      </li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Independent review findings (2026-07-20)</summary>
+    <p>Two blind reviews (gpt-5.6-sol, grok-4.5) ran against tip <code>c2ccb288</code> with the report withheld; every
+      finding adversarially verified; only fixes for P1-2 and P1-5 shipped per Peter's ruling ("fixes are just a risk of
+      new
+      bugs").</p>
+    <ul class="ledger">
+      <li><span class="id">Sol P1-1</span> <span class="ic">&#128584;</span> arrow-capture steals keys from
+        tree/lightbox widgets <span class="why">&rarr; pre-existing on main (branch strictly improved it with the
+          modifier guard).</span></li>
+      <li><span class="id">Sol P1-2</span> <span class="ic">&#129514;</span> focus mode non-functional in single-file
+        mode (one .eval opened directly; AppLayout short-circuits routing &mdash; three of four dispatch points have the
+        focus check, AppLayout doesn't) <span class="why">&rarr; verified; browser + extension log-dir mode work
+          (Peter-verified); fixed: the missing focus check added to AppLayout's single-file branch, mirroring the three
+          sibling routers (additive); no dispatch-test harness exists to pin it (flagged gap); manual single-file
+          verification pending.</span></li>
+      <li><span class="id">Sol P1-3</span> <span class="ic">&#10060;</span> settle-cancellation can skip
+        <code>?message=</code> parking <span class="why">&rarr; verified residual; folded into Fable #4's scope note
+          (see above).</span>
+      </li>
+      <li><span class="id">Sol P1-4</span> <span class="ic">&#10060;</span> live <code>?message=</code> into the
+        Messages tab can arm follow (navOwned not forwarded by ChatViewVirtualList) <span class="why">&rarr; verified;
+          unfixed by ruling.</span></li>
+      <li><span class="id">Sol P1-5</span> <span class="ic">&#9989;</span> <kbd>k</kbd> doesn't disarm live-follow (view
+        returns to tail on next event) <span class="why">&rarr; verified; fixed: k disarms live-follow before stepping,
+          mirroring the j-past-last arm and the focus stepTurn semantics; red/green unit test added; Peter-verified
+          2026-07-20 ("k works to stop following just fine").</span></li>
+      <li><span class="id">Sol P1-6</span> <span class="ic">&#10060;</span> scroll within a tall first turn then
+        <kbd>j</kbd> steps back to turn 1 (first-j latch hole) <span class="why">&rarr; verified; folded into Fable #6's
+          scope note.</span>
+      </li>
+      <li><span class="id">Sol P1-7</span> <span class="ic">&#10060;</span> go-to-turn bar: Tab to Close then Escape
+        exits focus mode instead of closing the bar; j/k pass behind the open bar <span class="why">&rarr; verified;
+          unfixed by ruling.</span></li>
+      <li><span class="id">Sol P1-8</span> <span class="ic">&#10060;</span> scout: return-to-main from a subagent lane
+        can stay scoped to the old lane (double URL write, stale params) <span class="why">&rarr; verified, highest
+          severity of the set; unfixed by ruling.</span></li>
+      <li><span class="id">Sol P1-9</span> <span class="ic">&#10060;</span> focus prev/next under /samples ignores the
+        grid's cross-log order at log boundaries <span class="why">&rarr; verified; folded into c.03's scope
+          note.</span></li>
+      <li><span class="id">Sol P1-10, P1-13, P1-14</span> <span class="why">already tracked as le.18, le.26, le.31
+          respectively.</span></li>
+      <li><span class="id">Sol P1-11</span> <span class="ic">&#128584;</span> focus-URL id escaping <span
+          class="why">&rarr; unreachable with real ids (severity false positive; defensive nit).</span></li>
+      <li><span class="id">Sol P1-12</span> <span class="ic">&#128584;</span> parking listeners retained after settle
+        window <span class="why">&rarr; verified but negligible (passive, single mount).</span></li>
+      <li><span class="id">Sol P1-15</span> <span class="ic">&#128584;</span> <code>scrollPaddingStart</code> divided by
+        scale on &gt;16M-px logs <span class="why">&rarr; verified, cosmetic.</span></li>
+      <li><span class="id">Grok G1</span> <span class="ic">&#10060;</span> inspect chrome collapse persists across
+        sample hops (main expands via its live sticky gate; branch seeds ownership once) <span class="why">&rarr;
+          verified divergence from main; unfixed by ruling.</span></li>
+      <li><span class="id">Grok G2</span> <span class="why">= Sol P1-3 family (mid-landing chrome growth ends the
+          re-park window); folded into Fable #4's scope note.</span></li>
+      <li><span class="id">Grok G3</span> <span class="ic">&#128584;</span> missing aria-labels on scout chevrons <span
+          class="why">&rarr; declined ("slop").</span></li>
+      <li><span class="id">Grok G4</span> <span class="ic">&#128584;</span> main-transcript chevron can't arm follow
+        like <kbd>j</kbd> <span class="why">&rarr; declined ("discoverability affordance; real users scroll").</span>
+      </li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Peter's verification record &amp; retest counts</summary>
+    <ul class="ledger">
+      <li><span class="id">t.01</span> <span class="ic">&#9989;</span> Samples-list load speed after upstream merge
+      </li>
+      <li><span class="id">t.02</span> <span class="ic">&#10060;&#128584;</span> Logs-list empty-flash on return,
+        pre-existing upstream (#389)</li>
+      <li><span class="id">t.03</span> <span class="ic">&#10060;&#9989;</span> Back button in Cursor extension leaving
+        sample view (stale dist)</li>
+      <li><span class="id">t.04</span> <span class="ic">&#10060;&#9989;&#9989;</span> <kbd>f</kbd> not closing focus
+        view in extension (stale dist)</li>
+      <li><span class="id">t.05</span> <span class="ic">&#10060;&#9989;&#9989;&#9989;</span> <kbd>f</kbd> losing
+        selected
+        tab entering focus view</li>
+      <li><span class="id">t.06</span> <span class="ic">&#10060;&#10060;&#10060;&#10060;&#9989;&#9989;&#9989;</span>
+        Return-from-focus / deep-link landing scroll position</li>
+      <li><span class="id">t.07</span> <span class="ic">&#10060;&#10060;&#9989;</span> Summary-header state on landings
+        (expand/collapse blink)</li>
+      <li><span class="id">t.08</span> <span class="ic">&#10060;&#9989;</span> <kbd>f</kbd> above turn 1 not clamping to
+        turn 1</li>
+      <li><span class="id">t.09</span> <span class="ic">&#9989;</span> j/k turn-stepping semantics</li>
+      <li><span class="id">t.10</span> <span class="ic">&#10060;&#10060;&#10060;&#9989;</span> Swimlane autoexpand
+        randomness / animation on focus close</li>
+      <li><span class="id">t.11</span> <span class="ic">&#10060;&#10060;&#9989;</span> Focus-view breadcrumbs (double
+        "main"; missing branch label)</li>
+      <li><span class="id">t.12</span> <span class="ic">&#10060;&#10060;&#9989;&#9989;&#9989;</span> Focus-view nested
+        indent/padding</li>
+      <li><span class="id">t.13</span> <span class="ic">&#9989;</span> Charles-reported PR #354 issues, sweep retest
+      </li>
+      <li><span class="id">t.14</span> <span class="ic">&#10060;&#128584;</span> Bare-load chrome on triframe log,
+        artifact overclaimed</li>
+      <li><span class="id">t.15</span> <span class="ic">&#9989;</span> Jul-11 checklist sweep (remaining items)</li>
+      <li><span class="id">t.16</span> <span class="ic">&#128584;</span> Extended-find during deep-link settle,
+        declined/deferred</li>
+      <li><span class="id">t.17</span> <span class="ic">&#10060;&#9989;&#9989;</span> Tab-flip losing scroll position
+      </li>
+      <li><span class="id">t.18</span> <span class="ic">&#10060;&#9989;&#9989;</span> Return-from-focus race (turn 1/12
+        or judge-lane 1/1)</li>
+      <li><span class="id">t.19</span> <span class="ic">&#10060;&#9989;&#9989;</span> Live-follow pin to bottom on
+        running
+        eval</li>
+      <li><span class="id">t.20</span> <span class="ic">&#10060;&#128584;</span> Cursor webview yanked to newest log on
+        background reload, deferred to le.01</li>
+      <li><span class="id">t.21</span> <span class="ic">&#10060;&#9989;</span> Scroll position leaking between different
+        evals</li>
+      <li><span class="id">t.22</span> <span class="ic">&#9989;</span> Error surfacing in focus view (red strip + error
+        card)</li>
+      <li><span class="id">t.23</span> <span class="ic">&#10060;&#128584;</span> STATE UPDATED missing from focus view
+        (debug filter, not-a-bug)</li>
+      <li><span class="id">t.24</span> <span class="ic">&#10060;&#9989;&#9989;</span> SCORE card missing from focus view
+      </li>
+      <li><span class="id">t.25</span> <span class="ic">&#9989;</span> No red strip / error card on retried-then-green
+        sample</li>
+      <li><span class="id">t.26</span> <span class="ic">&#10060;&#10060;&#128584;</span> Retry eval-set live surfaces
+        (no
+        auto-switch; missing from grid), pre-existing</li>
+      <li><span class="id">t.27</span> <span class="ic">&#10060;&#128584;</span> Background-tab finish-scroll
+        divergence,
+        pre-existing</li>
+      <li><span class="id">t.33</span> <span class="ic">&#128584;</span> Focus-view score render vs. transcript-tab
+        substructure parity
+      </li>
+      <li><span class="id">t.35</span> <span class="ic">&#10060;&#10060;&#8987;</span> Shift+L lane navigation across
+        multiple samples in one eval file</li>
+      <li><span class="id">t.39</span> <span class="ic">&#9989;&#9989;</span> Turn-nav keyboard shortcuts
+        (heading-parity
+        complaint spun off into t.41)</li>
+      <li><span class="id">t.40</span> <span class="ic">&#128584;</span> Fold-process question (git reset / main
+        branch), not a functional test</li>
+      <li><span class="id">t.41</span> <span class="ic">&#10060;&#10060;&#9989;&#9989;</span> Scout focus-view refactor
+        /
+        one-bar header; header-obscured-when-scrollable regression found and fixed</li>
+      <li><span class="id">t.42</span> <span class="ic">&#9989;&#9989;&#9989;</span> gg / Ctrl+G chrome-ownership +
+        <code>?message=</code> deep-link parity
+      </li>
+      <li><span class="id">t.43</span> <span class="ic">&#128584;</span> Anti-oscillation j/k opt-out &mdash; design
+        decision, not a retest item (see
+        Fable #5)</li>
+      <li><span class="id">t.44</span> <span class="ic">&#9989;&#9989;</span> Shift+H/L on scan-result tabs</li>
+      <li><span class="id">t.45</span> <span class="ic">&#10060;&#9989;&#8987;</span> <code>?message=</code> deep-link
+        event on a slow-loading sample</li>
+      <li><span class="id">t.46</span> <span class="ic">&#9989;&#9989;</span> CSS/visual match to main for the
+        chrome-ownership header fix</li>
+      <li><span class="id">t.47</span> <span class="ic">&#9989;&#9989;</span> Held-k long-press navigation</li>
+      <li><span class="id">t.48</span> <span class="ic">&#10060;&#10060;&#128584;</span> Event-card expand/collapse +
+        scroll-preservation flakiness, ruled out-of-scope</li>
+      <li><span class="id">t.49</span> <span class="ic">&#10060;&#128584;</span> PageUp/Home releasing chrome ownership,
+        non-bug (identical no-op on main)</li>
+      <li><span class="id">t.50</span> <span class="ic">&#128584;</span> Finish-timer yank: running sample finishing
+        within ~100ms of scroll-away pulled the view back to top (stale finish-timer); agent-fixed + unit-tested;
+        same-day regression became t.54 / t.64</li>
+      <li><span class="id">t.51</span> <span class="ic">&#128584;</span> Focus follow: <kbd>j</kbd>-arm then immediate
+        <kbd>k</kbd> failed to disarm (stale URL-param closure); agent-fixed + unit-tested; overlaps Sol P1-5
+      </li>
+      <li><span class="id">t.52</span> <span class="ic">&#128584;</span> Streaming past virtualizer compression
+        threshold
+        nudged scale and jittered rows; agent-fixed via hysteresis; no live repro (unit red only) &mdash; withdrawn
+      </li>
+      <li><span class="id">t.53</span> <span class="ic">&#10060;&#9989;&#9989;&#9989;&#9989;</span> Arrows-only sample
+        stepper; scroll-position restore on return</li>
+      <li><span class="id">t.58</span> <span class="ic">&#9989;&#9989;</span> Fresh-visit-to-top (sibling hop, F5
+        reload)
+      </li>
+      <li><span class="id">t.59</span> <span class="ic">&#10060;&#128584;</span> Sample-tab scroll-restore drift,
+        reclassified out-of-scope (scout main baseline reproduces broken too)</li>
+      <li><span class="id">t.61</span> <span class="ic">&#9989;&#9989;&#9989;</span> Event-card tab preservation
+        (inspect
+        + scout + Cursor)</li>
+      <li><span class="id">t.62</span> <span class="ic">&#128584;</span> "Very large sample" parity retest, but Fable
+        wasn't able to supply repro steps</li>
+      <li><span class="id">t.63</span> <span class="ic">&#10060;&#9989;&#9989;</span> Focus-page lane breadcrumb
+        dropdown
+        attached to LAST crumb but listed ROOT's sibling lanes; fixed and merged 2026-07-20 ("yes, it is green"); no
+        test covers crumb anchoring.</li>
+      <li><span class="id">t.64</span> <span class="ic">&#9989;</span> Finish-scroll fires only on successful runs.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Loose ends for follow-up after the PR lands</summary>
+    <ul class="ledger">
+      <li><span class="id">le.01</span> Port backgroundUpdate protections (branch <code>cross-log-loading-fixes</code>)
+        &mdash; lint/typecheck/13 unit tests green, e2e spec written but not executed; sit on new PR until Eric's
+        collection-data rework lands.</li>
+      <li><span class="id">le.02</span> Focus-link caveats (branch-only events; timeline config mismatch).</li>
+      <li><span class="id">le.03</span> Scrollbar-drag chrome-ownership gap (pre-existing; Peter ruling pending).</li>
+      <li><span class="id">le.12</span> Scout backend pin &mdash; scout main is doubly incompatible; needs an upstream
+        repin.</li>
+      <li><span class="id">le.13</span> Scout hosted-mode checks.</li>
+      <li><span class="id">le.14</span> Tab-picker label truncation polish &mdash; narrow-viewport wrap/overlap fixed
+        2026-07-20 (title ellipsis, picker floor width, new e2e); further polish tracked here.</li>
+      <li><span class="id">le.18&ndash;le.27</span> Focus-view gaps: load-failure spinner, unanchored pre-turn events,
+        no event-type filter, no sample-level header content, no minimap markers, no streaming indicator, cross-sample
+        paste frame, zero-turn j/k swallow, lane-picker a11y, focus-tab round-trip on exit.</li>
+      <li><span class="id">le.28</span> Shadow-DOM editable guard (VS Code inputs; overlaps Fable #7).</li>
+      <li><span class="id">le.29</span> Go-to-turn selection ring (visual retest).</li>
+      <li><span class="id">le.30</span> Expanded-card gutter (visual).</li>
+      <li><span class="id">le.31</span> VS Code focus-ring suppression.</li>
+      <li><span class="id">le.32</span> Scout turn-nav writes <code>?event=</code> (smoke check).</li>
+      <li><span class="id">le.33</span> Summary-header expand asymmetry (inspect position-based, scout direction-based)
+        &mdash; kept as-is, intentionality unresolved.</li>
+      <li><span class="id">le.34</span> e2e suite fake-green audit &mdash; Playwright output piped through
+        <code>tail</code> swallowed failures and exit codes.
+      </li>
+      <li><span class="id">le.36</span> Back-from-focus lands at top when entered from passive scroll (c.02 divergence).
+      </li>
+      <li><span class="id">le.37</span> Scout find-band ownership in focus/scanner views.</li>
+      <li><span class="id">le.38</span> pointerdown cancels click-initiated settles (needs design).</li>
+      <li><span class="id">le.39</span> Scout visit-keyed state bags never evicted.</li>
+      <li><span class="id">le.40</span> Turn-count derivations: 3 call paths (outline, event-card counter, focus view)
+        use different collapse/scorer params; behavior consistent under 2026-07-20 testing; candidate post-PR refactor
+        to one parameterized derivation.</li>
+      <li><span class="id">le.41</span> h/l lane hops land on the lane's turn 1 instead of transcript-top with collapsed
+        headers (<code>?event=</code>-router side effect); design revisit post-merge.</li>
+      <li><span class="id">le.42</span> <code>?message=</code> deep-link settle &mdash; replaced main's mechanism with a
+        simpler one; both fail the
+        same way on very deep messages, pre-existing on main. Overlaps Fable #4.</li>
+      <li><span class="id">le.43</span> <code>kAtTurnTopTolerancePx = 24</code> &mdash; uncalibrated constant, accepted
+        as-is ("maybe it's fine").
+      </li>
+      <li><span class="id">le.44</span> Upstream candidates: t.59 debounce fix; inspect_ai LFS resolver mixed-dir
+        assert; scout repin.</li>
+    </ul>
+  </details>
+
+</main>
