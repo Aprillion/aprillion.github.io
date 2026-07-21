@@ -53,3 +53,7 @@ react-auto-height
 # http-server -S
 cert.pem
 key.pem
+
+# Local-only PR354 timeline tooling (commit HTML + pr354-events.json only)
+claude/_*.py
+claude/node_modules/

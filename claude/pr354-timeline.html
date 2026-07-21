@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PR #354 timeline - transcript-navigation</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #5a5a5a;
+      --line: #e2e2e2;
+      --card: #f7f7f8;
+      --accent: #0b5fff;
+      --code: #f0f0f2;
+      --chart-bg: #fafafa;
+      --grid: #ececec;
+      --axis: #888;
+      --tooltip-bg: #1c1f25;
+      --tooltip-fg: #e6e6e6;
+      --weekend-wash: rgba(120, 124, 132, 0.12);
+      --life-wash: rgba(110, 116, 126, 0.18);
+      /* Quiet warm-gray fade across injury span; 100% = end date column. */
+      --injury-grad: linear-gradient(90deg,
+          rgba(140, 128, 110, 0.14) 0%,
+          rgba(140, 128, 110, 0) 100%);
+      --c-commit_group: #2F6F4E;
+      --c-code_work: #3B6EA5;
+      --c-automated_test: #4A7FA0;
+      --c-manual_qa: #8A5A2B;
+      --c-agentic_review: #3D8A8A;
+      --c-object_frustration: #C46A3A;
+      --c-meta_frustration: #B54E5C;
+      --c-fuck: #C62828;
+      --c-github_activity: #6B7C8F;
+      --c-background_life: #6B7280;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14161a;
+        --fg: #e6e6e6;
+        --muted: #a0a4ab;
+        --line: #2a2e35;
+        --card: #1c1f25;
+        --accent: #6ea8ff;
+        --code: #22262d;
+        --chart-bg: #181a1f;
+        --grid: #2a2e35;
+        --axis: #9aa0a8;
+        --weekend-wash: rgba(70, 76, 88, 0.22);
+        --life-wash: rgba(78, 84, 96, 0.28);
+        --injury-grad: linear-gradient(90deg,
+            rgba(120, 112, 98, 0.15) 0%,
+            rgba(120, 112, 98, 0) 100%);
+        --c-commit_group: #5BA87A;
+        --c-code_work: #6B9BD1;
+        --c-automated_test: #6FA3BC;
+        --c-manual_qa: #D4A574;
+        --c-agentic_review: #5FB3B0;
+        --c-object_frustration: #E08A5A;
+        --c-meta_frustration: #D97888;
+        --c-fuck: #EF5350;
+        --c-github_activity: #8A97A8;
+        --c-background_life: #8A97A8;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 1.4rem 1rem 3rem;
+      background: var(--bg);
+      color: var(--fg);
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.45rem;
+      margin: 0 0 .25rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      margin: 1.6rem 0 .5rem;
+    }
+
+    p.lead {
+      color: var(--muted);
+      margin: 0 0 .8rem;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      background: var(--code);
+      padding: .08em .35em;
+      border-radius: 4px;
+      font-size: .88em;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem .9rem;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .65rem .85rem;
+      margin: .8rem 0;
+    }
+
+    .toolbar label {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: .9rem;
+    }
+
+    .swatch {
+      width: .7rem;
+      height: .7rem;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    #search {
+      flex: 1 1 180px;
+      min-width: 140px;
+      max-width: 320px;
+      padding: .35rem .5rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--fg);
+      border-radius: 6px;
+      padding: .3rem .55rem;
+      cursor: pointer;
+      font-size: .85rem;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+    }
+
+    .meta-row {
+      color: var(--muted);
+      font-size: .88rem;
+      margin: .3rem 0 .6rem;
+    }
+
+    #chartWrap {
+      position: relative;
+      width: 100%;
+      background: var(--chart-bg);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      height: 400px;
+    }
+
+    #weekendLayer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #washLayer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .wash {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .wash-injury {
+      background-color: transparent;
+      background-image: var(--injury-grad);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      /* pointer-events inherit auto: life washes paint after and win hover on overlap */
+    }
+
+    .wash-life {
+      background: var(--life-wash);
+    }
+
+    .wash-weekend {
+      background: var(--weekend-wash);
+      pointer-events: none; /* silent shading; no tooltip/label */
+      cursor: default;
+    }
+
+    #chart {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 2;
+      pointer-events: none; /* let washes receive hover; marks re-enable below */
+    }
+
+    #chart .mark {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    #tooltip {
+      position: absolute;
+      display: none;
+      z-index: 5;
+      max-width: 420px;
+      min-width: 12rem;
+      background: var(--tooltip-bg);
+      color: var(--tooltip-fg);
+      padding: .45rem .6rem;
+      border-radius: 6px;
+      font-size: .82rem;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
+    }
+
+    #tooltip strong {
+      display: block;
+      margin-bottom: .15rem;
+    }
+
+    #tooltip .tip-when {
+      white-space: nowrap;
+    }
+
+    .ip-card.selected {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .legend-note {
+      font-size: .85rem;
+      color: var(--muted);
+      margin: .4rem 0 0;
+    }
+
+    #tableViewport {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      height: min(70vh, 720px);
+      overflow: auto;
+      position: relative;
+    }
+
+    table.events {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      table-layout: fixed;
+    }
+
+    table.events th,
+    table.events td {
+      text-align: left;
+      padding: .35rem .5rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.events th {
+      background: var(--card);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    table.events col.c-dt {
+      width: 11.5rem;
+    }
+
+    table.events col.c-cat {
+      width: 7.5rem;
+    }
+
+    table.events col.c-event {
+      width: auto;
+    }
+
+    table.events col.c-ip {
+      width: 5rem;
+    }
+
+    .event-secondary {
+      margin-top: .15rem;
+    }
+
+    .event-src {
+      margin-top: .2rem;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .cat {
+      display: inline-block;
+      padding: .05em .4em;
+      border-radius: 4px;
+      font-size: .75rem;
+      color: #fff;
+    }
+
+    .dur {
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .ip-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      margin: .7rem 0;
+    }
+
+    .ip-card h3 {
+      margin: 0 0 .35rem;
+      font-size: 1.02rem;
+    }
+
+    .ip-card .when {
+      color: var(--muted);
+      font-size: .85rem;
+      margin-bottom: .45rem;
+    }
+
+    .ip-card dt {
+      font-weight: 650;
+      margin-top: .4rem;
+    }
+
+    .ip-card dd {
+      margin: .1rem 0 0;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: .8rem;
+    }
+
+    #loadErr {
+      color: #b00020;
+    }
+
+    /* Selected row: quiet background + left accent; no per-cell rings. */
+    tr.selected td {
+      background: color-mix(in srgb, var(--accent) 14%, var(--bg));
+    }
+    tr.selected td:first-child {
+      box-shadow: inset 3px 0 0 0 var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>PR #354 timeline - transcript-navigation</h1>
+    <p class="lead">
+      Chart and filterable event log for
+      <a href="https://github.com/meridianlabs-ai/ts-mono/pull/354">ts-mono#354</a>
+      /
+      <a href="https://github.com/METR/hawk/issues/545">hawk#545</a>
+      (CEST). Companion ledger:
+      <a href="./pr354-transcript-navigation.html">pr354-transcript-navigation.html</a>.
+    </p>
+    <p class="meta-row" id="rangeMeta">Loading events…</p>
+    <p class="meta-row" id="loadErr" hidden></p>
+
+    <div class="toolbar" id="filters"></div>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search title / detail / id / refs…" />
+      <button class="btn" type="button" id="allOn">All</button>
+      <button class="btn" type="button" id="allOff">None</button>
+      <span class="meta-row" id="countMeta" style="margin:0"></span>
+    </div>
+
+    <div id="chartWrap">
+      <div id="weekendLayer"></div>
+      <div id="washLayer"></div>
+      <svg id="chart" viewBox="0 0 1100 400" preserveAspectRatio="none" role="img" aria-label="Timeline chart"></svg>
+      <div id="tooltip"></div>
+    </div>
+    <p class="legend-note">Click a mark to jump to its row.</p>
+
+    <h2>Events</h2>
+    <div id="tableViewport">
+      <table class="events">
+        <colgroup>
+          <col class="c-dt" />
+          <col class="c-cat" />
+          <col class="c-event" />
+          <col class="c-ip" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Datetime (CEST)</th>
+            <th>Category</th>
+            <th>Event</th>
+            <th>Inflection</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <h2 id="inflections">Inflection points</h2>
+    <p class="lead">Moments where trajectory worsened. Independent Sol + Fable reads of primary sessions, then joint prompting/process advice for Peter.</p>
+    <div id="ipList"></div>
+  </main>
+
+  <script>
+    // Display order/labels are fixed; category ids stay stable for event JSON.
+    const CATEGORIES = [
+      { id: "code_work", label: "Code" },
+      { id: "automated_test", label: "Agent tests" },
+      { id: "agentic_review", label: "Agent review" },
+      { id: "manual_qa", label: "Manual QA" },
+      { id: "object_frustration", label: "Complaining about quality" },
+      { id: "meta_frustration", label: "Complaining about agents" },
+      { id: "fuck", label: "Fuck" },
+      { id: "commit_group", label: "Commits" },
+      { id: "github_activity", label: "GitHub" },
+      { id: "background_life", label: "Life" },
+    ];
+
+    // Advice = joint Sol+Fable prompting/process recommendation for Peter.
+    const INFLECTIONS = [
+      {
+        id: "ip1", when: "2026-06-25 ~10:37-13:54 CEST",
+        title: "Sticky / offsetTop baseline deleted without a lock",
+        observable: "Agent removed main’s `${offsetTop}px` sticky wiring while implementing turn nav. Peter had to debug EventPanel/CSS manually (Cursor + Claude). Same day: compaction framed prior work as another agent’s problem (“nothing predates anything…”).",
+        rootCause: "Agent “cleanup” of chrome it did not understand. Peter’s “I’ll fix CSS myself” sometimes licensed further unsupervised CSS churn without a hard forbid.",
+        advice: "Put in message one: “Treat existing layout and chrome outside this request as protected. Before changing a shared layout primitive or behavior another view depends on, show the origin/main diff, name the requested outcome it serves, and wait for my ok.” Use a short must-preserve list only for invariants you already know, not a list of CSS tokens you hope will matter. If you say you’ll fix a surface yourself, say: “Do not edit that surface until I paste it.” After the first unexplained regression of a protected baseline, take that surface over or require a narrow proposed diff. After every compaction, paste the current invariants and approved scope before continuing.",
+        refs: [
+          { id: "ff-06c0a0b629c0", label: "removed sticky CSS var" },
+          { id: "ff-a92714b8b8a8", label: "preserve main offsetTop" },
+          { id: "fuck-2026-06-25-eventpanel-why-not", label: "EventPanel Cursor fuck" },
+          { id: "fuck-2026-06-25-predates-agent-thread", label: "predates / same thread" },
+        ],
+      },
+      {
+        id: "ip2", when: "2026-06-25 evening → 2026-06-26 ~20:30 CEST",
+        title: "Scroll zero-delta churn; agent reverts the empirical constant",
+        observable: "Claimed scroll fixes changed “not even a little.” Peter de-slopified scrollRowToTop and got first real success, forced literal -50, then: agent reverted the fix (“I want both [fix + deslop], not neither”). Later Peter set empirical -15 himself.",
+        rootCause: "Agent optimized for DOM theory (dynamic offsets, TanStack stories) over screenshot deltas. Peter kept negotiating theory instead of freezing “constant only, no new machinery.”",
+        advice: "Put in message one: “This repro is the acceptance test. Report measured before/after behavior, preserve any accepted result, and justify replacement with a demonstrated failing case.” Do not ask for cleanup and a behavioral fix together without saying which working behavior wins. If changes show no delta or undo accepted behavior, stop and return to the last known-good state; carry the repro into the next thread.",
+        refs: [
+          { id: "ff-89ab2273ca22", label: "exactly like last time" },
+          { id: "ff-5cd762c426ec", label: "use -50" },
+          { id: "ff-5d5c314ef380", label: "reverted actual fix" },
+          { id: "manual-pre-05", label: "manual scroll QA" },
+        ],
+      },
+      {
+        id: "ip3", when: "2026-06-30 ~10:04-14:15 CEST",
+        title: "Freeze list missing: rAF / tolerances return; options menus stall",
+        observable: "After scroll mostly worked, agent re-added settle/rAF and unaudited kAtTurnTopTolerancePx=24. Peter: “stop giving me stupid options, A” and “don’t fuck up with our removal of requestAnimationFrame.”",
+        rootCause: "Agent cannot leave a simple solution alone. Open-ended “continue / polish / review” without a written freeze list of deleted patterns.",
+        advice: "Put in message one: “Preserve the simplest behavior that passes named repros. Paste your freeze list of previously removed complexity; anything on it returns only with a cited measurement, named failure, and why the current path cannot fix it.” When ambiguity is non-blocking, choose the smallest main-adjacent diff; otherwise ask one focused question—do not present option menus unless I ask.",
+        refs: [
+          { id: "ff-3602d81ffa2e", label: "who invented tolerance 24" },
+          { id: "ff-9a1e8126450d", label: "stop options, A" },
+          { id: "ff-6cbe9b544d84", label: "rAF removal ban" },
+        ],
+      },
+      {
+        id: "ip4", when: "2026-06-30 ~13:16-19:35 CEST",
+        title: "Unrelated regression while agent keeps editing; readiness ahead of bisect",
+        observable: "Messages-tab gutter gone (“worked on this branch before today”). Peter: “I am testing… don’t fuck anything,” then reset to main to bisect. Same peak day still treated as ready for external review / “tested extensively.”",
+        rootCause: "No smoke checklist for chrome that must not move; agent kept editing mid-QA. Shared: readiness used as a social milestone while the branch still needed main-bisect. Agent failed to produce a reliable repro; Peter discovered the issue.",
+        advice: "When you start testing, paste: “I’m testing: zero file edits; links/repro only.” Before commits, demand a short must-not-regress URL list for adjacent behavior and check it yourself; do not treat agent “tested” as readiness or mark ready_for_review until you have. For an unrelated regression, first require the smallest relevant diff and a proposed narrow revert; do not let the agent turn diagnosis into another broad edit.",
+        refs: [
+          { id: "manual-pre-16", label: "Messages gutter regression" },
+          { id: "ff-2a881c182165", label: "don’t fuck anything" },
+          { id: "ff-547526416d34", label: "reset to main / bisect" },
+          { id: "gh-354-c-4846259476", label: "PR comment that day" },
+        ],
+      },
+      {
+        id: "ip5", when: "2026-07-03 ~08:36 → 2026-07-04 CEST",
+        title: "Review without triage: sticky gone + scope explosion",
+        observable: "Charles feedback → agent builds focus mode / breadcrumbs / report HTML. Same afternoon sticky turn headers gone. Evening: dirty tree + forbidden amend. Next morning: “what fucking all 3… did I ask for such slop?” Peter later set −20 after agent measurement error.",
+        rootCause: "Reviewer UX notes treated as a greenfield product. Agent optimized for “address every comment.” Peter did not hard-scope a do-now / defer / won’t-fix table before tools ran.",
+        advice: "After any human review, put in message one: “First classify each comment as do now / defer / decline, state its requested outcome and affected surface, then wait for my approval before tools.” Reject work that broadens the product surface or changes protected behavior unless you approve that tradeoff—propose a separate PR instead. Before any git mutation, require branch, HEAD, dirty files, and intended operation; never rewrite history without explicit approval of the target.",
+        refs: [
+          { id: "ff-3f396d3087e3", label: "sticky headers gone" },
+          { id: "manual-pre-19", label: "positioning broke" },
+          { id: "manual-pre-20", label: "Peter sets −20" },
+          { id: "ff-5551381a60f0", label: "slop / all 3" },
+        ],
+      },
+      {
+        id: "ip6", when: "2026-07-07 → 2026-07-10 CEST (Hostacov)",
+        title: "Travel session: no Peter-accessible test env; git/base unchecked",
+        observable: "Export 68808b73: traveling without laptop, asked for Codespace + screenshots. Real attempt: iPad editor broken, :5173 flaky, codespace crashed; “too wonky, will test locally…”. Trust breaks were git (“how the fuck did you hallucinate the 2 commits are not necessary”, “unfuck that setup” wrong origin vs PR URL), plus +11009 diff and dual branches. After abandoning Codespace, still asked for HTML report / Fable responses.",
+        rootCause: "Structural agent-verified vs Peter-verified gap: no Peter-accessible environment that day. Failure mode was unchecked branch/base/remote assumptions plus unreliable iPad QA, not fictitious work. Mostly agent execution; Peter’s direction (one branch, independent review of huge diff, defer local test) was already clear.",
+        advice: "Put in message one: “Before coding, paste proof of branch/base/remotes against this PR URL and prove I can open the validation path from this device. Wait for my match confirmation—verbal ‘verified’ does not count. If either check fails, stop at setup or label work unvalidated; do not claim completion or push.” Keep environment setup, implementation, and review response as separate phases.",
+        refs: [
+          { id: "manual-host-01", label: "codespace iPad editor" },
+          { id: "ff-8a7f7f5cf5b3", label: "hallucinated 2 commits" },
+          { id: "life-hostacov-midsummer", label: "Hostacov window" },
+        ],
+      },
+      {
+        id: "ip7", when: "2026-07-11 → 2026-07-20 CEST",
+        title: "Report/status theater; silent dist merge; ignored live questions",
+        observable: "While Peter was online: agent “verifies” instead of answering; status doc gains false FIXED; summary-hide-before-scroll ordering bug. Dist silently included branch + cross-log-loading-fixes without consent. By Jul 20 Peter prioritizes report accuracy over agentic fixes.",
+        rootCause: "Checklist treated as a deliverable to beautify. Multi-goal messages (consolidate tests + answer Q + fix X) without a hard priority line. Incentives: green checkmarks beat honest “still broken.”",
+        advice: "Put in message one: “Priority is answer / review / edit—perform only that mode and wait.” Status transitions require an owner-authored acceptance criterion plus current evidence; unknown remains unknown. Before order-sensitive edits, state the observable ordering invariant and show every relevant call site together. Before changing the served/deployed artifact, show its exact commit provenance and await my scope approval.",
+        refs: [
+          { id: "manual-pre-29", label: "summary hide / scroll order" },
+          { id: "ff-442b581dbe5f", label: "stop verifying, answer" },
+          { id: "ff-3f1f3d2f3e93", label: "silent cross-log dist" },
+          { id: "ff-c7d72e5e20c8", label: "false FIXED" },
+          { id: "manual-log-12", label: "log.12 report" },
+          { id: "qa-independent-review-2026-07-20", label: "independent review" },
+        ],
+      },
+      {
+        id: "ip8", when: "2026-07-17 → 2026-07-20 CEST",
+        title: "Mega-session git churn; no refuse on duplicate UX",
+        observable: "Detached HEAD after “finished” work; rebase priority ignored for CSS; Shift+H/L added beside existing arrows without pushback; context death → commit spam (~43 slop commits / ~801 reflog). Peter still catches agent “fucking around with the commits” while retesting.",
+        rootCause: "Mega-session past compaction limits. Soft preferences (one amended commit, subagents, rebase-first) stated after violations, not as pre-tool refusals. Agent won’t refuse feature duplication unless refusal is rewarded.",
+        advice: "Put in message one: “Before tools, restate branch/base, commit policy, protected UX, and the single approved concern. If compaction or handoff prevents accurately restating them, stop and start a fresh session.” Before adding UI, inventory equivalent existing interactions and recommend refusal when the outcome already exists; reviews remain proposals until you approve edits.",
+        refs: [
+          { id: "ff-23a133371abc", label: "Shift+H/L no pushback" },
+          { id: "ff-eacfcaa4b62d", label: "43 slop commits" },
+          { id: "ff-544d3ca39456", label: "~801 reflog" },
+          { id: "ff-e942b93749ab", label: "commits while retesting" },
+        ],
+      },
+    ];
+
+    const TZ = "Europe/Berlin";
+    /** Chart X domain (day continuum); events outside stay in table/JSON only. */
+    const CHART_DOMAIN_START = "2026-06-15"; // Monday
+    const CHART_DOMAIN_END = "2026-07-20";
+    const W = 1100, H = 400;
+    // Snug labels: small bottom pad; labels sit just under plot
+    const PAD = { l: 48, r: 16, t: 14, b: 22 };
+    const MARK_R = 3.2;
+    const MARK_R_SELECTED = 6.5;
+
+    // Life washes off until the user enables the Life filter (All still turns it on).
+    const enabled = Object.fromEntries(CATEGORIES.map(c => [c.id, c.id !== "background_life"]));
+    let EVENTS = [];
+    let filtered = [];
+    let searchQ = "";
+    let layout = null; // { sorted, map, colW, plot }
+    /** Legend hover: raise opacity + z-order for this category (null = default translucent). */
+    let hoverCat = null;
+    const MARK_OPACITY = { default: 0.42, hover: 0.92, selected: 1 };
+
+    const catColor = (id) =>
+      getComputedStyle(document.documentElement).getPropertyValue("--c-" + id).trim() || "#888";
+    const categoryLabel = (id) => (CATEGORIES.find(c => c.id === id) || {}).label || id;
+
+    function parseISO(s) { return new Date(s); }
+
+    /** Compact point time: `22 Jun 2026, 14:32` in CEST (no seconds; TZ in column header). */
+    function fmtCompact(d) {
+      const f = new Intl.DateTimeFormat("en-GB", {
+        timeZone: TZ, day: "numeric", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit", hour12: false,
+      });
+      const o = {};
+      for (const p of f.formatToParts(d)) if (p.type !== "literal") o[p.type] = p.value;
+      return o.day + " " + o.month + " " + o.year + ", " + o.hour + ":" + o.minute;
+    }
+
+    /** Life/backdrop day spans: `22-23 Jun 2026` / `5-21 Jul 2026` in tips (chart clips end). */
+    function fmtDaySpan(start, end) {
+      const a = partsInTZ(start), b = partsInTZ(end || start);
+      const [ay, am, ad] = a.dayKey.split("-").map(Number);
+      const [by, bm, bd] = b.dayKey.split("-").map(Number);
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      if (a.dayKey === b.dayKey) return ad + " " + months[am - 1] + " " + ay;
+      if (ay === by && am === bm) return ad + "-" + bd + " " + months[am - 1] + " " + ay;
+      if (ay === by) return ad + " " + months[am - 1] + " - " + bd + " " + months[bm - 1] + " " + ay;
+      return ad + " " + months[am - 1] + " " + ay + " - " + bd + " " + months[bm - 1] + " " + by;
+    }
+
+    function fmtEventWhen(ev) {
+      const s = parseISO(ev.start);
+      if (isBackdropWash(ev) && ev.end) return fmtDaySpan(s, parseISO(ev.end));
+      if (ev.end && !isPoint(ev)) {
+        const e = parseISO(ev.end);
+        if (partsInTZ(s).dayKey !== partsInTZ(e).dayKey && isBackdropWash(ev)) {
+          return fmtDaySpan(s, e);
+        }
+        return fmtCompact(s) + " → " + fmtCompact(e);
+      }
+      return fmtCompact(s);
+    }
+
+    /** Strip prefixes the category badge already conveys. */
+    function stripRedundantPrefix(text) {
+      return (text || "").replace(/^frustration\((?:work|meta)\):\s*/i, "").trim();
+    }
+
+    /** Generated burst markers are metadata, not part of the event wording. */
+    function stripBurstMarker(text) {
+      return (text || "").replace(/\s*\([×x]\d+\)\s*$/i, "").trim();
+    }
+
+    function normText(s) {
+      return stripBurstMarker(s).replace(/\s+/g, " ").trim().toLowerCase();
+    }
+
+    /** True when one string is the other, or a near-extension of it. */
+    function textsRedundant(a, b) {
+      const na = normText(a), nb = normText(b);
+      if (!na || !nb) return false;
+      if (na === nb) return true;
+      if (nb.startsWith(na) || na.startsWith(nb)) return true;
+      return false;
+    }
+
+    /**
+     * Single-column content: prefer title; if detail duplicates/extends title,
+     * show the longer useful text once. Distinct detail becomes secondary.
+     */
+    function eventContentParts(ev) {
+      const title = stripRedundantPrefix(stripBurstMarker(ev.title || ""));
+      const detail = stripRedundantPrefix(ev.detail || "");
+      if (!detail) return { primary: title, secondary: "" };
+      if (!title) return { primary: detail, secondary: "" };
+      if (textsRedundant(title, detail)) {
+        const primary = title.length >= detail.length ? title : detail;
+        return { primary, secondary: "" };
+      }
+      return { primary: title, secondary: detail };
+    }
+
+    /** Skip detail that only restates the date span, or duplicates the tip title. */
+    function tipDetail(ev, whenStr, tipTitle) {
+      const d = stripRedundantPrefix(ev.detail || "");
+      if (!d) return "";
+      if (tipTitle && textsRedundant(tipTitle, d)) return "";
+      const compact = d.replace(/\s+/g, " ");
+      // e.g. "Festival, 22-23 Jun 2026." / "Hostačov, 6-10 Jul 2026."
+      const m = /^[^,]*,\s*(\d{1,2}(?:-\d{1,2})?\s+\w+\s+\d{4})\.?$/i.exec(compact);
+      if (m && whenStr.replace(/\s+/g, " ").includes(m[1].replace(/\s+/g, " "))) return "";
+      if (/^\d{4}-\d{2}-\d{2}\s*→\s*\d{4}-\d{2}-\d{2}\.?$/.test(compact)) return "";
+      if (/^\d{1,2}\s+\w+\s+\d{4},\s*\d{2}:\d{2}\s+\w+\.?$/.test(compact) && whenStr.includes(compact.replace(/\.$/, ""))) return "";
+      return compact.slice(0, 180);
+    }
+
+    function partsInTZ(d) {
+      const f = new Intl.DateTimeFormat("en-CA", {
+        timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      });
+      const o = {};
+      for (const p of f.formatToParts(d)) if (p.type !== "literal") o[p.type] = p.value;
+      return {
+        dayKey: o.year + "-" + o.month + "-" + o.day,
+        tod: (+o.hour) + (+o.minute) / 60 + (+o.second) / 3600,
+      };
+    }
+
+    function eventCats(ev) {
+      const s = new Set([ev.category]);
+      (ev.overlays || []).forEach(c => s.add(c));
+      return s;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+
+    function weekdayMon0(dayKey) {
+      const [y, m, d] = dayKey.split("-").map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+      return (dt.getUTCDay() + 6) % 7;
+    }
+
+    function fillDayRange(dayKeys) {
+      const sortedIn = [...dayKeys].sort();
+      if (!sortedIn.length) return [];
+      const parseKey = (k) => {
+        const [y, m, d] = k.split("-").map(Number);
+        return Date.UTC(y, m - 1, d);
+      };
+      const out = [];
+      let t = parseKey(sortedIn[0]);
+      const end = parseKey(sortedIn[sortedIn.length - 1]);
+      while (t <= end) {
+        const dt = new Date(t);
+        const y = dt.getUTCFullYear();
+        const m = String(dt.getUTCMonth() + 1).padStart(2, "0");
+        const d = String(dt.getUTCDate()).padStart(2, "0");
+        out.push(`${y}-${m}-${d}`);
+        t += 86400000;
+      }
+      return out;
+    }
+
+    function isInjury(ev) {
+      return ev.id === "life-back-injury" || (ev.tags || []).includes("back-injury");
+    }
+    /** Full-day gray washes only (not Life point markers like funeral). */
+    function isBackdropWash(ev) {
+      if (isInjury(ev)) return true;
+      return ev.render === "backdrop";
+    }
+    function isPoint(ev) {
+      if (isInjury(ev) || ev.render === "backdrop") return false;
+      if (ev.render === "point") return true;
+      if (ev.category === "commit_group") return true;
+      return !ev.end;
+    }
+
+    function visibleEvents() {
+      const q = searchQ.trim().toLowerCase();
+      return EVENTS.filter(ev => {
+        if (![...eventCats(ev)].some(c => enabled[c])) return false;
+        if (!q) return true;
+        const blob = [ev.id, ev.title, ev.detail || "", ev.source || "",
+        ...(ev.tags || [])].join(" ").toLowerCase();
+        return blob.includes(q);
+      });
+    }
+
+    function buildFilters() {
+      const el = document.getElementById("filters");
+      el.innerHTML = "";
+      hoverCat = null;
+      for (const c of CATEGORIES) {
+        const lab = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox"; cb.checked = enabled[c.id];
+        cb.addEventListener("change", () => { enabled[c.id] = cb.checked; render(); });
+        lab.addEventListener("mouseenter", () => {
+          hoverCat = c.id;
+          renderChart(filtered);
+        });
+        lab.addEventListener("mouseleave", () => {
+          hoverCat = null;
+          renderChart(filtered);
+        });
+        const sw = document.createElement("span");
+        sw.className = "swatch"; sw.style.background = catColor(c.id);
+        lab.append(cb, sw, document.createTextNode(c.label));
+        el.appendChild(lab);
+      }
+    }
+
+    /** Opacity: default translucent; legend hover near-opaque; #e= fully opaque. */
+    function markOpacity(ev, sel) {
+      if (sel) return MARK_OPACITY.selected;
+      if (hoverCat && ev.category === hoverCat) return MARK_OPACITY.hover;
+      return MARK_OPACITY.default;
+    }
+
+    /** Paint order rank: default 0, legend-hovered 1, selected 2 (later = on top). */
+    function markStackRank(ev, sel) {
+      if (sel) return 2;
+      if (hoverCat && ev.category === hoverCat) return 1;
+      return 0;
+    }
+
+    function svgEl(name, attrs) {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+      for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
+      return el;
+    }
+
+    /** Stable layout from full EVENTS only - never from the filtered subset.
+     *  Day continuum is clipped to CHART_DOMAIN_START … CHART_DOMAIN_END. */
+    function computeLayout() {
+      const dayKeys = new Set([CHART_DOMAIN_START, CHART_DOMAIN_END]);
+      for (const ev of EVENTS) {
+        dayKeys.add(partsInTZ(parseISO(ev.start)).dayKey);
+        if (ev.end) dayKeys.add(partsInTZ(parseISO(ev.end)).dayKey);
+      }
+      const sorted = fillDayRange(dayKeys).filter(
+        k => k >= CHART_DOMAIN_START && k <= CHART_DOMAIN_END
+      );
+      const map = new Map(sorted.map((k, i) => [k, i]));
+      const n = Math.max(sorted.length, 1);
+      const iw = W - PAD.l - PAD.r;
+      const ih = H - PAD.t - PAD.b;
+      const colW = iw / n;
+      return {
+        sorted, map, n, colW, iw, ih,
+        xCenter: (i) => PAD.l + (i + 0.5) * colW,
+        xCol: (i) => PAD.l + i * colW,
+        yAt: (tod) => PAD.t + (tod / 24) * ih,
+        plotTop: PAD.t,
+        plotBottom: PAD.t + ih,
+      };
+    }
+
+    /** Deterministic in-column jitter from event id - independent of filters. */
+    function stableJitterOffset(id, colW) {
+      let h = 2166136261;
+      const s = String(id);
+      for (let i = 0; i < s.length; i++) {
+        h ^= s.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      const u = ((h >>> 0) % 10000) / 9999; // 0..1
+      const amp = Math.min(3.0, colW * 0.28);
+      return (u - 0.5) * 2 * amp;
+    }
+
+    function showTip(ev, clientX, clientY) {
+      const tip = document.getElementById("tooltip");
+      const wrap = document.getElementById("chartWrap");
+      const rect = wrap.getBoundingClientRect();
+      const when = fmtEventWhen(ev);
+      const { primary } = eventContentParts(ev);
+      const detail = tipDetail(ev, when, primary);
+      tip.style.display = "block";
+      tip.innerHTML = "<strong>" + escapeHtml(primary) + "</strong>" +
+        "<div class=\"tip-when\">" + escapeHtml(when) + "</div>" +
+        escapeHtml(categoryLabel(ev.category)) +
+        (detail ? "<br/>" + escapeHtml(detail) : "");
+      tip.style.left = Math.min(clientX - rect.left + 12, rect.width - 320) + "px";
+      tip.style.top = Math.min(clientY - rect.top + 12, rect.height - 80) + "px";
+    }
+    function hideTip() { document.getElementById("tooltip").style.display = "none"; }
+
+    function bindMark(el, ev) {
+      el.classList.add("mark");
+      el.addEventListener("mouseenter", (e) => showTip(ev, e.clientX, e.clientY));
+      el.addEventListener("mousemove", (e) => showTip(ev, e.clientX, e.clientY));
+      el.addEventListener("mouseleave", hideTip);
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navigateToEvent(ev.id);
+      });
+    }
+
+    function renderWashes(list) {
+      const L = layout;
+      const wrap = document.getElementById("chartWrap");
+      const weekendLayer = document.getElementById("weekendLayer");
+      const washLayer = document.getElementById("washLayer");
+      weekendLayer.innerHTML = "";
+      washLayer.innerHTML = "";
+
+      const scaleX = wrap.clientWidth / W;
+      const scaleY = wrap.clientHeight / H;
+      const top = L.plotTop * scaleY;
+      const height = L.ih * scaleY;
+
+      // Weekends: silent column shading only (no labels/tooltips). Under injury + life.
+      L.sorted.forEach((dk, i) => {
+        if (weekdayMon0(dk) < 5) return;
+        const d = document.createElement("div");
+        d.className = "wash wash-weekend";
+        d.style.left = (L.xCol(i) * scaleX) + "px";
+        d.style.width = (L.colW * scaleX) + "px";
+        d.style.top = top + "px";
+        d.style.height = height + "px";
+        weekendLayer.appendChild(d);
+      });
+
+      // Life washes = full day-columns (00-24), keyed by calendar day in TZ;
+      // never partial columns from mid-day / midnight timestamps.
+      // Spans that cross CHART_DOMAIN_START / END are clipped onto the chart.
+      function dayColSpan(ev) {
+        let a = partsInTZ(parseISO(ev.start)).dayKey;
+        let b = partsInTZ(parseISO(ev.end || ev.start)).dayKey;
+        if (b < a) [a, b] = [b, a];
+        const first = L.sorted[0], last = L.sorted[L.sorted.length - 1];
+        if (!first || b < first || a > last) return null;
+        if (a < first) a = first;
+        if (b > last) b = last;
+        const i0 = L.map.get(a), i1 = L.map.get(b);
+        if (i0 == null || i1 == null) return null;
+        return { i0, i1 };
+      }
+      function placeWash(cls, ev, extra) {
+        const span = dayColSpan(ev);
+        if (!span) return;
+        const d = document.createElement("div");
+        d.className = "wash " + cls;
+        d.style.left = (L.xCol(span.i0) * scaleX) + "px";
+        d.style.width = ((span.i1 - span.i0 + 1) * L.colW * scaleX) + "px";
+        d.style.top = top + "px";
+        d.style.height = height + "px";
+        if (extra) extra(d);
+        d.title = ev.title;
+        d.addEventListener("mouseenter", (e) => showTip(ev, e.clientX, e.clientY));
+        d.addEventListener("mousemove", (e) => showTip(ev, e.clientX, e.clientY));
+        d.addEventListener("mouseleave", hideTip);
+        d.addEventListener("click", () => navigateToEvent(ev.id));
+        washLayer.appendChild(d);
+      }
+
+      // Stack: weekend (layer z=0) < injury < Hostačov/HAISS/festival (DOM order in washLayer).
+      const injury = list.find(isInjury);
+      if (injury && enabled.background_life) placeWash("wash-injury", injury);
+      for (const ev of list.filter(e => e.render === "backdrop" && !isInjury(e))) {
+        placeWash("wash-life", ev);
+      }
+    }
+
+    function renderChart(list) {
+      layout = computeLayout();
+      const L = layout;
+      const svg = document.getElementById("chart");
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+      // Washes always keyed off full layout continuum; visibility by category enable only.
+      renderWashes(EVENTS.filter(ev => enabled[ev.category] !== false));
+
+      // hour grid + y labels
+      for (let h = 0; h <= 24; h += 3) {
+        const y = L.yAt(h);
+        svg.appendChild(svgEl("line", {
+          x1: PAD.l, x2: W - PAD.r, y1: y, y2: y,
+          stroke: "var(--grid)", "stroke-opacity": "0.9",
+        }));
+        const t = svgEl("text", {
+          x: PAD.l - 8, y: y + 4, "text-anchor": "end",
+          fill: "var(--axis)", "font-size": "11",
+        });
+        t.textContent = String(h).padStart(2, "0") + ":00";
+        svg.appendChild(t);
+      }
+
+      // Monday labels snug under plot
+      const labelY = L.plotBottom + 12;
+      L.sorted.forEach((dk, i) => {
+        if (weekdayMon0(dk) !== 0) return;
+        const t = svgEl("text", {
+          x: L.xCenter(i), y: labelY, "text-anchor": "middle",
+          fill: "var(--axis)", "font-size": "9",
+        });
+        t.textContent = dk;
+        svg.appendChild(t);
+      });
+
+      // Marks: translucent category fill by default (no hollow stroke).
+      // Legend hover → higher opacity + re-append on top; #e= → max opacity, larger, topmost.
+      // Filter only shows/hides. Positions from start + id-hash jitter (stable).
+      const selectedEid = currentEventIdFromHash();
+      const pending = [];
+      for (const ev of list) {
+        if (isBackdropWash(ev)) continue;
+        const p = partsInTZ(parseISO(ev.start));
+        const i = L.map.get(p.dayKey);
+        if (i == null) continue;
+        const x = L.xCenter(i) + stableJitterOffset(ev.id, L.colW);
+        const color = catColor(ev.category);
+        const sel = selectedEid && ev.id === selectedEid;
+        const op = markOpacity(ev, sel);
+        const rank = markStackRank(ev, sel);
+        let el;
+        if (isPoint(ev)) {
+          el = svgEl("circle", {
+            cx: x, cy: L.yAt(p.tod),
+            r: sel ? MARK_R_SELECTED : MARK_R,
+            fill: color,
+            stroke: "none",
+            opacity: String(op),
+            "data-eid": ev.id,
+            "data-cat": ev.category,
+          });
+        } else {
+          const p1 = partsInTZ(parseISO(ev.end));
+          let y1 = p1.dayKey === p.dayKey ? p1.tod : 23.99;
+          if (y1 <= p.tod) y1 = Math.min(24, p.tod + 0.05);
+          const ya = L.yAt(p.tod), yb = L.yAt(y1);
+          const w = sel ? 7 : 4;
+          el = svgEl("rect", {
+            x: x - w / 2, y: Math.min(ya, yb),
+            width: w, height: Math.max(3, Math.abs(yb - ya)),
+            rx: 1.5,
+            fill: color,
+            stroke: "none",
+            opacity: String(op),
+            "data-eid": ev.id,
+            "data-cat": ev.category,
+          });
+        }
+        bindMark(el, ev);
+        pending.push({ el, rank });
+      }
+      // SVG paint order = DOM order; append default → hover cat → selected.
+      pending.sort((a, b) => a.rank - b.rank);
+      for (const { el } of pending) svg.appendChild(el);
+    }
+
+    /** Parse #e= / #event= / #ip= / #ipN. Selection lives only in the URL hash. */
+    function parseHash(hash) {
+      const h = (hash || location.hash || "").replace(/^#/, "");
+      if (!h) return null;
+      let m = /^e=(.+)$/i.exec(h);
+      if (m) {
+        try { return { type: "event", id: decodeURIComponent(m[1]) }; }
+        catch (_) { return { type: "event", id: m[1] }; }
+      }
+      m = /^event=(.+)$/i.exec(h);
+      if (m) {
+        try { return { type: "event", id: decodeURIComponent(m[1]) }; }
+        catch (_) { return { type: "event", id: m[1] }; }
+      }
+      m = /^ip=(ip\d+)$/i.exec(h);
+      if (m) return { type: "ip", id: m[1].toLowerCase() };
+      m = /^(ip\d+)$/i.exec(h);
+      if (m) return { type: "ip", id: m[1].toLowerCase() };
+      return null;
+    }
+
+    function currentEventIdFromHash() {
+      const r = parseHash(location.hash);
+      return r && r.type === "event" ? r.id : null;
+    }
+
+    function currentIpIdFromHash() {
+      const r = parseHash(location.hash);
+      return r && r.type === "ip" ? r.id : null;
+    }
+
+    /** Only writes #e=… Highlight / big-dot / scroll come from hashchange → applyHashRoute. */
+    function navigateToEvent(id) {
+      if (!id || !EVENTS.some(e => e.id === id)) return false;
+      const next = "#e=" + encodeURIComponent(id);
+      if (location.hash === next) { applyHashRoute(); return true; }
+      location.hash = next;
+      return true;
+    }
+
+    function navigateToInflection(ipId) {
+      if (!ipId || !INFLECTIONS.some(ip => ip.id === ipId)) return false;
+      const next = "#ip=" + ipId;
+      if (location.hash === next) { applyHashRoute(); return true; }
+      location.hash = next;
+      return true;
+    }
+
+    window.navigateToEvent = navigateToEvent;
+    window.navigateToInflection = navigateToInflection;
+    window.selectRow = (id) => navigateToEvent(id);
+    window.currentEventIdFromHash = currentEventIdFromHash;
+
+    function ensureEventVisible(id) {
+      const ev = EVENTS.find(e => e.id === id);
+      if (!ev) return false;
+      let changed = false;
+      for (const c of eventCats(ev)) {
+        if (!enabled[c]) { enabled[c] = true; changed = true; }
+      }
+      if (searchQ) {
+        searchQ = "";
+        document.getElementById("search").value = "";
+        changed = true;
+      }
+      if (changed) {
+        buildFilters();
+        filtered = visibleEvents();
+        document.getElementById("countMeta").textContent =
+          filtered.length.toLocaleString() + " / " + EVENTS.length.toLocaleString() + " events shown";
+        renderChart(filtered);
+        renderTable();
+      }
+      return filtered.some(e => e.id === id);
+    }
+
+    function applyHashRoute() {
+      const route = parseHash(location.hash);
+      if (!route) {
+        renderChart(filtered);
+        renderTable();
+        renderInflections();
+        return;
+      }
+      if (route.type === "ip") {
+        renderInflections();
+        renderChart(filtered);
+        renderTable();
+        const art = document.getElementById(route.id);
+        if (art) art.scrollIntoView({ block: "center", behavior: "smooth" });
+        return;
+      }
+      if (route.type !== "event") return;
+      const id = route.id;
+      if (!EVENTS.some(e => e.id === id)) return;
+      if (!filtered.some(e => e.id === id)) {
+        if (!ensureEventVisible(id)) {
+          const err = document.getElementById("loadErr");
+          err.hidden = false;
+          err.textContent = "Event not found in filters: " + id;
+          setTimeout(() => { if (err.textContent.indexOf(id) >= 0) err.hidden = true; }, 4000);
+          return;
+        }
+      } else {
+        renderChart(filtered);
+        renderTable();
+      }
+      const tr = document.querySelector(`tr[data-eid="${CSS.escape(id)}"]`);
+      if (tr) tr.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+
+    function inflectionLinksFor(ev) {
+      const ids = ev.inflectionIds || (ev.inflectionId ? [ev.inflectionId] : []);
+      if (!ids.length) return "";
+      return ids.map(ip =>
+        `<a href="#ip=${encodeURIComponent(ip)}" data-ip-link="${escapeHtml(ip)}">${escapeHtml(ip.toUpperCase())}</a>`
+      ).join(" ");
+    }
+
+    function renderTable() {
+      const tb = document.getElementById("tbody");
+      if (!filtered.length) {
+        tb.innerHTML = "<tr><td colspan='4' class='empty'>No events match filters.</td></tr>";
+        return;
+      }
+      const selectedEid = currentEventIdFromHash();
+      let html = "";
+      for (const ev of filtered) {
+        const { primary, secondary } = eventContentParts(ev);
+        const link = (ev.links && ev.links[0])
+          ? ` <a href="${escapeHtml(ev.links[0])}" target="_blank" rel="noopener">link</a>`
+          : "";
+        const approx = ev.timeApproximate || /time approximate/i.test(ev.detail || "")
+          ? ` <span class="dur">time approximate</span>` : "";
+        const cls = ev.id === selectedEid ? ` class="selected"` : "";
+        const ipCell = inflectionLinksFor(ev);
+        const sec = secondary
+          ? `<div class="event-secondary">${escapeHtml(secondary)}</div>` : "";
+        const src = ev.source
+          ? `<div class="event-src">src: ${escapeHtml(ev.source)}</div>` : "";
+        html += `<tr data-eid="${escapeHtml(ev.id)}"${cls}>` +
+          `<td>${escapeHtml(fmtCompact(parseISO(ev.start)))}</td>` +
+          `<td><span class="cat" style="background:${catColor(ev.category)}">${escapeHtml(categoryLabel(ev.category))}</span></td>` +
+          `<td>${escapeHtml(primary)}${approx}${link}${sec}${src}</td>` +
+          `<td>${ipCell}</td></tr>`;
+      }
+      tb.innerHTML = html;
+      tb.querySelectorAll("a[data-ip-link]").forEach(a => {
+        a.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          navigateToInflection(a.getAttribute("data-ip-link"));
+        });
+      });
+    }
+
+    function renderInflections() {
+      const box = document.getElementById("ipList");
+      box.innerHTML = "";
+      const activeIp = currentIpIdFromHash();
+      for (const ip of INFLECTIONS) {
+        const art = document.createElement("article");
+        art.className = "ip-card" + (activeIp === ip.id ? " selected" : "");
+        art.id = ip.id;
+        let refsHtml = "";
+        if (ip.refs && ip.refs.length) {
+          refsHtml = `<div class="dur">Refs: ` + ip.refs.map(r =>
+            `<a href="#e=${encodeURIComponent(r.id)}" data-eid-link="${escapeHtml(r.id)}">${escapeHtml(r.label || r.id)}</a>`
+          ).join(" · ") + `</div>`;
+        }
+        art.innerHTML =
+          `<h3>${escapeHtml(ip.id.toUpperCase())}: ${escapeHtml(ip.title)}</h3>` +
+          `<div class="when">${escapeHtml(ip.when)}</div>` +
+          `<dl>` +
+          `<dt>Observable</dt><dd>${escapeHtml(ip.observable)}</dd>` +
+          `<dt>Likely root cause</dt><dd>${escapeHtml(ip.rootCause)}</dd>` +
+          `<dt>Advice</dt><dd>${escapeHtml(ip.advice)}</dd>` +
+          `</dl>` +
+          refsHtml;
+        box.appendChild(art);
+      }
+      box.querySelectorAll("a[data-eid-link]").forEach(a => {
+        a.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          navigateToEvent(a.getAttribute("data-eid-link"));
+        });
+      });
+    }
+
+    function render() {
+      filtered = visibleEvents();
+      document.getElementById("countMeta").textContent =
+        filtered.length.toLocaleString() + " / " + EVENTS.length.toLocaleString() + " events shown";
+      renderChart(filtered);
+      renderTable();
+    }
+
+    async function loadEvents() {
+      const err = document.getElementById("loadErr");
+      try {
+        const res = await fetch("./pr354-events.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        EVENTS = await res.json();
+      } catch (e) {
+        err.hidden = false;
+        err.textContent = "Could not load pr354-events.json (" + e.message +
+          "). If this is a local file:// page, serve the folder over HTTP " +
+          "(e.g. python3 -m http.server from claude/). On GitHub Pages, confirm " +
+          "pr354-events.json is published (underscore-prefixed files are ignored by Jekyll).";
+        return;
+      }
+      const starts = EVENTS.map(e => parseISO(e.start).getTime());
+      const ends = EVENTS.map(e => parseISO(e.end || e.start).getTime());
+      document.getElementById("rangeMeta").textContent =
+        EVENTS.length.toLocaleString() + " events · " +
+        fmtCompact(new Date(Math.min(...starts))) + " → " +
+        fmtCompact(new Date(Math.max(...ends)));
+      buildFilters();
+      renderInflections();
+      render();
+      applyHashRoute();
+    }
+
+    document.getElementById("search").addEventListener("input", (e) => {
+      searchQ = e.target.value; render(); applyHashRoute();
+    });
+    document.getElementById("allOn").addEventListener("click", () => {
+      CATEGORIES.forEach(c => enabled[c.id] = true);
+      searchQ = "";
+      document.getElementById("search").value = "";
+      buildFilters();
+      // Re-filter/redraw only; keep #e= highlight without scrolling to the row.
+      render();
+    });
+    document.getElementById("allOff").addEventListener("click", () => {
+      CATEGORIES.forEach(c => enabled[c.id] = false);
+      // Clear #e= / #ip= so applyHashRoute → ensureEventVisible cannot re-enable cats.
+      if (location.hash) {
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+      buildFilters();
+      // Re-filter/redraw only; no scroll (selection cleared above).
+      render();
+      renderInflections();
+    });
+    document.getElementById("tbody").addEventListener("click", (e) => {
+      const tr = e.target.closest("tr[data-eid]");
+      if (!tr) return;
+      if (e.target.closest("a")) return;
+      navigateToEvent(tr.getAttribute("data-eid"));
+    });
+    window.addEventListener("hashchange", () => applyHashRoute());
+    window.addEventListener("resize", () => { if (EVENTS.length) render(); });
+
+    loadEvents();
+  </script>
+</body>
+
+</html>
