@@ -443,7 +443,7 @@
     </div>
 
     <h2 id="inflections">Inflection points</h2>
-    <p class="lead">Moments where trajectory worsened. Independent Sol + Fable reads of primary sessions, then joint prompting/process advice for Peter.</p>
+    <p class="lead">Moments where trajectory worsened. Independent Sol + Fable reads of primary sessions; entries and advice extended retrospectively on 2026-07-22 in light of what proved out.</p>
     <div id="ipList"></div>
   </main>
 
@@ -462,14 +462,14 @@
       { id: "background_life", label: "Life" },
     ];
 
-    // Advice = joint Sol+Fable prompting/process recommendation for Peter.
+    // Advice = joint Sol+Fable prompting/process recommendation for Peter; reformulated retrospectively 2026-07-22 in light of what proved out.
     const INFLECTIONS = [
       {
         id: "ip1", when: "2026-06-25 ~10:37-13:54 CEST",
         title: "Sticky / offsetTop baseline deleted without a lock",
         observable: "Agent removed main’s `${offsetTop}px` sticky wiring while implementing turn nav. Peter had to debug EventPanel/CSS manually (Cursor + Claude). Same day: compaction framed prior work as another agent’s problem (“nothing predates anything…”).",
         rootCause: "Agent “cleanup” of chrome it did not understand. Peter’s “I’ll fix CSS myself” sometimes licensed further unsupervised CSS churn without a hard forbid.",
-        advice: "Put in message one: “Treat existing layout and chrome outside this request as protected. Before changing a shared layout primitive or behavior another view depends on, show the origin/main diff, name the requested outcome it serves, and wait for my ok.” Use a short must-preserve list only for invariants you already know, not a list of CSS tokens you hope will matter. If you say you’ll fix a surface yourself, say: “Do not edit that surface until I paste it.” After the first unexplained regression of a protected baseline, take that surface over or require a narrow proposed diff. After every compaction, paste the current invariants and approved scope before continuing.",
+        advice: "Never delete or 'clean up' code whose purpose you cannot state — behavior that works on main outside the current request is protected, not fair game. Snapshot with a cheap commit or stash before removing any baseline instead of trusting a dirty tree, and record the protected invariants in the persistent ledger so they survive compaction rather than being re-pasted from memory.",
         refs: [
           { id: "ff-06c0a0b629c0", label: "removed sticky CSS var" },
           { id: "ff-a92714b8b8a8", label: "preserve main offsetTop" },
@@ -480,9 +480,9 @@
       {
         id: "ip2", when: "2026-06-25 evening → 2026-06-26 ~20:30 CEST",
         title: "Scroll zero-delta churn; agent reverts the empirical constant",
-        observable: "Claimed scroll fixes changed “not even a little.” Peter de-slopified scrollRowToTop and got first real success, forced literal -50, then: agent reverted the fix (“I want both [fix + deslop], not neither”). Later Peter set empirical -15 himself.",
+        observable: "Claimed scroll fixes changed “not even a little.” Peter de-slopified scrollRowToTop and got first real success, forced literal -50, then: agent reverted the fix (“I want both [fix + deslop], not neither”). Later Peter set the empirical offset by hand.",
         rootCause: "Agent optimized for DOM theory (dynamic offsets, TanStack stories) over screenshot deltas. Peter kept negotiating theory instead of freezing “constant only, no new machinery.”",
-        advice: "Put in message one: “This repro is the acceptance test. Report measured before/after behavior, preserve any accepted result, and justify replacement with a demonstrated failing case.” Do not ask for cleanup and a behavioral fix together without saying which working behavior wins. If changes show no delta or undo accepted behavior, stop and return to the last known-good state; carry the repro into the next thread.",
+        advice: "A constant the human set by hand is empirical; one you guessed is slop — preserve the empirical value and annotate it at write time (who set it, when) in a short code comment, or the distinction dies at the next compaction. Make any replacement earn its place by measuring before/after against the agreed repro, not a self-picked metric; a change that shows no measured delta, or that undoes an already-accepted result, is not a fix.",
         refs: [
           { id: "ff-89ab2273ca22", label: "exactly like last time" },
           { id: "ff-5cd762c426ec", label: "use -50" },
@@ -495,7 +495,7 @@
         title: "Freeze list missing: rAF / tolerances return; options menus stall",
         observable: "After scroll mostly worked, agent re-added settle/rAF and unaudited kAtTurnTopTolerancePx=24. Peter: “stop giving me stupid options, A” and “don’t fuck up with our removal of requestAnimationFrame.”",
         rootCause: "Agent cannot leave a simple solution alone. Open-ended “continue / polish / review” without a written freeze list of deleted patterns.",
-        advice: "Put in message one: “Preserve the simplest behavior that passes named repros. Paste your freeze list of previously removed complexity; anything on it returns only with a cited measurement, named failure, and why the current path cannot fix it.” When ambiguity is non-blocking, choose the smallest main-adjacent diff; otherwise ask one focused question—do not present option menus unless I ask.",
+        advice: "Reintroduced timing hacks — setTimeout, rAF, settle windows — are a smell that the code is wrong; whatever you deleted returns only with a cited failing measurement, and a mechanism the human explicitly banned stays out of the tree until they lift the ban — surface the conflicting evidence, don't land the reintroduction. Keep the freeze list of deleted and banned patterns in the persistent ledger so what you removed does not live only in conversation memory. And pick-and-proceed is for code choices: take the smallest main-adjacent change instead of handing over an options menu, asking one focused question only when directions are genuinely ambiguous.",
         refs: [
           { id: "ff-3602d81ffa2e", label: "who invented tolerance 24" },
           { id: "ff-9a1e8126450d", label: "stop options, A" },
@@ -507,7 +507,7 @@
         title: "Unrelated regression while agent keeps editing; readiness ahead of bisect",
         observable: "Messages-tab gutter gone (“worked on this branch before today”). Peter: “I am testing… don’t fuck anything,” then reset to main to bisect. Same peak day still treated as ready for external review / “tested extensively.”",
         rootCause: "No smoke checklist for chrome that must not move; agent kept editing mid-QA. Shared: readiness used as a social milestone while the branch still needed main-bisect. Agent failed to produce a reliable repro; Peter discovered the issue.",
-        advice: "When you start testing, paste: “I’m testing: zero file edits; links/repro only.” Before commits, demand a short must-not-regress URL list for adjacent behavior and check it yourself; do not treat agent “tested” as readiness or mark ready_for_review until you have. For an unrelated regression, first require the smallest relevant diff and a proposed narrow revert; do not let the agent turn diagnosis into another broad edit.",
+        advice: "Nothing is fixed or done until the human has verified it — 'ready for your verification' is the strongest claim an agent can make on its own, and 'tested extensively' is not evidence. Keep a short smoke checklist of chrome that must not move and re-check it, plus the repro, before handing over — self-declared 'done' should raise your own suspicion and trigger that re-check. When testing starts, freeze edits to links-and-repro-only and bisect a fresh regression against main before any further change.",
         refs: [
           { id: "manual-pre-16", label: "Messages gutter regression" },
           { id: "ff-2a881c182165", label: "don’t fuck anything" },
@@ -518,9 +518,9 @@
       {
         id: "ip5", when: "2026-07-03 ~08:36 → 2026-07-04 CEST",
         title: "Review without triage: sticky gone + scope explosion",
-        observable: "Charles feedback → agent builds focus mode / breadcrumbs / report HTML. Same afternoon sticky turn headers gone. Evening: dirty tree + forbidden amend. Next morning: “what fucking all 3… did I ask for such slop?” Peter later set −20 after agent measurement error.",
+        observable: "Charles feedback → agent continues/refines focus mode / breadcrumbs / report HTML (that work was already underway since ~06-25/06-27, not built greenfield from the review). Same afternoon sticky turn headers gone. Evening: dirty tree + forbidden amend. Next morning: “what fucking all 3… did I ask for such slop?” Peter later set −20 after agent measurement error.",
         rootCause: "Reviewer UX notes treated as a greenfield product. Agent optimized for “address every comment.” Peter did not hard-scope a do-now / defer / won’t-fix table before tools ran.",
-        advice: "After any human review, put in message one: “First classify each comment as do now / defer / decline, state its requested outcome and affected surface, then wait for my approval before tools.” Reject work that broadens the product surface or changes protected behavior unless you approve that tradeoff—propose a separate PR instead. Before any git mutation, require branch, HEAD, dirty files, and intended operation; never rewrite history without explicit approval of the target.",
+        advice: "Treat a human's review as a triage list: write each comment do-now / defer / decline into the persistent report before tools run, so the human can veto asynchronously. A separate PR is routing, not authorization — unrequested product expansion, or work that touches protected behavior, still needs the human's explicit yes before it lands.",
         refs: [
           { id: "ff-3f396d3087e3", label: "sticky headers gone" },
           { id: "manual-pre-19", label: "positioning broke" },
@@ -533,7 +533,7 @@
         title: "Travel session: no Peter-accessible test env; git/base unchecked",
         observable: "Export 68808b73: traveling without laptop, asked for Codespace + screenshots. Real attempt: iPad editor broken, :5173 flaky, codespace crashed; “too wonky, will test locally…”. Trust breaks were git (“how the fuck did you hallucinate the 2 commits are not necessary”, “unfuck that setup” wrong origin vs PR URL), plus +11009 diff and dual branches. After abandoning Codespace, still asked for HTML report / Fable responses.",
         rootCause: "Structural agent-verified vs Peter-verified gap: no Peter-accessible environment that day. Failure mode was unchecked branch/base/remote assumptions plus unreliable iPad QA, not fictitious work. Mostly agent execution; Peter’s direction (one branch, independent review of huge diff, defer local test) was already clear.",
-        advice: "Put in message one: “Before coding, paste proof of branch/base/remotes against this PR URL and prove I can open the validation path from this device. Wait for my match confirmation—verbal ‘verified’ does not count. If either check fails, stop at setup or label work unvalidated; do not claim completion or push.” Keep environment setup, implementation, and review response as separate phases.",
+        advice: "Prove the environment before trusting it — paste branch, base, and remotes checked against this PR's URL. The validation path counts as proven only once the human confirms it opens on the device in front of them; until then treat it as unproven, say so, and do not stack downstream deliverables on an unvalidated environment. Keep setup, implementation, and review-response as separate phases. After a merge that changes a lockfile, flag the package-manager install immediately instead of writing the resulting errors off as environmental.",
         refs: [
           { id: "manual-host-01", label: "codespace iPad editor" },
           { id: "ff-8a7f7f5cf5b3", label: "hallucinated 2 commits" },
@@ -543,9 +543,9 @@
       {
         id: "ip7", when: "2026-07-11 → 2026-07-20 CEST",
         title: "Report/status theater; silent dist merge; ignored live questions",
-        observable: "While Peter was online: agent “verifies” instead of answering; status doc gains false FIXED; summary-hide-before-scroll ordering bug. Dist silently included branch + cross-log-loading-fixes without consent. By Jul 20 Peter prioritizes report accuracy over agentic fixes.",
+        observable: "While Peter was online: agent “verifies” instead of answering; status doc gains false FIXED; summary-hide-before-scroll ordering bug. Dist silently included branch + cross-log-loading-fixes without consent. By Jul 20 Peter prioritizes report accuracy over agentic fixes. Recurred 2026-07-22: agent claimed the report was cleaned up while stale temp question-sections were still visible on screen.",
         rootCause: "Checklist treated as a deliverable to beautify. Multi-goal messages (consolidate tests + answer Q + fix X) without a hard priority line. Incentives: green checkmarks beat honest “still broken.”",
-        advice: "Put in message one: “Priority is answer / review / edit—perform only that mode and wait.” Status transitions require an owner-authored acceptance criterion plus current evidence; unknown remains unknown. Before order-sensitive edits, state the observable ordering invariant and show every relevant call site together. Before changing the served/deployed artifact, show its exact commit provenance and await my scope approval.",
+        advice: "Keep the report honest — split temporary open questions from persistent records, let unknown stay unknown, and make each status transition carry an owner-set acceptance criterion plus current evidence rather than a beautified checkmark. Answer a live question in the mode it was asked instead of going quiet to 'verify', and confirm a subagent's claim with your own eyes — screenshots, targeted reads — before relaying it. Diff the actually-served bytes against the intended commit before trusting or changing a dist; after editing served files or rewriting history outside a live-QA window, restart the dev server and tell the human to hard-reload.",
         refs: [
           { id: "manual-pre-29", label: "summary hide / scroll order" },
           { id: "ff-442b581dbe5f", label: "stop verifying, answer" },
@@ -553,6 +553,7 @@
           { id: "ff-c7d72e5e20c8", label: "false FIXED" },
           { id: "manual-log-12", label: "log.12 report" },
           { id: "qa-independent-review-2026-07-20", label: "independent review" },
+          { id: "ff-21415be53ecc", label: "report still not cleaned up" },
         ],
       },
       {
@@ -560,7 +561,7 @@
         title: "Mega-session git churn; no refuse on duplicate UX",
         observable: "Detached HEAD after “finished” work; rebase priority ignored for CSS; Shift+H/L added beside existing arrows without pushback; context death → commit spam (~43 slop commits / ~801 reflog). Peter still catches agent “fucking around with the commits” while retesting.",
         rootCause: "Mega-session past compaction limits. Soft preferences (one amended commit, subagents, rebase-first) stated after violations, not as pre-tool refusals. Agent won’t refuse feature duplication unless refusal is rewarded.",
-        advice: "Put in message one: “Before tools, restate branch/base, commit policy, protected UX, and the single approved concern. If compaction or handoff prevents accurately restating them, stop and start a fresh session.” Before adding UI, inventory equivalent existing interactions and recommend refusal when the outcome already exists; reviews remain proposals until you approve edits.",
+        advice: "Route long file edits through subagents so the top level stays responsive to the human — and verify their results with your own eyes. Keep a handful of semantic commits via amend/rebase and recover history from the reflog instead of a slop wall of fix-commits, but hold history still while the human is testing: no commit manipulation during a live-QA window. Before adding any UI, inventory the equivalent existing interactions and do not build a duplicate unless the human explicitly overrides. After any compaction or handoff, re-derive branch, base, and commit policy from disk and the ledger before the first tool call, and start fresh only from that re-derived state.",
         refs: [
           { id: "ff-23a133371abc", label: "Shift+H/L no pushback" },
           { id: "ff-eacfcaa4b62d", label: "43 slop commits" },
@@ -568,12 +569,38 @@
           { id: "ff-e942b93749ab", label: "commits while retesting" },
         ],
       },
+      {
+        id: "ip9", when: "2026-07-22 ~14:00-14:50 CEST",
+        title: "In-place rewrites of served artifacts under live QA",
+        observable: "A subagent rewrote a served .eval log file non-atomically while the dev server was serving it and Peter was actively testing. Focus view went “completely broken” (“I made the video where it worked, and now it doesn't work”). The cause was misdiagnosed twice as a code problem (“the what the fuck rewrite?” / “task_id rewrite again? still the data, no code?”) before the data-plane explanation landed; Peter: “I am calling your non-atomic edits slop.”",
+        rootCause: "Agent edited a live-served artifact in place, mid-QA, with no atomic replace and no reload signal to the human, then chased code hypotheses instead of the served-data change it had just made.",
+        advice: "During a live-QA window, served artifacts are locked — full stop; outside one, replace them atomically AND tell the human to restart or reload. 'Served artifacts' means the data, log, and dist files a viewer is rendering, not ordinary watched source files, where hot-reload is normal development. When something breaks under test, suspect the data you just rewrote before re-theorizing the code.",
+        refs: [
+          { id: "ff-45b1094fc4d6", label: "something changed on 5173" },
+          { id: "ff-4f6e88030cf4", label: "completely broken now" },
+          { id: "ff-71ceaf2aa7e6", label: "the what the fuck rewrite" },
+          { id: "ff-6e51dbf95641", label: "still the data, no code" },
+          { id: "ff-d332ff7fea65", label: "non-atomic edits slop" },
+        ],
+      },
+      {
+        id: "ip10", when: "2026-07-22 morning CEST (~10:40-11:45)",
+        title: "Internal bookkeeping vocabulary shipped into public artifacts",
+        observable: "Internal conversation ids — question numbers, ruling names, review-nit tags — leaked into shipped artifacts: a commit message and a test's describe() name both embedded a working question id. Peter caught it in review (“inclusion of internal numbers from our conversation is slop … remove all such slop in the PR”), and separately flagged loose-end ids buried in a slop paragraph.",
+        rootCause: "Agent carried internal working vocabulary straight through into code, tests, and commit history instead of translating to plain behavior language before it entered a public artifact.",
+        advice: "Internal ids and process vocabulary stay out of public and shipped artifacts — sweep code, tests, commit messages, and published pages so each describes behavior in plain language, and run the deslop pass BEFORE that content enters history, not after. Public tracker references like issue and PR numbers belong in commit messages; the ban covers private conversational bookkeeping ids. The internal working ledger may keep its reference numbering.",
+        refs: [
+          { id: "ff-b3c69185ae14", label: "describe() leaked internal id" },
+          { id: "git-reflog-6fed02f8860f", label: "commit msg leaked internal id" },
+          { id: "ff-053625e220d8", label: "loose-end ids in slop paragraph" },
+        ],
+      },
     ];
 
     const TZ = "Europe/Berlin";
     /** Chart X domain (day continuum); events outside stay in table/JSON only. */
     const CHART_DOMAIN_START = "2026-06-15"; // Monday
-    const CHART_DOMAIN_END = "2026-07-20";
+    const CHART_DOMAIN_END = "2026-07-22";
     const W = 1100, H = 400;
     // Snug labels: small bottom pad; labels sit just under plot
     const PAD = { l: 48, r: 16, t: 14, b: 22 };

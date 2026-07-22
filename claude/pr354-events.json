@@ -23256,5 +23256,1313 @@
     "source": "gh",
     "render": "point",
     "author": "Aprillion"
+  },
+  {
+    "id": "gh-354-rev-4749408601",
+    "start": "2026-07-21T22:10:00Z",
+    "category": "github_activity",
+    "title": "Review CHANGES_REQUESTED by dragonstyle",
+    "detail": "this is looking so good! A couple more nits: - I'm seeing the outline number of turns when navigating using j/k not being bold (it flashes bold and then unbolds. We should try to have the turn entry b",
+    "source": "gh",
+    "links": [
+      "https://github.com/meridianlabs-ai/ts-mono/pull/354#pullrequestreview-4749408601"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "gh-354-tl-4749408601",
+    "start": "2026-07-21T22:10:00Z",
+    "category": "github_activity",
+    "title": "PR timeline: reviewed",
+    "detail": "27dbb7d8450b71e91471a07526151a8817ce99b4",
+    "source": "gh",
+    "render": "point",
+    "author": null
+  },
+  {
+    "id": "sf-transcript-nav-session-2026-07-22-code_work-75222d",
+    "start": "2026-07-22T07:04:52Z",
+    "category": "code_work",
+    "title": "transcript-nav session",
+    "detail": "tool/user · Bash, Edit, Read · <local-command-stdout>(no content)</local-command-stdout>",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "transcript-nav session"
+    ]
+  },
+  {
+    "id": "sf-status-report-ledger-2026-07-22-code_work-029349",
+    "start": "2026-07-22T07:12:14Z",
+    "category": "code_work",
+    "title": "status report / ledger",
+    "detail": "tool/user · Bash, Read · I want to continue with fixes for https://github.com/meridianlabs-ai/ts-mono/pull/354#pullrequestreview-4749408601 but first, let's update m",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "status report / ledger"
+    ]
+  },
+  {
+    "id": "sf-agent-review-2026-07-22-agentic_review-faac5f",
+    "start": "2026-07-22T07:15:23Z",
+    "category": "agentic_review",
+    "title": "agent review",
+    "detail": "tool · Bash · Bash gh api repos/meridianlabs-ai/ts-mono/pulls/354/reviews/4749408601 --jq '{state, body, submitted_at, user: .user.login}' 2>&1 | head -60",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "agent review"
+    ]
+  },
+  {
+    "id": "git-reflog-95629587bb91",
+    "start": "2026-07-22T07:37:11Z",
+    "category": "commit_group",
+    "title": "git: commit (merge): Merge remote-tracking branch 'origin/main' into transcript-navigation",
+    "detail": "transcript-navigation · Peter Hozák · 140481c998",
+    "source": "git-reflog",
+    "tags": [
+      "sha:140481c998",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-agent-review-2026-07-22-agentic_review-4a4b2e",
+    "start": "2026-07-22T08:03:22Z",
+    "category": "agentic_review",
+    "title": "agent review",
+    "detail": "user · · ok, keeping most of the added points, deduped and organized manually and added notes about independent review models - what do you think? ..",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "agent review"
+    ]
+  },
+  {
+    "id": "sf-transcript-nav-session-2026-07-22-code_work-ed801f",
+    "start": "2026-07-22T08:05:42Z",
+    "category": "code_work",
+    "title": "transcript-nav session",
+    "detail": "tool/user · Agent, Bash, Edit, Monitor, Read, SendMessage, TaskOutput, T · Read /home/peter/.claude/CLAUDE.md",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "transcript-nav session"
+    ]
+  },
+  {
+    "id": "sf-arrow-sample-stepper-2026-07-22-code_work-f3a248",
+    "start": "2026-07-22T08:18:18Z",
+    "category": "code_work",
+    "title": "arrow sample stepper",
+    "detail": "tool/user · Bash, WebFetch · User is running the Claude Code TUI (terminal, recent version, July 2026). A Workflow (multi-agent orchestration launched via the Workflow t",
+    "source": "claude:agent-ab",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "arrow sample stepper"
+    ]
+  },
+  {
+    "id": "sf-status-report-ledger-2026-07-22-automated_test-5e6434",
+    "start": "2026-07-22T08:18:46Z",
+    "category": "automated_test",
+    "title": "status report / ledger",
+    "detail": "tool/user · Agent, Bash, Edit, Read, Write · the pr354-transcript-navigation.html is up to date?",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "status report / ledger"
+    ]
+  },
+  {
+    "id": "git-reflog-c0f1e4dcae2f",
+    "start": "2026-07-22T08:28:14Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): style focus-view agent switcher as a pill",
+    "detail": "transcript-navigation · Peter Hozák · c9354a62e3",
+    "source": "git-reflog",
+    "tags": [
+      "sha:c9354a62e3",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-ee4d7d57f6d7",
+    "start": "2026-07-22T08:28:38Z",
+    "category": "commit_group",
+    "title": "git: commit (amend): fix(transcript): style focus-view agent switcher as a pill",
+    "detail": "transcript-navigation · Peter Hozák · db8f25adc4",
+    "source": "git-reflog",
+    "tags": [
+      "sha:db8f25adc4",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-60cb0a0b4be8",
+    "start": "2026-07-22T08:33:58Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): remove next/previous-agent buttons from swimlane breadcrumbs and focus view",
+    "detail": "transcript-navigation · Peter Hozák · faa103a82a",
+    "source": "git-reflog",
+    "tags": [
+      "sha:faa103a82a",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "manual-t-35-0722",
+    "start": "2026-07-22T08:35:12Z",
+    "category": "manual_qa",
+    "title": "I just noticed `t.35 ❌❌⌛ Shift+L lane navigation across multiple samples in one eval file should…",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "tags": [
+      "manual_qa",
+      "t.35",
+      "transcript_bound"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "sf-swimlane-lane-nav-2026-07-22-code_work-72dd84",
+    "start": "2026-07-22T08:35:51Z",
+    "category": "code_work",
+    "title": "swimlane / lane nav",
+    "detail": "tool · Bash, Read · Bash grep -rn \"shiftKey\" --include=\"*.ts\" --include=\"*.tsx\" packages/inspect-components/src/transcript/ | grep -iv \"passthrough\\|modifier\" |",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "swimlane / lane nav"
+    ]
+  },
+  {
+    "id": "git-reflog-641ddd05f781",
+    "start": "2026-07-22T08:39:11Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): keep the outline turn entry bold across its whole scope",
+    "detail": "transcript-navigation · Peter Hozák · 1c5304e7e0",
+    "source": "git-reflog",
+    "tags": [
+      "sha:1c5304e7e0",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-rebase-commit-hygiene-2026-07-22-code_work-1150ce",
+    "start": "2026-07-22T08:42:03Z",
+    "category": "code_work",
+    "title": "rebase / commit hygiene",
+    "detail": "tool · Bash · Bash cd /home/peter/git/aprillion.github.io && git add claude/pr354-transcript-navigation.html && git commit --amend --no-edit && git log --",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "rebase / commit hygiene"
+    ]
+  },
+  {
+    "id": "ff-053625e220d8",
+    "start": "2026-07-22T08:42:43Z",
+    "category": "meta_frustration",
+    "title": "I'm sorry, le.x is for loose ends not doing in this PR and you don't expect me to spot important decisions inside the slop paragraph formattind, do you? [Image #3]",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-dark-theme-flash-2026-07-22-code_work-22f0c5",
+    "start": "2026-07-22T08:50:43Z",
+    "category": "code_work",
+    "title": "dark-theme flash",
+    "detail": "user · · Peter serves /home/peter/git/aprillion.github.io via `npx live-server` on http://localhost:8080 (already running — do NOT start/stop/restart",
+    "source": "claude:agent-a3",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "dark-theme flash"
+    ]
+  },
+  {
+    "id": "sf-agent-review-2026-07-22-agentic_review-866891",
+    "start": "2026-07-22T08:51:15Z",
+    "category": "agentic_review",
+    "title": "agent review",
+    "detail": "tool · Bash · Bash d=/home/peter/.claude/projects/-home-peter-git-inspect-ai/f31bb3e5-ac22-4564-9395-709ad680894f/subagents/workflows/wf_c4132fab-23b; jq",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "agent review"
+    ]
+  },
+  {
+    "id": "sf-focus-page-FocusTurnView-2026-07-22-code_work-d1712f",
+    "start": "2026-07-22T08:52:17Z",
+    "category": "code_work",
+    "title": "focus page / FocusTurnView",
+    "detail": "tool/user · Agent, Bash, Read · In /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono, branch transcript-navigation, HEAD is 1c5304e7e07de181a656fcfbf45d3bbcd6c15ab7.",
+    "source": "claude:agent-a6",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "focus page / FocusTurnView"
+    ]
+  },
+  {
+    "id": "git-reflog-a28a72ea6126",
+    "start": "2026-07-22T08:52:25Z",
+    "category": "commit_group",
+    "title": "git: checkout: moving from transcript-navigation to faa103a82",
+    "detail": "HEAD · Peter Hozák · faa103a82a",
+    "source": "git-reflog",
+    "tags": [
+      "sha:faa103a82a",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-10070e3c0323",
+    "start": "2026-07-22T08:52:37Z",
+    "category": "commit_group",
+    "title": "git: commit (amend): fix(transcript): remove next/previous-agent buttons from swimlane breadcrumbs and focus view",
+    "detail": "HEAD · Peter Hozák · fd641f0477",
+    "source": "git-reflog",
+    "tags": [
+      "sha:fd641f0477",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-ed86a92c7510",
+    "start": "2026-07-22T08:52:41Z",
+    "category": "commit_group",
+    "title": "git: cherry-pick: fix(transcript): keep the outline turn entry bold across its whole scope",
+    "detail": "HEAD · Peter Hozák · 5f084d2783",
+    "source": "git-reflog",
+    "tags": [
+      "sha:5f084d2783",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-9fce6116d735",
+    "start": "2026-07-22T08:52:43Z",
+    "category": "commit_group",
+    "title": "git: branch: Reset to HEAD",
+    "detail": "transcript-navigation · Peter Hozák · 5f084d2783",
+    "source": "git-reflog",
+    "tags": [
+      "sha:5f084d2783",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-0308bf2ed108",
+    "start": "2026-07-22T08:52:43Z",
+    "category": "commit_group",
+    "title": "git: checkout: moving from 5f084d2783cad8a4ba5eaeee869999aeef66b4a3 to transcript-navigation",
+    "detail": "HEAD · Peter Hozák · 5f084d2783",
+    "source": "git-reflog",
+    "tags": [
+      "sha:5f084d2783",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-unit-tests-2026-07-22-automated_test-8e781f",
+    "start": "2026-07-22T08:52:50Z",
+    "category": "automated_test",
+    "title": "unit tests",
+    "detail": "tool · Bash, Edit, Read, Write · Bash cd /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/packages/inspect-components && pnpm exec vitest run --reporter=basic 2>&1; e",
+    "source": "claude:agent-a6",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "unit tests"
+    ]
+  },
+  {
+    "id": "ff-fecccddd81b0",
+    "start": "2026-07-22T08:59:34Z",
+    "category": "fuck",
+    "title": "repro steps - I mean give me fucking real link to fucking real sample with fucking real N utility agents fucking hidden, not slop steps for me to buy a crystal ball that will tell me what fucking chan",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "containsFuck",
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-focus-breadcrumbs-lanes-2026-07-22-automated_test-ff2e1d",
+    "start": "2026-07-22T09:03:32Z",
+    "category": "automated_test",
+    "title": "focus breadcrumbs / lanes",
+    "detail": "tool · Bash, Edit, Read · Read /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/packages/inspect-components/src/transcript/hooks/useFocusLaneScope.ts",
+    "source": "claude:agent-a9",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "focus breadcrumbs / lanes"
+    ]
+  },
+  {
+    "id": "sf-Scout-focus-parity-2026-07-22-automated_test-d45753",
+    "start": "2026-07-22T09:09:38Z",
+    "category": "automated_test",
+    "title": "Scout focus parity",
+    "detail": "tool · Bash · Bash cd /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono && echo \"=== ComponentStateProvider in apps ===\"; grep -rn \"ComponentStatePr",
+    "source": "claude:agent-a9",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "Scout focus parity"
+    ]
+  },
+  {
+    "id": "sf-event-card-inner-tabs-2026-07-22-code_work-ea63ad",
+    "start": "2026-07-22T09:09:48Z",
+    "category": "code_work",
+    "title": "event-card / inner tabs",
+    "detail": "tool · Read · Read /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/apps/scout/src/app/transcript/TranscriptEventPanel.tsx",
+    "source": "claude:agent-a9",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "event-card / inner tabs"
+    ]
+  },
+  {
+    "id": "sf-deep-link-scroll-parking-2026-07-22-code_work-8c34f3",
+    "start": "2026-07-22T09:14:46Z",
+    "category": "code_work",
+    "title": "deep-link / scroll parking",
+    "detail": "tool · Bash · Bash cd /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono && git status --short && echo \"=== deep-link untouched? ===\" && git diff --n",
+    "source": "claude:agent-a9",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "deep-link / scroll parking"
+    ]
+  },
+  {
+    "id": "git-reflog-6fed02f8860f",
+    "start": "2026-07-22T09:14:57Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): focus view honors the utility-agents toggle (q.22 mirror ruling)",
+    "detail": "transcript-navigation · Peter Hozák · bfc9ea929f",
+    "source": "git-reflog",
+    "tags": [
+      "sha:bfc9ea929f",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-focus-URL-url-ts-2026-07-22-code_work-aadf65",
+    "start": "2026-07-22T09:17:59Z",
+    "category": "code_work",
+    "title": "focus URL / url.ts",
+    "detail": "tool · Bash · Bash cd /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono && sed -n '700,800p' apps/inspect/src/app/routing/url.ts Read logsUrl helper",
+    "source": "claude:agent-ae",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "focus URL / url.ts"
+    ]
+  },
+  {
+    "id": "ff-71b55ac378bf",
+    "start": "2026-07-22T09:20:20Z",
+    "category": "object_frustration",
+    "title": "wait a second about the status quo - I remember insisting VERY HARD on only having 1 turn count mechanism for turn navigation in both places, what went wrong with that principle? which of the alternat",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-9c2eb7189970",
+    "start": "2026-07-22T09:40:17Z",
+    "category": "object_frustration",
+    "title": "I don't see shit, your hypothesis is wrong [Image #6], did you actually see it yourself (the subagent made a screenshot?)",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-e2e-playwright-2026-07-22-automated_test-f03dbe",
+    "start": "2026-07-22T09:41:26Z",
+    "category": "automated_test",
+    "title": "e2e / playwright",
+    "detail": "tool/user · Bash, Read · Bash find . -path ./node_modules -prune -o -name \"*.config.ts\" -print 2>/dev/null | grep -i playwright; echo \"---\"; find . -path ./node_modu",
+    "source": "claude:agent-af",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "e2e / playwright"
+    ]
+  },
+  {
+    "id": "ff-b3c69185ae14",
+    "start": "2026-07-22T09:44:08Z",
+    "category": "meta_frustration",
+    "title": "describe(\"useFocusLaneScope — utility-agents toggle mirror (q.22)\" ... inclusion of internal numbers from our conversation is slop, can you check and remove all such slop in the PR? why are the tests ",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-rebase-commit-hygiene-2026-07-22-code_work-4cdf4c",
+    "start": "2026-07-22T09:52:09Z",
+    "category": "code_work",
+    "title": "rebase / commit hygiene",
+    "detail": "tool · Bash · Bash git log --format='===COMMIT %H===%n%s%n%n%b' 140481c9..HEAD Show all four commit messages full",
+    "source": "claude:agent-ae",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "rebase / commit hygiene"
+    ]
+  },
+  {
+    "id": "sf-keyboard-navigation-hooks-2026-07-22-automated_test-052d58",
+    "start": "2026-07-22T09:53:19Z",
+    "category": "automated_test",
+    "title": "keyboard navigation hooks",
+    "detail": "tool · Read · Read /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/packages/inspect-components/src/transcript/hooks/useTranscriptKeyboardNavigatio",
+    "source": "claude:agent-ae",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "keyboard navigation hooks"
+    ]
+  },
+  {
+    "id": "manual-c-08",
+    "start": "2026-07-22T09:53:25Z",
+    "category": "manual_qa",
+    "title": "meanwhile: c.08=t.65 pill looks good, code diff too c.09=t.66 removal looks good, added tests lo…",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "tags": [
+      "manual_qa",
+      "c.08",
+      "transcript_bound"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "manual-c-09",
+    "start": "2026-07-22T09:53:25Z",
+    "category": "manual_qa",
+    "title": "meanwhile: c.08=t.65 pill looks good, code diff too c.09=t.66 removal looks good, added tests lo…",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "tags": [
+      "manual_qa",
+      "c.09",
+      "transcript_bound"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "manual-c-10",
+    "start": "2026-07-22T09:53:25Z",
+    "category": "manual_qa",
+    "title": "meanwhile: c.08=t.65 pill looks good, code diff too c.09=t.66 removal looks good, added tests lo…",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "tags": [
+      "manual_qa",
+      "c.10",
+      "transcript_bound"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "git-reflog-108e90bb84a1",
+    "start": "2026-07-22T09:58:08Z",
+    "category": "commit_group",
+    "title": "git: reset: moving to db8f25ad",
+    "detail": "transcript-navigation · Peter Hozák · db8f25adc4",
+    "source": "git-reflog",
+    "tags": [
+      "sha:db8f25adc4",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-551bae22e265",
+    "start": "2026-07-22T09:58:14Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): remove next/previous-agent buttons from swimlane breadcrumbs and focus view",
+    "detail": "transcript-navigation · Peter Hozák · 652bd67173",
+    "source": "git-reflog",
+    "tags": [
+      "sha:652bd67173",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-212a795f83ee",
+    "start": "2026-07-22T09:58:54Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): keep the outline turn entry bold across its whole scope",
+    "detail": "transcript-navigation · Peter Hozák · 117febdd8d",
+    "source": "git-reflog",
+    "tags": [
+      "sha:117febdd8d",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-scroll-track-outline-sync-2026-07-22-code_work-c80d1c",
+    "start": "2026-07-22T09:58:54Z",
+    "category": "code_work",
+    "title": "scroll-track / outline sync",
+    "detail": "tool · Bash · Bash cd \"$(git rev-parse --show-toplevel)\" && git add -A && git commit -q -F - <<'EOF' fix(transcript): keep the outline turn entry bold acr",
+    "source": "claude:agent-ae",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "scroll-track / outline sync"
+    ]
+  },
+  {
+    "id": "git-reflog-1cee05fe3f6a",
+    "start": "2026-07-22T09:59:35Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): focus view honors the utility-agents toggle",
+    "detail": "transcript-navigation · Peter Hozák · 955036e00c",
+    "source": "git-reflog",
+    "tags": [
+      "sha:955036e00c",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-arrow-sample-stepper-2026-07-22-code_work-1098e8",
+    "start": "2026-07-22T10:03:17Z",
+    "category": "code_work",
+    "title": "arrow sample stepper",
+    "detail": "user · · Update /home/peter/git/inspect_ai/../../../home/peter/git/aprillion.github.io/claude/pr354-transcript-navigation.html — actual path /home/pe",
+    "source": "claude:agent-ac",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "arrow sample stepper"
+    ]
+  },
+  {
+    "id": "manual-t-68",
+    "start": "2026-07-22T10:07:04Z",
+    "category": "manual_qa",
+    "title": "..you know that making a new eval file was a HUGE change for being able to test anything about i…",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "tags": [
+      "manual_qa",
+      "t.68",
+      "transcript_bound"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "ff-66813f9d8ae5",
+    "start": "2026-07-22T10:30:58Z",
+    "category": "meta_frustration",
+    "title": "the audit agent should have run its own pnpm i inside the worktree, not copy node_modules or anything stupid like that, hopefully that concern is void ... or tell it to make that concern fixed by work",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-swimlane-lane-nav-2026-07-22-automated_test-13ceb4",
+    "start": "2026-07-22T10:46:06Z",
+    "category": "automated_test",
+    "title": "swimlane / lane nav",
+    "detail": "tool/user · Agent, Bash, Read · Agent Investigate sibling-lane navigation + find non-utility example Repo /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono, branch tr",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "swimlane / lane nav"
+    ]
+  },
+  {
+    "id": "sf-focus-breadcrumbs-lanes-2026-07-22-code_work-e2deb4",
+    "start": "2026-07-22T10:46:19Z",
+    "category": "code_work",
+    "title": "focus breadcrumbs / lanes",
+    "detail": "tool · Bash, Read · Read /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/packages/inspect-components/src/transcript/hooks/useFocusLaneScope.ts",
+    "source": "claude:agent-a0",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "focus breadcrumbs / lanes"
+    ]
+  },
+  {
+    "id": "sf-unit-tests-2026-07-22-automated_test-71b699",
+    "start": "2026-07-22T10:48:21Z",
+    "category": "automated_test",
+    "title": "unit tests",
+    "detail": "tool · Bash, Edit, Write · Bash echo \"=== scan.test.ts ===\"; cat /home/peter/.claude/jobs/f31bb3e5/tmp/scan.test.ts; echo \"=== vitest.config.ts ===\"; cat /home/peter/.",
+    "source": "claude:agent-a0",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "unit tests"
+    ]
+  },
+  {
+    "id": "sf-live-follow-2026-07-22-code_work-74b919",
+    "start": "2026-07-22T10:51:15Z",
+    "category": "code_work",
+    "title": "live-follow",
+    "detail": "user · · The coordinator sent a message while you were working: One more edit to the same file (if you already made your commit, put this in a SECOND",
+    "source": "claude:agent-a8",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "live-follow"
+    ]
+  },
+  {
+    "id": "sf-deep-link-scroll-parking-2026-07-22-code_work-d260c1",
+    "start": "2026-07-22T10:52:42Z",
+    "category": "code_work",
+    "title": "deep-link / scroll parking",
+    "detail": "user · · Edit /home/peter/git/aprillion.github.io/claude/pr354-transcript-navigation.html (HTML ledger, existing style, wrapper intact, edits inside",
+    "source": "claude:agent-a6",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "deep-link / scroll parking"
+    ]
+  },
+  {
+    "id": "sf-Scout-focus-parity-2026-07-22-automated_test-4affe9",
+    "start": "2026-07-22T10:53:58Z",
+    "category": "automated_test",
+    "title": "Scout focus parity",
+    "detail": "tool/user · Bash, Monitor, Read · Bash cd /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono echo \"=== scout: who renders TranscriptLayout / passes selection ===\" grep -",
+    "source": "claude:agent-a0",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "Scout focus parity"
+    ]
+  },
+  {
+    "id": "sf-agent-review-2026-07-22-agentic_review-faad09",
+    "start": "2026-07-22T10:56:04Z",
+    "category": "agentic_review",
+    "title": "agent review",
+    "detail": "user · · please delete everythign temporary from that report - we have temporary section with open questions so I don't miss them, and in the end it",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "agent review"
+    ]
+  },
+  {
+    "id": "ff-21415be53ecc",
+    "start": "2026-07-22T11:21:19Z",
+    "category": "meta_frustration",
+    "title": "ok,, what's still in flight? the report doesn't seem cleaned up to me, still see slop temp q.x in there that you said you already deleted: [Image #12]",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-61661c1bf812",
+    "start": "2026-07-22T11:30:59Z",
+    "category": "fuck",
+    "title": "I'm sorry, what the fuck is the auditor doing for >1hr actually? did it find anything userful yet? any ghost hunts it should stop doing and focus on real potentially useful audit? I didn't ask it to c",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "containsFuck",
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-e2e-playwright-2026-07-22-automated_test-2106e0",
+    "start": "2026-07-22T11:32:36Z",
+    "category": "automated_test",
+    "title": "e2e / playwright",
+    "detail": "tool/user · Agent, Bash, Monitor, Read · Agent Final checks: workspace green + e2e, cleanup worktree Repo /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono, branch transcript-",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "e2e / playwright"
+    ]
+  },
+  {
+    "id": "sf-focus-page-FocusTurnView-2026-07-22-automated_test-80aea7",
+    "start": "2026-07-22T11:38:04Z",
+    "category": "automated_test",
+    "title": "focus page / FocusTurnView",
+    "detail": "tool/user · Agent, Bash · Agent Fix prettier drift, fold into bold-race commit Repo /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono, branch transcript-navigat",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "focus page / FocusTurnView"
+    ]
+  },
+  {
+    "id": "git-reflog-abe37faed822",
+    "start": "2026-07-22T11:39:15Z",
+    "category": "commit_group",
+    "title": "git: checkout: moving from transcript-navigation to 117febdd",
+    "detail": "HEAD · Peter Hozák · 117febdd8d",
+    "source": "git-reflog",
+    "tags": [
+      "sha:117febdd8d",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-e7eb2b5a7fdf",
+    "start": "2026-07-22T11:39:22Z",
+    "category": "commit_group",
+    "title": "git: commit (amend): fix(transcript): keep the outline turn entry bold across its whole scope",
+    "detail": "HEAD · Peter Hozák · d2df5cf3c8",
+    "source": "git-reflog",
+    "tags": [
+      "sha:d2df5cf3c8",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "sf-rebase-commit-hygiene-2026-07-22-automated_test-dd5ba4",
+    "start": "2026-07-22T11:39:22Z",
+    "category": "automated_test",
+    "title": "rebase / commit hygiene",
+    "detail": "tool/user · Bash · Bash git add packages/inspect-components/src/transcript/outline/TranscriptOutline.tsx packages/inspect-components/src/transcript/outline/res",
+    "source": "claude:agent-ab",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "rebase / commit hygiene"
+    ]
+  },
+  {
+    "id": "git-reflog-cef53cede89d",
+    "start": "2026-07-22T11:39:31Z",
+    "category": "commit_group",
+    "title": "git: cherry-pick: fix(transcript): focus view honors the utility-agents toggle",
+    "detail": "HEAD · Peter Hozák · 1ac0f67b06",
+    "source": "git-reflog",
+    "tags": [
+      "sha:1ac0f67b06",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-369b176afddb",
+    "start": "2026-07-22T11:39:35Z",
+    "category": "commit_group",
+    "title": "git: branch: Reset to HEAD",
+    "detail": "transcript-navigation · Peter Hozák · 1ac0f67b06",
+    "source": "git-reflog",
+    "tags": [
+      "sha:1ac0f67b06",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-7d2176765e19",
+    "start": "2026-07-22T11:39:35Z",
+    "category": "commit_group",
+    "title": "git: checkout: moving from 1ac0f67b06a2b29e26810e573cee89bb0e7ceb65 to transcript-navigation",
+    "detail": "HEAD · Peter Hozák · 1ac0f67b06",
+    "source": "git-reflog",
+    "tags": [
+      "sha:1ac0f67b06",
+      "branch:HEAD",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "gh-354-tl-28323416892",
+    "start": "2026-07-22T11:46:36Z",
+    "category": "github_activity",
+    "title": "PR timeline: head_ref_force_pushed",
+    "detail": "1ac0f67b06a2b29e26810e573cee89bb0e7ceb65",
+    "source": "gh",
+    "render": "point",
+    "author": "Aprillion"
+  },
+  {
+    "id": "gh-354-ci-29917003299",
+    "start": "2026-07-22T11:46:42Z",
+    "category": "github_activity",
+    "title": "CI run: success",
+    "detail": "pull_request · 1ac0f67b06a2",
+    "source": "gh",
+    "render": "point",
+    "links": [
+      "https://github.com/meridianlabs-ai/ts-mono/actions/runs/29917003299"
+    ],
+    "author": null
+  },
+  {
+    "id": "ff-45b1094fc4d6",
+    "start": "2026-07-22T12:02:15Z",
+    "category": "object_frustration",
+    "title": "actually, something changed on 5173 since 1-30 minutes ago, http://localhost:5173/#/tasks/2026-05-06T20-37-46-00-00_audit-clienttl_clienttlcopy1.eval/samples/sample/antipsychotic_discontinuation/1/eve",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-single-file-routing-2026-07-22-code_work-0682b5",
+    "start": "2026-07-22T12:03:14Z",
+    "category": "code_work",
+    "title": "single-file routing",
+    "detail": "tool · Bash · Bash curl -s -H \"X-Inspect-View-Request: true\" -H \"Sec-Fetch-Site: same-origin\" -H \"Sec-Fetch-Dest: empty\" \\ \"http://localhost:5173/api/log-",
+    "source": "claude:agent-ab",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "single-file routing"
+    ]
+  },
+  {
+    "id": "ff-4f6e88030cf4",
+    "start": "2026-07-22T12:08:56Z",
+    "category": "object_frustration",
+    "title": "I mean I made the video where it worked, and not it doesn't work. completely broken now, clicking the expand icon or pressing f, reloading page, nothing works to show me focus view of that un-hidden t",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-05cb800266e0",
+    "start": "2026-07-22T12:09:29Z",
+    "category": "object_frustration",
+    "title": "I mean I made the video where it worked, and now it doesn't work. so SOMETHING is broken. completely broken now, clicking the expand icon or pressing f, reloading page, nothing works to show me focus ",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-71ceaf2aa7e6",
+    "start": "2026-07-22T12:11:50Z",
+    "category": "fuck",
+    "title": "the what the fuck rewrite?",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "containsFuck",
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-6e51dbf95641",
+    "start": "2026-07-22T12:12:07Z",
+    "category": "fuck",
+    "title": "the what the fuck task_id rewrite again? still the data, no code?",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "containsFuck",
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-d332ff7fea65",
+    "start": "2026-07-22T12:19:55Z",
+    "category": "meta_frustration",
+    "title": "I see you didn't get the joke - I am calling your non-atomic edits slop, not \"careful\"",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "ff-096cc8ef5afd",
+    "start": "2026-07-22T12:20:23Z",
+    "category": "meta_frustration",
+    "title": "I see you didn't get the joke - I am calling your non-atomic edits slop, not \"careful\". I removed the joke from CLAUDE.md anyway.",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "gh-354-c-5045740537",
+    "start": "2026-07-22T12:25:36Z",
+    "category": "github_activity",
+    "title": "PR comment by Aprillion",
+    "detail": "thanks for the feedback, the 3 points now fixed (bold highlight, removal of <> swimlane&focus view buttons, pill style) \\+ a compatibility fix to show turns inside un-hidden utility agent wrappers fro",
+    "source": "gh",
+    "links": [
+      "https://github.com/meridianlabs-ai/ts-mono/pull/354#issuecomment-5045740537"
+    ],
+    "render": "point"
+  },
+  {
+    "id": "gh-354-tl-5045740537",
+    "start": "2026-07-22T12:25:36Z",
+    "category": "github_activity",
+    "title": "PR timeline: commented",
+    "detail": "",
+    "source": "gh",
+    "render": "point",
+    "author": "Aprillion"
+  },
+  {
+    "id": "sf-deep-link-scroll-parking-2026-07-22-automated_test-72cc00",
+    "start": "2026-07-22T12:29:49Z",
+    "category": "automated_test",
+    "title": "deep-link / scroll parking",
+    "detail": "tool/user · Agent, Bash, Edit, Read · Agent Size the deep-link force-include fix precisely Repo /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono, branch transcript-navigat",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "deep-link / scroll parking"
+    ]
+  },
+  {
+    "id": "sf-focus-breadcrumbs-lanes-2026-07-22-automated_test-cb5b41",
+    "start": "2026-07-22T12:29:58Z",
+    "category": "automated_test",
+    "title": "focus breadcrumbs / lanes",
+    "detail": "tool · Bash, Edit, Read · Bash find . \\( -name useFocusLaneScope.ts -o -name useTimelineConfig.ts -o -name core.ts -path '*timeline*' -o -name useFocusLaneScope.test.",
+    "source": "claude:agent-a2",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "focus breadcrumbs / lanes"
+    ]
+  },
+  {
+    "id": "sf-swimlane-lane-nav-2026-07-22-code_work-c3094a",
+    "start": "2026-07-22T12:31:00Z",
+    "category": "code_work",
+    "title": "swimlane / lane nav",
+    "detail": "tool · Read · Read /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/packages/inspect-components/src/transcript/timeline/swimlaneRows.ts",
+    "source": "claude:agent-a2",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "swimlane / lane nav"
+    ]
+  },
+  {
+    "id": "sf-unit-tests-2026-07-22-automated_test-6273b2",
+    "start": "2026-07-22T12:37:31Z",
+    "category": "automated_test",
+    "title": "unit tests",
+    "detail": "tool · Bash · Bash cd /home/peter/git/inspect_ai/src/inspect_ai/_view/ts-mono/packages/inspect-components && node -e \"const s=require('./package.json').sc",
+    "source": "claude:agent-a2",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "unit tests"
+    ]
+  },
+  {
+    "id": "ff-ef0401422718",
+    "start": "2026-07-22T12:37:49Z",
+    "category": "meta_frustration",
+    "title": "for your correct status: the report commit is d8d1 (I removed some slop from it) and it's not published yet (local master, not pushed)",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "sf-agent-review-2026-07-22-agentic_review-c3f80e",
+    "start": "2026-07-22T12:39:04Z",
+    "category": "agentic_review",
+    "title": "agent review",
+    "detail": "tool/user · Bash, Write · ok ok, grok liked the implementation, formatted?",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "agent review"
+    ]
+  },
+  {
+    "id": "git-reflog-e4173e7188a1",
+    "start": "2026-07-22T12:40:48Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): deep link to a hidden utility event enables the utility toggle",
+    "detail": "transcript-navigation · Peter Hozák · c3d15f2301",
+    "source": "git-reflog",
+    "tags": [
+      "sha:c3d15f2301",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "ff-ed678d3d4cb7",
+    "start": "2026-07-22T12:47:33Z",
+    "category": "object_frustration",
+    "title": "http://localhost:5173/#/logs/2026-05-06T20-37-46-00-00_audit-clienttl_clienttlcopy1.eval/samples/sample/antipsychotic_discontinuation/1/event?event=JFnP6xJJgt6C9Md4FTgwyL&tab=Summary doesn't work",
+    "detail": "",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "user_turn"
+    ]
+  },
+  {
+    "id": "git-reflog-c7f1ad2cde32",
+    "start": "2026-07-22T12:55:36Z",
+    "category": "commit_group",
+    "title": "git: commit (amend): fix(transcript): deep link to a hidden utility event enables the utility toggle",
+    "detail": "transcript-navigation · Peter Hozák · eae4fb4c17",
+    "source": "git-reflog",
+    "tags": [
+      "sha:eae4fb4c17",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-39985bec3817",
+    "start": "2026-07-22T13:01:46Z",
+    "category": "commit_group",
+    "title": "git: commit (amend): fix(transcript): deep link to a hidden utility event enables the utility toggle",
+    "detail": "transcript-navigation · Peter Hozák · 7be0663071",
+    "source": "git-reflog",
+    "tags": [
+      "sha:7be0663071",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-9a61e21e28f9",
+    "start": "2026-07-22T13:12:20Z",
+    "category": "commit_group",
+    "title": "git: reset: moving to HEAD~2",
+    "detail": "transcript-navigation · Peter Hozák · d2df5cf3c8",
+    "source": "git-reflog",
+    "tags": [
+      "sha:d2df5cf3c8",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "git-reflog-1ecbfc584b66",
+    "start": "2026-07-22T13:12:27Z",
+    "category": "commit_group",
+    "title": "git: commit: fix(transcript): focus view honors the utility-agents toggle",
+    "detail": "transcript-navigation · Peter Hozák · 1b70adbb4d",
+    "source": "git-reflog",
+    "tags": [
+      "sha:1b70adbb4d",
+      "branch:transcript-navigation",
+      "author:peter"
+    ],
+    "render": "point",
+    "author": "Peter Hozák",
+    "email": "peter.hozak@gmail.com"
+  },
+  {
+    "id": "gh-354-tl-28327734513",
+    "start": "2026-07-22T13:19:55Z",
+    "category": "github_activity",
+    "title": "PR timeline: head_ref_force_pushed",
+    "detail": "1b70adbb4d42f2a1b92e9669fd264b51f976b5a8",
+    "source": "gh",
+    "render": "point",
+    "author": "Aprillion"
+  },
+  {
+    "id": "gh-354-ci-29923417526",
+    "start": "2026-07-22T13:19:59Z",
+    "category": "github_activity",
+    "title": "CI run: success",
+    "detail": "pull_request · 1b70adbb4d42",
+    "source": "gh",
+    "render": "point",
+    "links": [
+      "https://github.com/meridianlabs-ai/ts-mono/actions/runs/29923417526"
+    ],
+    "author": null
+  },
+  {
+    "id": "gh-354-tl-28327782598",
+    "start": "2026-07-22T13:20:49Z",
+    "category": "github_activity",
+    "title": "PR timeline: referenced",
+    "detail": "51156847791016bcafa7a7feef33b42a4e0b9686",
+    "source": "gh",
+    "render": "point",
+    "author": "Aprillion"
+  },
+  {
+    "id": "gh-354-tl-28327896413",
+    "start": "2026-07-22T13:23:01Z",
+    "category": "github_activity",
+    "title": "PR timeline: review_requested",
+    "detail": "",
+    "source": "gh",
+    "render": "point",
+    "author": "Aprillion"
+  },
+  {
+    "id": "sf-agent-review-2026-07-22-agentic_review-c24128",
+    "start": "2026-07-22T13:39:16Z",
+    "category": "agentic_review",
+    "title": "agent review",
+    "detail": "tool/user · Bash · you think? I feel much better about today than June 30.. maybe because the steering works better, not repeating the same mistakes multiple t",
+    "source": "claude:f31bb3e5",
+    "render": "point",
+    "tags": [
+      "subfeature",
+      "agent review"
+    ]
   }
 ]
