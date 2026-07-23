@@ -249,6 +249,69 @@
     </details>
 
     <details>
+      <summary>Fable round-4 items (2026-07-22 review)</summary>
+      <p>Source: dragonstyle's follow-up review (agent-generated, <a
+          href="https://github.com/meridianlabs-ai/ts-mono/pull/354#issuecomment-5051900334">comment
+          5051900334</a> on PR #354) found the branch conflicting with main and a list of issues below.
+        <code>origin/main</code> (chunked-log viewer #451) merged as <code>c08fbb48</code> &mdash; one visible
+        conflict resolved preserving both sides, one silently auto-merged import break caught by gates and fixed
+        in the merge commit; eight fix commits appended, all four gates green (sole failure = known load-flake,
+        3&times; green isolated; a second load-flake in the logs-listing fetch engine documented the same way).
+      </p>
+      <ul class="ledger">
+        <li><span class="id">Fable #9</span> <span class="ic">&#129514;</span> VirtualList uncancelled
+          initial-scroll rAF (orphan settle loop / direct scrollTop writes after unmount or key change) <span
+            class="why">&rarr; fixed, commit <code>38eb6616</code>; investigation corrected the reviewer's harm
+            path: post-unmount jumps are neutralized by the virtualizer nulling its element; the real damage is
+            direct scrollTop writes and the mounted key-change case.</span></li>
+        <li><span class="id">Fable #10</span> <span class="ic">&#129514;</span> cross-app duplication (chrome
+          nav-ownership block &times;4 sites already diverging; event-nav handlers &times;4 sites) <span
+            class="why">&rarr; consolidated into shared hooks, commits <code>7d82d1ce</code> +
+            <code>55724231</code>, per Peter's explicit worry (divergences ruled bug-or-intent from evidence, not
+            averaged).</span></li>
+        <li><span class="id">Fable #11</span> <span class="ic">&#129514;</span> e2e unconditional sleeps <span
+            class="why">&rarr; condition polls, commit <code>bec2d634</code>.</span></li>
+        <li><span class="id">Fable #12</span> <span class="ic">&#129514;</span> <code>useScrollTrack</code>
+          re-subscribing on consumer renders <span class="why">&rarr; keyed on content, commit
+            <code>b2662882</code>.</span></li>
+        <li><span class="id">Fable #13</span> <span class="ic">&#129514;</span> go-to-turn into a
+          user-collapsed region landed short silently <span class="why">&rarr; batch-expands like
+            <code>scrollToEvent</code>, commit <code>a8b82eb6</code>.</span></li>
+        <li><span class="id">Fable #14</span> <span class="ic">&#129514;</span> small fixes batch
+          (<code>selectedTab</code> return type; <code>url.test</code> imports the real
+          <code>directoryRelativeUrl</code>; dead export removed; focus pages set document title; verified
+          perf nits) <span class="why">&rarr; commit <code>9cfd783c</code>.</span>
+        </li>
+        <li><span class="id">Fable #15</span> <span class="ic">&#129514;</span> process-vocabulary and
+          oversized comments in code, em-dash-only hunks <span class="why">&rarr; cleaned, commit
+            <code>ca387d8e</code>.</span></li>
+      </ul>
+      <p>REPLIES:</p>
+      <ul class="ledger">
+        <li><span class="ic">&#128584;</span> <span class="why">Esc-closes-focus-while-bar-open &mdash; standing
+            ruling from round 3 (fixes are risk; reopenable).</span></li>
+        <li><span class="ic">&#128584;</span> <span class="why">plain-arrow capture &mdash; arrows-only stepper
+            is the ruled design, modified arrows pass through.</span></li>
+        <li><span class="ic">&#128584;</span> <span class="why">a11y listbox roles &mdash; declined as polish
+            per round-3 ruling, tracked as loose end.</span></li>
+        <li><span class="ic">&#128584;</span> <span class="why">missing hook tests &mdash; declined per
+            slop-test ruling.</span></li>
+        <li><span class="ic">&#128584;</span> <span class="why">?event= encoding &mdash; pre-existing entrenched
+            pattern, loose-end candidate.</span></li>
+        <li><span class="ic">&#128584;</span> <span class="why">the reviewer itself checked and REJECTED one
+            automated claim (j-during-<code>?message=</code>-settle fight &mdash; cleanup cancels the loop; worst
+            case one-frame wobble) &mdash; recorded so it never resurfaces.</span></li>
+      </ul>
+      <p class="note">Review verdict 2026-07-23: CLEAN, no must-fix (independent pass + grok concurrence on the two
+        riskiest diffs). Red-first capability verified for every behavior fix; consolidation confirmed
+        behavior-preserving except the one intended fix (ResultBody now suppresses chrome collapse while find is
+        open, matching the transcript page &mdash; the divergence ruled a bug). Two informational notes: a
+        negligible null-scroller expand micro-divergence in ResultBody (harmless, aligns with scout's existing
+        semantics), and the small-fixes commit carries two untested low-risk touches (jumpToEnd scrollHeight target,
+        document titles). Remaining e2e waits are all constants-verified justified-keeps, not polls.</p>
+    </details>
+
+    <details>
       <summary>Utility agents &times; turn navigation &mdash; context for the fourth commit</summary>
       <p>Context for Charles on commit <code>1b70adbb</code>, the 4th append-only commit on the branch (on top of
         <code>d2df5cf3</code>), added after merging main's utility-agent classification (#425: "N utility agents
@@ -539,7 +602,7 @@
           test covers crumb anchoring.</li>
         <li><span class="id">t.64</span> <span class="ic">&#9989;</span> Finish-scroll fires only on successful runs.
         </li>
-        <li><span class="id">t.65</span> <span class="ic">&#10060;&#8987;&#9989;</span> c.08 outline bold race: entry
+        <li><span class="id">t.65</span> <span class="ic">&#10060;&#9989;</span> c.08 outline bold race: entry
           stays bold
           while within its turn scope, across MANY j/k repetitions (the race needs repetition to hit). First pass
           clean 2026-07-22 ("not spotting a race condition yet") on sample
@@ -548,17 +611,17 @@
           clicked through across both the original audit log and the synthetic clienttl copy, closing the
           sufficient-repetitions reservation.
         </li>
-        <li><span class="id">t.66</span> <span class="ic">&#10060;&#8987;&#9989;</span> c.09 agent buttons gone from
+        <li><span class="id">t.66</span> <span class="ic">&#10060;&#9989;</span> c.09 agent buttons gone from
           breadcrumbs and
           focus view; <kbd>h</kbd>/<kbd>l</kbd> lane hops still work (Easter egg). Peter-verified 2026-07-22: removal
           confirmed. PLUS ruling: the h/l regression tests added alongside the removal were "useless slop" &mdash;
           deleted in the slop-sweep rewrite; commit <code>652bd671</code> is now production-only.
           Re-confirmed by Peter 2026-07-22 after fresh pnpm install and the slop-sweep re-SHAs.</li>
-        <li><span class="id">t.67</span> <span class="ic">&#10060;&#8987;&#9989;</span> c.10 switcher renders as pill
+        <li><span class="id">t.67</span> <span class="ic">&#10060;&#9989;</span> c.10 switcher renders as pill
           matching full
           transcript, inspect + scout. Peter-verified 2026-07-22: "looks good, code diff too."
           Re-confirmed by Peter 2026-07-22 after fresh pnpm install and the slop-sweep re-SHAs.</li>
-        <li><span class="id">t.68</span> <span class="ic">&#10060;&#8987;&#9989;</span> focus/lane utility-toggle parity
+        <li><span class="id">t.68</span> <span class="ic">&#10060;&#9989;</span> focus/lane utility-toggle parity
           in
           browser: toggle utility ON, focus a utility lane (expect its turn, not an empty page), focus dropdown + h/l
           lane parity with transcript. A timelines-stripped COPY of the audit log was added at
@@ -589,6 +652,77 @@
             utility box &mdash; treated as expected behavior unless Peter re-flags it. Standing qualifier holds:
             all of the above is verified on synthetic data only (see Repro steps above).</p>
         </li>
+        <li><span class="id">t.69</span> <span class="ic">&#8987;</span> chunked sample renders via
+          <code>ChunkedTranscriptPanel</code> (windowed reads). Repro steps:
+          <ol>
+            <li>Start <code>pnpm dev</code>; open
+              <code>http://localhost:5173/#/logs/2026-07-23T00-00-00-00-00_turnnav-chunked-SYNTHETIC_ChunkedTurnNavA.eval</code>
+              (synthetic fixture, built via the sanctioned chunked converter from a copy of a June turnnav log;
+              7 event chunks; no existing file modified).
+            </li>
+            <li>Transcript tab: confirm the chunked marker &mdash; a DOM node with <code>data-testid</code> ending
+              in <code>-chunked</code>, or "[chunked] fetch" console lines.</li>
+            <li>DevTools Network: <code>/api/log-bytes/...?start=&amp;end=</code> byte-range requests, scrolling
+              materializes further <code>events/N.json</code> chunks.</li>
+            <li>EXPECTED LIMITS, not bugs: no "turn N/N" counters, j/k+Ctrl+G+f inert (le.51), utility indicator
+              absent (le.50).</li>
+          </ol>
+        </li>
+        <li><span class="id">t.70</span> <span class="ic">&#9989;</span> Fable #13 / commit <code>a8b82eb6</code>:
+          go-to-turn bar jump into a turn hidden by a user collapse. Stack: inspect FE 5173, branch tip
+          <code>55724231</code>. Repro steps:
+          <ol>
+            <li>Open
+              <code>http://localhost:5173/#/logs/2026-05-06T20-37-46-00-00_audit-clienttl_clienttlcopy1.eval/samples/sample/conspiracy_theory_sympathy/1</code>
+              &mdash; a sample known to render with turn groups.
+            </li>
+            <li>Find a multi-turn agent-span group in the transcript and collapse it by clicking its event-panel
+              header chevron (the &#9660;/&#9658; icon at the left of the group's header row toggles
+              collapsed/expanded).</li>
+            <li>Press <kbd>Ctrl</kbd>+<kbd>G</kbd> (or <kbd>Cmd</kbd>+<kbd>G</kbd>) to open the go-to-turn bar.</li>
+            <li>Type a turn number that falls INSIDE the just-collapsed range, then <kbd>Enter</kbd>.</li>
+            <li>EXPECT: the collapsed region auto-expands and the view lands on the REQUESTED turn, with the jump
+              ring marking that turn (pre-fix: it silently landed on the last visible turn before the collapsed
+              region, with no expansion and no ring on the requested turn).</li>
+            <li>Negative check: repeat steps 3&ndash;5 with a turn number OUTSIDE any collapsed range &mdash;
+              behavior is unchanged from before this fix (direct jump, no expansion needed).</li>
+          </ol>
+          Peter-verified 2026-07-23: Ctrl+G into a collapsed range auto-expands and lands correctly.
+        </li>
+        <li><span class="id">t.71</span> <span class="ic">&#9989;</span> Fable #10 / commit <code>7d82d1ce</code>:
+          scanner-result page (<code>ResultBody</code>) no longer flickers chrome while find is open &mdash; the
+          branch's one deliberate consolidation change: <code>ResultBody</code> gained the find-open chrome
+          suppression the transcript page already had. Repro steps:
+          <ol>
+            <li>Open any scan result on scout 5174 (route <code>/scan/&hellip;</code>, RESULT tab).</li>
+            <li>Press <kbd>Ctrl</kbd>+<kbd>F</kbd> to open the find band &mdash; it's app-level, keyboard-summoned
+              via <code>useFindBandShortcut</code>, no visible button.</li>
+            <li>With the band open, scroll inside the results area &rarr; EXPECT: the page header does NOT hide.</li>
+            <li>Close find (<kbd>Esc</kbd> in its input, or the close button) &rarr; EXPECT: scrolling now hides the
+              header again (baseline behavior, already verified by Peter 2026-07-23).</li>
+          </ol>
+          <p class="note">Peter-verified 2026-07-23 via A/B against the unfixed bundled viewer (7576): ResultBody
+            behavior is at parity with main with and without find open (header follows scroll position) &mdash;
+            ruled good enough. The consolidation kept behavior identical, as intended; the find-suppression
+            added alongside it is not observable live on this surface (see le.37).</p>
+        </li>
+        <li><span class="id">t.72</span> <span class="ic">&#10060;&#9989;</span> chunked event-card
+          header pinned to card BOTTOM when scrolled (Peter's screenshot, non-summary tabs). Root cause: the
+          chunked panel positions virtual rows with <code>transform: translateY</code>, and a transformed
+          ancestor traps <code>position: sticky</code> &mdash; our branch made card headers sticky-always, but
+          only the monolith list uses absolute-<code>top</code> rows. Fixed (one line, <code>transform</code>
+          &rarr; <code>top</code>), commit <code>aac3afbc</code>; browser-verified (jsdom cannot test layout
+          &mdash; stated in the commit). Retest steps:
+          <ol>
+            <li>Open
+              <code>http://localhost:5173/#/logs/2026-07-23T00-00-00-00-00_turnnav-chunked-SYNTHETIC_ChunkedTurnNavA.eval</code>
+              (hard-reload &mdash; dev server hot-reloaded the fix).
+            </li>
+            <li>Expand a MODEL CALL card, switch to the API tab.</li>
+            <li>Scroll within the tall card &rarr; the header strip must stay pinned at the top of the
+              scroller, never sink to the card bottom.</li>
+          </ol>
+        </li>
       </ul>
     </details>
 
@@ -602,8 +736,19 @@
         </li>
         <li><span class="id">le.02</span> Focus-link caveats (branch-only events; timeline config mismatch).</li>
         <li><span class="id">le.03</span> Scrollbar-drag chrome-ownership gap (pre-existing; Peter ruling pending).</li>
-        <li><span class="id">le.12</span> Scout backend pin &mdash; scout main is doubly incompatible; needs an upstream
-          repin.</li>
+        <li><span class="id">le.12</span> Scout backend pin: scout consumes <code>inspect_ai</code> as a PyPI
+          dependency (not a submodule). "Doubly incompatible" = (1) older scout code crashed on an
+          <code>inspect_ai</code> symbol rename, fixed on scout main; (2) scout main's version floor exceeds the
+          newest published <code>inspect_ai</code>, so testing against a dev <code>inspect_ai</code> requires a
+          local editable install (<code>uv pip install -e ../inspect_ai</code> or
+          <code>[tool.uv.sources]</code>). Durable closure: an upstream <code>inspect_ai</code> PyPI release
+          &ge;0.3.250, after which scout's scheduled auto-repin bumps the floor and regenerates types. Both failure
+          modes empirically verified by booting 2026-07-23. Local testing unblocked 2026-07-23: scout on main
+          (<code>3fadd555</code>) + venv wired to local editable <code>inspect_ai</code> 0.3.250.dev; FE&harr;BE
+          handshake proven (branch <code>scout</code> FE loaded 11,338 transcripts via live BE, 3 clean runs, types
+          compatible). Durable closure still = upstream <code>inspect_ai</code> PyPI release then scout
+          auto-repin.
+        </li>
         <li><span class="id">le.13</span> Scout hosted-mode checks.</li>
         <li><span class="id">le.14</span> Tab-picker label truncation polish &mdash; narrow-viewport wrap/overlap fixed
           2026-07-20 (title ellipsis, picker floor width, new e2e); further polish tracked here.</li>
@@ -629,7 +774,10 @@
         <li><span class="id">le.36</span> Back-from-focus lands at top when entered from passive scroll (c.02
           divergence).
         </li>
-        <li><span class="id">le.37</span> Scout find-band ownership in focus/scanner views.</li>
+        <li><span class="id">le.37</span> Scout find-band ownership in focus/scanner views. 2026-07-23: the
+          find-open chrome suppression added to ResultBody by the round-4 consolidation is not observable live
+          (position-based expand-only-at-top wins); parity with main ruled good enough &mdash; revisit only if
+          scanner-view find UX gets real attention.</li>
         <li><span class="id">le.38</span> pointerdown cancels click-initiated settles (needs design).</li>
         <li><span class="id">le.39</span> Scout visit-keyed state bags never evicted.</li>
         <li><span class="id">le.40</span> Turn-count derivations: 3 call paths (outline, event-card counter, focus view)
@@ -652,7 +800,9 @@
           (ruled 2026-07-22 as out of scope for this PR); scout: an orphaned swimlane selection key persists in the
           URL hash (<code>?selected=&lt;key&gt;</code>, unlike inspect where the equivalent selection is transient and
           cleared on click), making it a shareable/bookmarkable landing state that can hit the raw-stream fallback
-          below &mdash; strengthening the case for fixing that fallback upstream.</li>
+          below &mdash; strengthening the case for fixing that fallback upstream. Second instance 2026-07-23: scout
+          view's dist LFS resolver asserts all-files-are-pointers; stray built <code>.js.map</code> files in
+          scout's ts-mono dist break boot until removed (rebuilding scout's bundled viewer regenerates them).</li>
         <li><span class="id">le.45</span> Hidden-turns items deferred out of this PR: the pre-existing (branch-worsened)
           bug where toggling utility off leaves an orphaned selection falling back to the raw event stream, inflating
           outline/turn counts until the selection is clicked away (upstream candidate, overlaps le.44); a narrow edge
@@ -693,11 +843,32 @@
           <span class="ic">&#9989;</span> Peter verified both surfaces 2026-07-22: the previously-dead focus-page
           and transcript <code>?event=</code> links now flip the toggle and land correctly, and the flip stays
           scoped to the visiting tab (a fresh tab still shows utility hidden &mdash; no cross-tab persistence
-          leakage, matching the ruling's "for that visit" intent).</li>
+          leakage, matching the ruling's "for that visit" intent).
+        </li>
         <li><span class="id">le.49</span> <code>@tsmono/react</code> test "lazy mathjax loading &gt; retries the
           mathjax import after a failed chunk load" times out (hardcoded 5000ms) under full-workspace parallel test
           load; passes standalone (819ms) and in package isolation (173/173). Pre-existing timing fragility, not
           PR-354-related; candidate fix: raise/remove the timeout or isolate the test.</li>
+        <li><span class="id">le.50</span> Chunked samples (#451, internal-only) run the client classifier over
+          synthetic empty-payload events &mdash; utility detection never fires, indicator shows 0, toggle no-ops;
+          fidelity gap between #451 and #425, not caused by this PR; upstream/product question.</li>
+        <li><span class="id">le.51</span> Turn navigation is entirely absent on chunked samples &mdash;
+          <code>ChunkedTranscriptPanel</code> never mounts the keyboard hook, go-to-turn bar, or focus navigation
+          (verified red/green against a monolith control of the same eval). Investigated 2026-07-23 with a
+          red probe against the real pipeline: the chunked skeleton assigns all model calls within one gap the
+          SAME ordinal (the fixture's 100 model turns collapse onto 4 distinct ordinals), so j/k / Ctrl+G
+          via ordinals would land wrong for most turns &mdash; worse than no navigation at all. A safe
+          implementation needs a new row-scan navigation design over materialized rows, and Ctrl+G-by-turn-number
+          is impossible from skeleton data alone. DECLINED for this PR on that basis; follow-up only, with this
+          ordinal-degeneracy constraint as the starting point. Needs raising with the reviewer alongside le.50
+          as one "chunked samples" caveat.
+        </li>
+        <li><span class="id">le.52</span> An unpushed 2026-07-17 agent commit in <code>inspect_scout</code>
+          (<code>fix/transcripts-discovery-mkdir</code>, <code>1ca4e6c7</code>) is an UNVERIFIED WORKAROUND, not a
+          vetted fix: part 1 (no mkdir on read-only transcript discovery + OSError handling) is a defensible idea
+          needing independent review &mdash; scout main still has that bug but it only bites on inaccessible paths;
+          part 2 (skip per-request coverage re-scan) is a latency hack suppressing staleness warnings &mdash; drop
+          unless justified. Review before any upstream use; nothing cherry-picked 2026-07-23.</li>
       </ul>
     </details>
 
