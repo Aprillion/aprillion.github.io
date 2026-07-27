@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Turn navigation - loose ends</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #5a5a5a;
+      --line: #e2e2e2;
+      --card: #f7f7f8;
+      --accent: #0b5fff;
+      --code: #f0f0f2;
+      --warn: #b45309;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14161a;
+        --fg: #e6e6e6;
+        --muted: #a0a4ab;
+        --line: #2a2e35;
+        --card: #1c1f25;
+        --accent: #6ea8ff;
+        --code: #22262d;
+        --warn: #fbbf24;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem 1.1rem 4rem;
+      background: var(--bg);
+      color: var(--fg);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    main {
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 .3rem;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      background: var(--code);
+      padding: .08em .35em;
+      border-radius: 4px;
+      font-size: .88em;
+      overflow-wrap: anywhere;
+    }
+
+    .note {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .7rem .9rem;
+      margin: 1rem 0;
+      font-size: .93rem;
+    }
+
+    .scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: .92rem;
+      margin: .5rem 0 1.5rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: .45rem .6rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      border-bottom: 2px solid var(--line);
+      white-space: nowrap;
+    }
+
+    td.sha {
+      white-space: nowrap;
+    }
+
+    td.sha code {
+      overflow-wrap: normal;
+    }
+
+    tbody tr:hover {
+      background: var(--card);
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .9rem 1rem;
+      margin: 1.4rem 0;
+    }
+
+    .item h2 {
+      font-size: 1.05rem;
+      margin: 0 0 .1rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: .88rem;
+      margin: 0 0 .7rem;
+    }
+
+    .item ol {
+      margin: .4rem 0;
+      padding-left: 1.4rem;
+    }
+
+    .item ol>li {
+      margin: .3rem 0;
+    }
+
+    .expect {
+      color: var(--accent);
+    }
+
+    .warn {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    dl {
+      margin: .5rem 0 0;
+    }
+
+    dt {
+      font-weight: 600;
+      margin-top: .5rem;
+      font-size: .9rem;
+    }
+
+    dd {
+      margin: .1rem 0 0 1.2rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <h1>Turn navigation &mdash; loose ends</h1>
+    <p class="meta">Working backlog for the transcript turn-navigation work. Not a review artifact &mdash; the
+      per-PR reports are <a href="pr354-transcript-navigation.html">#354</a> (where the <code>le.NN</code> IDs are
+      defined) and <a href="pr460-transcript-nav-followups.html">#460</a>. Start a future session here rather than
+      from #354's own loose-end list, which is a snapshot from merge time.</p>
+    <p class="meta">Last triaged 2026-07-27 against ts-mono <code>origin/main</code> (<code>2e45a1fc</code>) and all
+      17 open ts-mono PRs.</p>
+
+    <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">Loose ends NOT in this PR &mdash; triage from 2026-07-27 (for a future session, not for review)</h2>
+    <h2 style="font-size:1.2rem;margin:2.5rem 0 .3rem;border-bottom:2px solid var(--line);padding-bottom:.25rem;">
+      Loose ends NOT in this PR &mdash; triaged 2026-07-27</h2>
+    <div class="note"><strong>Reachability warning.</strong> Three fixes were dropped from this branch today because
+      a mechanism existed in the source while nothing could reach it in the running app. The same doubt applies to
+      some rows below, which were confirmed by reading code and never A/B'd: <strong>Grok G1</strong> (needs a sample
+      hop that does not force a remount &mdash; if the React key always changes, it is unreachable),
+      <strong>le.46</strong> (needs the two trackers to actually disagree near the tail) and <strong>le.55</strong>
+      (the specific bogus-id repro is untested; the spinner Peter reproduced was the "loading" path, not this one).
+      <strong>A/B against the bundled viewer on 7575 before writing code for any of them.</strong></div>
+    <p class="meta">State of the environment after re-verifying every open <code>le.NN</code> against
+      <code>origin/main</code> (<code>2e45a1fc</code>) and all 17 open ts-mono PRs. IDs are defined in the
+      <a href="pr354-transcript-navigation.html">#354 report</a>. Start a future session from this table, not from
+      that report's loose-end list &mdash; this one is current.</p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>le.NN</th>
+            <th>What</th>
+            <th>State as of today</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="3"><strong>Needs a decision from Peter before anyone codes</strong></td>
+          </tr>
+          <tr>
+            <td>le.47</td>
+            <td>Lane-model redefinition &mdash; "a focus/h-l stop is every swimlane box"</td>
+            <td>Was pre-decided as the next PR. <strong>I'd defer it and re-litigate whether it's worth doing.</strong>
+              Your corpus scan found zero non-utility rows with same-named siblings in 1,547 files, the
+              net-code-deletion hypothesis was refuted, and the only live symptom is utility wrappers not being
+              iterable in focus view. 120&ndash;180 LOC across 4&ndash;5 files for conceptual uniformity. Sizing
+              re-checked, still holds; no conflict with any in-flight PR.</td>
+          </tr>
+          <tr>
+            <td>le.01</td>
+            <td>Port backgroundUpdate protections (branches <code>cross-log-loading-fixes</code>,
+              <code>cross-log-backgroundupdate</code>)</td>
+            <td><strong>Unblocked &mdash; the blocker was a misreading.</strong> "Eric's collection-data rework" is
+              PR&nbsp;#457 <code>large-samples-<strong>cd</strong>-layout</code>, cd = <em>central-directory</em>, and
+              it shares zero files with either branch. <code>git merge-tree</code> gives <strong>one trivial conflict
+                each</strong> (<code>SampleDisplay.tsx</code> sticky-header region; <code>playwright.config.ts</code>
+              vs #458's port pinning). Caveat: <code>HANDOFF.md</code> claims the e2e ran 3/3 green, contradicting the
+              older note &mdash; under your fake-green rule that wants re-running, not trusting.</td>
+          </tr>
+          <tr>
+            <td>le.27</td>
+            <td>Focus-tab round-trip on exit</td>
+            <td>Was estimated at ~10 LOC; that was wrong. Nothing on the transcript side consumes a
+              <code>tab=</code> param, and the event card's tab lives in persisted state keyed by pill
+              <em>index</em> while focus tracks a <em>name</em>. Real fix is ~40&ndash;60 LOC extending EventPanel's
+              shared-tab path. Also a product question: the card remembering its own tab and focus holding one tab
+              across turns are conflicting models.</td>
+          </tr>
+          <tr>
+            <td>le.03</td>
+            <td>Scrollbar-drag never releases chrome ownership</td>
+            <td>Ruling still pending from before the merge. ~10 LOC once you decide whether it should release at all
+              (<code>useChromeNavOwnership.ts:57-64</code> listens only to wheel / touchmove / keydown).</td>
+          </tr>
+          <tr>
+            <td>le.33</td>
+            <td>Inspect vs scout summary-header expand asymmetry</td>
+            <td>Confirmed still divergent; the refactor series did not resolve it. Inspect is direction-based on the
+              primary signal, scout fully position-based. Needs a product answer, not a code change.</td>
+          </tr>
+          <tr>
+            <td>le.52</td>
+            <td>Unpushed inspect_scout <code>fix/transcripts-discovery-mkdir</code></td>
+            <td>Scout main still has the bug (unconditional <code>mkdir</code>, <code>FileNotFoundError</code>-only
+              catches, unguarded <code>.exists()</code>), so part 1 still applies and is still unreviewed. Part 2 is
+              an unjustified latency hack &mdash; split it off and drop it.</td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><strong>Blocked on someone else &mdash; watch only</strong></td>
+          </tr>
+          <tr>
+            <td>le.50<br>le.51</td>
+            <td>Chunked samples: classifier over synthetic events; turn nav entirely absent</td>
+            <td>Eric's <strong>open</strong> PR&nbsp;#457 adds a 50MB timeline-hydration gate that reroutes
+              timeline-bearing chunked samples through the legacy monolith panel, where both work for free. But it does
+              not touch <code>syntheticEvents.ts:255-280</code> &mdash; the gap-ordinal degeneracy stands and
+              <code>ChunkedTranscriptPanel</code> still mounts no keyboard hook, go-to-turn bar or focus nav. <strong>It
+                narrows the population, it does not close either item.</strong> Re-scope after it lands. Its new
+              <code>events/uuids.json</code> (O(1) uuid&rarr;ordinal) is useful groundwork if chunked deep-links are
+              ever attempted.</td>
+          </tr>
+          <tr>
+            <td>le.12</td>
+            <td>Scout backend PyPI pin</td>
+            <td>Nothing to do. PyPI is at 0.3.249, scout's floor is already <code>&gt;=0.3.249</code>, this repo is 64
+              commits past the tag. Needs an upstream release &ge;0.3.250, then scout's scheduled auto-repin fires by
+              itself.</td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><strong>Open, no cheap fix &mdash; each needs a live repro before it needs code</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>le.55</td>
+            <td><span class="warn">NEW</span> Second endless-spinner path on the focus page</td>
+            <td>Found by review during this branch. When the sample handle isn't among the settled summaries,
+              <code>deriveSampleData</code> (<code>sampleData.ts:101-110</code>) returns status "ok" with no sample and
+              no running events &mdash; straight onto the spinner. Repro:
+              <code>/samples/sample/&lt;bogus-id&gt;/0/event</code>.
+              <br><strong>This is the state that actually produces the endless spinner</strong>, and le.18 is back
+              open because of it: a fix guarding <code>status === "error"</code> was written, shipped and then
+              dropped from this branch after Peter's retest showed it never fires. A failing sample fetch cannot
+              produce <code>"error"</code> &mdash; summaries come from the IndexedDB listing, whose query does not
+              error when the fetch engine gives up (it keeps the error on the row), so
+              <code>deriveSampleData</code> returns <code>"loading"</code> or <code>"ok"</code>. A real fix has to
+              read the listing row's retained error, or report failure once the engine stops retrying, and wants an
+              MSW e2e written red first &mdash; <code>apps/inspect/e2e/error-state.spec.ts</code> is the working
+              template.</td>
+          </tr>
+          <tr>
+            <td>le.56</td>
+            <td><span class="warn">NEW</span> Messages tab: a collapsed tool block reuses the assistant's M-number</td>
+            <td>An assistant message and the tool result folded into its row both badge as e.g. <code>M6</code>, while
+              Search numbers them <code>M6</code> and <code>M7</code> — so clicking <code>[M7]</code> in Search lands
+              on the wrong row. <code>baseNumber = startNumber ?? index + 1</code> in
+              <code>ChatMessageRow.tsx:66</code> gives the row one base number and the collapsed block reuses it.
+              <strong>Pre-existing and unrelated to turn navigation</strong> — the numbering came in with #241
+              (Theming) and the file's last changes (#326, #294, #293) all predate #354. Visible on 7575. Does not
+              block the t.74 repro, since an off-by-one landing still exercises the same follow path.</td>
+          </tr>
+          <tr>
+            <td>le.53</td>
+            <td><span class="warn">NEW</span> No e2e for a deep link into a <em>nested</em> sub-agent</td>
+            <td>Coverage is hook-level only; the scout e2e fixture's lane <em>is</em> the timeline root, so it never
+              exercises the row-selection path. A test that cannot fail on the real bug.</td>
+          </tr>
+          <tr>
+            <td>le.54</td>
+            <td><span class="warn">NEW</span> <code>?message=</code> resolves one agent level deep only</td>
+            <td><code>resolveMessageToEvent.ts:213,258</code> (<code>agentContext ?? item.id</code>, admitted in its own
+              docstring). A message two sub-agent levels deep resolves to the outer lane only. Narrow.</td>
+          </tr>
+          <tr>
+            <td>le.44</td>
+            <td>Upstream candidates, pruned to what's still open</td>
+            <td><strong>(b)</strong> scout persists swimlane selection in the URL where inspect keeps it transient, so a
+              stale key is bookmarkable into the le.45(i) fallback. <strong>(c)</strong> the LFS resolver asserts
+              all-files-are-pointers (<code>_lfs/_cache.py:56-59</code>) &mdash; stray built <code>.js.map</code> files
+              break scout's boot; the justifying comment is empirically false. <strong>(d)</strong> the debounce /
+              echo-guard fix landed in the shared <code>VirtualList</code> but scout restores scroll through its own
+              store path and never got it.</td>
+          </tr>
+          <tr>
+            <td>le.39</td>
+            <td>Scout visit-keyed state bags never evicted</td>
+            <td>Confirmed: the eviction helpers exist and are exposed, but have <strong>no call sites anywhere</strong>
+              in <code>apps/scout/src</code>. Needs an eviction policy, not just wiring.</td>
+          </tr>
+          <tr>
+            <td>le.46</td>
+            <td>Outline bold near the log tail</td>
+            <td>Confirmed still divergent after the hooks-extraction series (#435 moved the code without touching the
+              semantics): the j/k tracker passes <code>advanceDetectionPointAtEnd: false</code>, the outline tracker
+              omits it and gets the <code>true</code> default. Small change, but it risks the anti-oscillation
+              behaviour ruled in t.43.</td>
+          </tr>
+          <tr>
+            <td>Sol P1-7<br>Grok G1<br>Sol P1-9</td>
+            <td>Unfixed-by-ruling findings from the #354 independent reviews</td>
+            <td>All three still present, all verified in code. P1-7: Tab-to-Close-then-Esc exits focus instead of
+              closing the go-to-turn bar, and j/k leak behind the open bar (~30&ndash;40 LOC, needs bar-open state
+              plumbed). G1: inspect passes no <code>resetKey</code> to <code>useChromeNavOwnership</code> where scout
+              does, so stale chrome ownership can survive a sample hop. P1-9: focus prev/next can't see the
+              <code>/samples</code> grid's cross-log order at a log boundary.</td>
+          </tr>
+          <tr>
+            <td>le.19&ndash;24<br>le.26</td>
+            <td>Focus-view feature gaps</td>
+            <td>All confirmed absent on main: unanchored pre-turn events are structurally unreachable, no event-type
+              filter, no sample-level header content, no minimap markers, no streaming indicator, cross-sample paste
+              frame, lane-picker a11y roles. These want a product decision on whether the focus page is meant to reach
+              parity with the transcript page at all. <a
+                href="https://github.com/METR/hawk/issues/643">METR/hawk#643</a> is the streaming-indicator one.</td>
+          </tr>
+          <tr>
+            <td>le.36<br>le.38<br>le.41<br>le.42</td>
+            <td>Remaining scroll / settle items</td>
+            <td>Mechanism unchanged since #354 and none statically falsifiable: the 90-frame re-park loop, the
+              unconditional <code>noteUserInteraction()</code> on pointerdown, the h/l lane-hop landing, the deep
+              <code>?message=</code> settle. Need a live repro first.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <strong>Deleted from the loose-end list, so nobody re-triages them:</strong> le.02, le.13, le.14,
+      le.29&ndash;le.32, le.34, le.37, le.40, le.43, le.48, le.49, plus le.44(a) and le.45(iii). Either solved
+      elsewhere, solved by #354 itself, ruled as-designed, or too trivial to need a decision. Three changed our
+      understanding and are worth one line each:
+      <br>&bull; <strong>le.44(a)</strong> &mdash; the Python timeline writer already got utility-agent classification
+      parity (<code>_timeline.py</code>, commit <code>fca145784</code> / inspect_ai#4516), merged
+      <em>three days before</em> #354. Every server-baked timeline now carries the flags.
+      <br>&bull; <strong>le.40</strong> &mdash; already solved by #354's own <code>turnNavigation.ts</code>: outline
+      and event-card counter read one shared map, so the "3 divergent call paths" framing was stale.
+      <br>&bull; <strong>le.34 tail</strong> &mdash; the mechanical hollow-test audit (copy a PR's tests onto pristine
+      <code>origin/main</code>; anything still passing guards nothing) was designed on Jul&nbsp;22 and cancelled as
+      low-yield. It has <strong>never</strong> run against #354's merged suite, so the number of hollow tests already
+      in there is genuinely unknown. Applied by hand to the 6 new tests on this branch only.
+      <br><strong>Also free:</strong> ts-mono
+      <a href="https://github.com/meridianlabs-ai/ts-mono/issues/291">#291</a> is fixed in code since #331
+      (<code>e0f48469</code>, 2026-06-15), with #354 closing the utility-lane gap #331 left open. Neither PR
+      referenced the issue number. One browser confirmation and it can be closed. Adjacent and unassigned if anyone
+      wants a clean single-commit PR: <a href="https://github.com/meridianlabs-ai/ts-mono/issues/440">#440</a>, whose
+      root cause is already written into a "Known issue" comment in <code>useSelectionActions.ts</code> that the fix
+      would delete.
+    </div>
+
+
+
+    <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">Test-suite notes for this branch</h2>
+    <div class="note">
+      <strong>Test-suite honesty, since it came up:</strong> the suite grows by exactly <strong>5
+        <code>it()</code></strong> blocks (889&rarr;894) and deletes none. Every one was watched failing against the
+      unfixed code by reverting that file from <code>origin/main</code>. Tests that only covered already-working
+      behaviour were deleted rather than kept. One mistake worth remembering: while pruning I briefly deleted an
+      existing punch-down suite without noticing, because 11 survivors + 2 new tests came to exactly the same count
+      as the 13 on main &mdash; the total looked unchanged. Restored, and the branch now adds tests and deletes none.
+    </div>
+
+
+    <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">Dead ends, for a future agent &mdash; 3 fixes dropped as false positives (collapsed; no action needed)</h2>
+      <div class="note">
+      <strong>Dropped from this branch after Peter's testing, 2026-07-27:</strong> three fixes that turned out to
+      guard nothing. le.25 (<kbd>j</kbd>/<kbd>k</kbd> swallowed with no turn to step to) &mdash; no reachable
+      zero-turn view, and swallowing is correct behaviour anyway. le.18 (focus page spins on load failure) &mdash;
+      <code>status === "error"</code> is unreachable from a failing sample fetch, so the guard never fires; the real
+      state is le.55. le.28 (grids stealing keys from editable controls) &mdash; no <code>vscode-*</code> element
+      exists in the monorepo, and the only editable path is <code>editable={false}</code> on the one page carrying
+      those handlers; the plain <code>&lt;input&gt;</code> cases the old <code>tagName</code> check already handled,
+      confirmed by A/B against the unfixed bundled viewer on 7576.
+      <br><strong>The shared cause:</strong> each time a mechanism was confirmed to exist in the source, and nobody
+      confirmed the state was reachable in the running app. <strong>The cheap check that catches this is an A/B
+        against 7576 before writing anything</strong> &mdash; the same method that caught t.71 on the previous PR.
+    </div>
+
+
+  </main>
+</body>
+
+</html>

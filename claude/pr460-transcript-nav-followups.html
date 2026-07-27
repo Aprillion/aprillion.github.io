@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>PR #460 transcript-nav follow-ups - status</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #5a5a5a;
+      --line: #e2e2e2;
+      --card: #f7f7f8;
+      --accent: #0b5fff;
+      --code: #f0f0f2;
+      --warn: #b45309;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14161a;
+        --fg: #e6e6e6;
+        --muted: #a0a4ab;
+        --line: #2a2e35;
+        --card: #1c1f25;
+        --accent: #6ea8ff;
+        --code: #22262d;
+        --warn: #fbbf24;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem 1.1rem 4rem;
+      background: var(--bg);
+      color: var(--fg);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    main {
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 .3rem;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      background: var(--code);
+      padding: .08em .35em;
+      border-radius: 4px;
+      font-size: .88em;
+      overflow-wrap: normal;
+    }
+
+    code.url {
+      overflow-wrap: anywhere;
+    }
+
+    .note {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .7rem .9rem;
+      margin: 1rem 0;
+      font-size: .93rem;
+    }
+
+    .scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: .92rem;
+      margin: .5rem 0 1.5rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: .45rem .6rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      border-bottom: 2px solid var(--line);
+      white-space: nowrap;
+    }
+
+    td.sha {
+      white-space: nowrap;
+    }
+
+    td.sha code {
+      overflow-wrap: normal;
+    }
+
+    tbody tr:hover {
+      background: var(--card);
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .9rem 1rem;
+      margin: 1.4rem 0;
+    }
+
+    .item h2 {
+      font-size: 1.05rem;
+      margin: 0 0 .1rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: .88rem;
+      margin: 0 0 .7rem;
+    }
+
+    .item ol {
+      margin: .4rem 0;
+      padding-left: 1.4rem;
+    }
+
+    .item ol>li {
+      margin: .3rem 0;
+    }
+
+    .expect {
+      color: var(--accent);
+    }
+
+    .warn {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    dl {
+      margin: .5rem 0 0;
+    }
+
+    dt {
+      font-weight: 600;
+      margin-top: .5rem;
+      font-size: .9rem;
+    }
+
+    dd {
+      margin: .1rem 0 0 1.2rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <h1>PR #460 &mdash; transcript-nav follow-ups</h1>
+    <p class="meta"><a href="https://github.com/meridianlabs-ai/ts-mono/pull/460">PR #460</a> ("Transcript navigation small followups") in
+      <code>meridianlabs-ai/ts-mono</code> &mdash; two independent fixes, based on <code>origin/main</code> at
+      <code>2e45a1fc</code>. Follow-up to <a
+        href="https://github.com/meridianlabs-ai/ts-mono/pull/354">PR #354</a>
+      (<a href="pr354-transcript-navigation.html">its report</a>).</p>
+
+    <div class="note"><strong>One decision for the reviewer.</strong> In fix 1, when a swimlane selection key no
+      longer matches any row, this scopes rendering to the root row and <em>keeps</em> the stale key, so re-enabling
+      the utility toggle restores the previous selection.
+      <a href="https://github.com/meridianlabs-ai/ts-mono/pull/431">#431</a> instead <em>clears</em> the selection for
+      the analogous case when switching timelines. Both are defensible; if the clearing behaviour is preferred, fix 1
+      changes shape. Everything else here is mechanical.</div>
+
+    <div class="item">
+      <h2>Fix 1 &mdash; orphaned swimlane selection
+        (<a href="https://github.com/meridianlabs-ai/ts-mono/pull/460/commits/cf6040b04686"><code>cf6040b0</code></a>,
+        <code>useTranscriptTimeline.ts</code>, +14/&minus;3)</h2>
+      <p>Hiding the selected swimlane lane &mdash; which the utility-agent toggle does routinely &mdash; left a
+        selection key matching no row, and rendering fell through to the <em>unscoped</em> event stream. The
+        just-hidden events reappeared and the outline and turn counts inflated until another row was clicked.
+        Regressed in #354.</p>
+      <p>An unmatched key is now treated as distinct from "nothing selected" and scopes to the root row. The key is
+        deliberately kept, so toggling utility back on restores the selection.</p>
+      <ol>
+        <li>Open a sample whose header offers to reveal hidden utility agents, e.g.
+          <br><code class="url">/#/logs/&lt;log&gt;.eval/samples/sample/&lt;sample-id&gt;/1</code>
+          &mdash; the header reads "N utility agents hidden".</li>
+        <li>Click that header so the utility lanes appear, then click one of them. Note the scoped turn count and the
+          outline contents.</li>
+        <li>With that lane still selected, switch the utility toggle <strong>off</strong>.</li>
+      </ol>
+      <dl>
+        <dt class="expect">Expect</dt>
+        <dd>The view falls back to the main lane, and the outline and turn counts match a fresh visit with utility
+          off.</dd>
+        <dt>Before the fix</dt>
+        <dd>The hidden events reappear and the counts inflate until you click another row.</dd>
+        <dt>Then</dt>
+        <dd>Switch the toggle back <strong>on</strong> &mdash; the utility lane you had selected should return.</dd>
+      </dl>
+    </div>
+
+    <div class="item">
+      <h2>Fix 2 &mdash; <code>?message=</code> deep link armed live-follow
+        (<a href="https://github.com/meridianlabs-ai/ts-mono/pull/460/commits/e9808ced0585"><code>e9808ced</code></a>,
+        <code>ChatViewVirtualList.tsx</code> +11, <code>SampleDisplay.tsx</code> +1)</h2>
+      <p>A <code>?message=</code> deep link into a <em>running</em> sample armed live-follow, because
+        <code>ChatViewVirtualList</code> never forwarded <code>navOwned</code>. The landing was then yanked to the tail
+        as soon as the next message arrived, with no visible cause. Predates #354.</p>
+      <p><code>navOwned</code> is now derived from <code>initialMessageId</code> and frozen at mount, mirroring
+        <code>TranscriptViewNodes</code>. <code>followRequested</code> is forwarded alongside it, so an explicit
+        <code>?follow=1</code> still tails and the messages tab agrees with the transcript tab.</p>
+      <p class="meta">Three things get in the way of staging this, so the steps are spelled out.</p>
+      <ol>
+        <li>The per-message copy-link control is deliberately hosted-only
+          (<code>isHostedEnvironment()</code> &mdash; a localhost URL is not worth sharing), and Search cannot supply
+          the link either because it is unavailable while a sample is still running. To obtain a
+          <code>?message=</code> URL locally, temporarily make that function return <code>true</code> in
+          <code>packages/util/src/vscode.ts</code>. <strong>Local debug toggle only &mdash; revert it afterwards.</strong>
+        </li>
+        <li>Start a sample that stays running with a message available on demand. An idle running sample is not
+          enough: an armed follow is invisible until a message actually <em>arrives</em>, because the deep-link scroll
+          wins at mount either way. This offline task does it &mdash; it floods 40 steps, then blocks until a trigger
+          file appears:
+          <pre style="white-space:pre-wrap;background:var(--code);padding:.7rem;border-radius:6px;font-size:.82em;margin:.5rem 0;">import asyncio, os
+from pathlib import Path
+from inspect_ai import Task, task
+from inspect_ai.dataset import Sample
+from inspect_ai.model import ModelOutput, get_model
+from inspect_ai.solver import generate, use_tools
+from inspect_ai.tool import tool
+
+FAST, TOTAL = 40, 80
+TRIGGER = Path("/tmp/msg_go")
+
+@tool
+def tick():
+    async def execute(n: int):
+        """Record step n.
+
+        Args:
+            n: Step number.
+
+        Returns:
+            Confirmation.
+        """
+        if n &lt;= FAST:
+            await asyncio.sleep(0.1)
+        else:
+            while not TRIGGER.exists():
+                await asyncio.sleep(0.5)
+            os.remove(TRIGGER)
+        return f"step {n} complete"
+    return execute
+
+@task
+def slow_messages():
+    out = [ModelOutput.for_tool_call(model="mockllm/model", tool_name="tick",
+           tool_arguments={"n": n}, content=f"Starting step {n}.")
+           for n in range(1, TOTAL + 1)]
+    out.append(ModelOutput.from_content("mockllm/model", "DONE"))
+    return Task(dataset=[Sample(input="Run a job.", target=["DONE"])],
+                solver=[use_tools(tick()), generate()],
+                model=get_model("mockllm/model", custom_outputs=out))</pre>
+          Run it with <code>inspect eval &lt;file&gt;.py --log-dir ./logs</code>; no API key needed.
+        </li>
+        <li>Open the running sample's <strong>Messages</strong> tab, hover an early <code>ASSISTANT</code> role label,
+          click the link icon that appears, and open that URL in a second tab. It is a plain hash route, so the same
+          URL also works against a build without these fixes.</li>
+        <li>With that tab sitting on the linked message, <code>touch /tmp/msg_go</code> to make one more message
+          arrive.</li>
+      </ol>
+      <dl>
+        <dt class="expect">Expect</dt>
+        <dd>The view holds position on the linked message.</dd>
+        <dt>Before the fix</dt>
+        <dd>It jumps to the bottom the moment the new message lands.</dd>
+        <dt>Then</dt>
+        <dd>Append <code>&amp;follow=1</code> to the same URL and repeat &mdash; it should tail, because an explicit
+          follow request wins over the stand-down.</dd>
+      </dl>
+    </div>
+
+    <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">
+      Expected behaviour</h2>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Expected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Utility lane selected, toggle then switched off</td>
+            <td>Falls back to the main lane; outline and turn counts match a fresh visit with utility off</td>
+          </tr>
+          <tr>
+            <td>&hellip; then toggle switched back on</td>
+            <td>The previously selected utility lane returns</td>
+          </tr>
+          <tr>
+            <td>Timeline with no swimlane rows at all</td>
+            <td>Unchanged &mdash; every event renders</td>
+          </tr>
+          <tr>
+            <td><code>?message=</code> on a running sample, new message arrives</td>
+            <td>View holds position on the linked message</td>
+          </tr>
+          <tr>
+            <td><code>?message=&amp;follow=1</code> on a running sample</td>
+            <td>Tails &mdash; the explicit request wins over the stand-down</td>
+          </tr>
+          <tr>
+            <td>Messages tab with no <code>?message=</code>, sample running</td>
+            <td>Unchanged &mdash; tails from the start</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">
+      Verification</h2>
+    <p>Both fixes were confirmed in a browser by A/B: one build serving <code>origin/main</code> (so #354 present,
+      these fixes absent) alongside one serving the branch. In each case the unfixed build reproduced the symptom and
+      the fixed build did not &mdash; fix 1 via differing outline turn counts, fix 2 via the unfixed build jumping to
+      the tail while the fixed build held position.</p>
+    <p>Four regression tests, each checked failing against the pre-fix revision of its own file:</p>
+    <ul class="ledger">
+      <li><code>useTranscriptTimeline.test.ts</code> &mdash; "keeps the hidden events out when the utility toggle
+        drops the selected lane", and a guard that a timeline with no rows still returns every event.</li>
+      <li><code>ChatViewVirtualList.test.tsx</code> &mdash; "stands down on a <code>?message=</code> landing into a
+        live sample", and "an explicit follow=1 still arms on a <code>?message=</code> landing". Both drive the real
+        <code>VirtualList</code> and assert the persisted follow flag rather than mocking the component.</li>
+    </ul>
+    <p><code>pnpm turbo run test lint typecheck format</code> passes across the workspace, with one known
+      pre-existing flake unrelated to this branch (a lazy-mathjax import test that exceeds vitest's default 5s timeout
+      under parallel load and passes standalone).</p>
+
+    <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">
+      Reproducing locally</h2>
+    <p class="meta">Ports and paths below are one local dev setup &mdash; substitute your own log directory and any
+      log containing utility agents.</p>
+
+    <p><strong>Fix 1</strong> needs a sample whose header offers to reveal hidden utility agents. Open it, reveal the
+      utility lanes, click one and note the turn count and outline, then switch the utility toggle off while that lane
+      is still selected. Before the fix the hidden events return and the counts inflate; after it, the view falls back
+      to the main lane. Switching the toggle back on should restore the utility lane.</p>
+
+    <p><strong>Fix 2</strong> is harder to stage, because three things get in the way. The per-message copy-link
+      control is deliberately hosted-only (<code>isHostedEnvironment()</code> &mdash; a localhost URL is not worth
+      sharing), so obtaining a <code>?message=</code> URL locally means temporarily making that function return true
+      in <code>packages/util/src/vscode.ts</code> &mdash; a local debug toggle only, to be reverted. Search cannot
+      supply the link either, as it is unavailable while a sample is still running. And a merely idle running sample
+      shows nothing, because an armed follow is invisible until a message actually <em>arrives</em>: the deep-link
+      scroll wins at mount either way.</p>
+    <p>What works is a throwaway offline task that emits a burst of messages and then waits on a trigger file, so one
+      further message can be made to land on demand while the deep-linked tab is open. Any mock-model task with a
+      tool that blocks on a sentinel file will do.</p>
+
+    <div class="note"><strong>Unrelated bug you may notice while testing fix 2.</strong> On the messages tab an
+      assistant message and the tool result folded into its row share one <code>M</code> number
+      (<code>ChatMessageRow.tsx:66</code>), so an <code>[M7]</code> link from Search can land on the wrong row. It
+      predates #354 &mdash; the numbering arrived with #241 and that file's later changes are all older than #354.
+      Harmless for verifying this PR; tracked separately.</div>
+
+  </main>
+</body>
+
+</html>
