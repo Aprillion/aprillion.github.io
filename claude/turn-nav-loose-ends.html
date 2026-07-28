@@ -170,8 +170,10 @@
       per-PR reports are <a href="pr354-transcript-navigation.html">#354</a> (where the <code>le.NN</code> IDs are
       defined) and <a href="pr460-transcript-nav-followups.html">#460</a>. Start a future session here rather than
       from #354's own loose-end list, which is a snapshot from merge time.</p>
-    <p class="meta">Last triaged 2026-07-27 against ts-mono <code>origin/main</code> (<code>2e45a1fc</code>) and all
-      17 open ts-mono PRs.</p>
+    <p class="meta">Last triaged 2026-07-28 against ts-mono <code>origin/main</code> (<code>2e45a1fc</code>) and all
+      17 open ts-mono PRs. <strong>le.57</strong> and <strong>le.58</strong> were added later that day, both found
+      while reproducing ts-mono issue #440 in the running scout app; #440 itself is tracked upstream and so is
+      deliberately not a row here.</p>
 
     <h2 style="font-size:1.1rem;margin:2rem 0 .4rem;border-bottom:2px solid var(--line);padding-bottom:.2rem;">Loose ends NOT in this PR &mdash; triage from 2026-07-27 (for a future session, not for review)</h2>
     <h2 style="font-size:1.2rem;margin:2.5rem 0 .3rem;border-bottom:2px solid var(--line);padding-bottom:.25rem;">
@@ -202,6 +204,31 @@
             <td colspan="3"><strong>Needs a decision from Peter before anyone codes</strong></td>
           </tr>
           <tr>
+            <td>le.57</td>
+            <td>Scout hides <code>branch</code> events by default, which hides the whole fork UI</td>
+            <td><strong>New 2026-07-28, browser-confirmed.</strong> <code>kDefaultExcludedEventTypes</code>
+              (<code>apps/scout/src/app/transcript/hooks/useTranscriptColumnFilter.ts:10-17</code>) excludes
+              <code>branch</code>, and the filter is applied <em>before</em> the timeline pipeline
+              (<code>TranscriptBody.tsx:222-228</code>). Branch spans then carry no <code>BranchEvent</code>, so
+              <code>processChildren</code> dissolves them into ordinary content: no "Branch point" pill, no branch
+              rows in the swimlane, branch bodies silently inlined after the <code>ANCHOR</code> row. Inspect has no
+              such filter. Decision needed: is hiding branch events an intended scout default, or a bug that hides a
+              shipped feature? To see any branch UI in scout you must enable <code>branch</code> in the Events filter
+              <em>and</em> "Branches" in the timeline options popover.</td>
+          </tr>
+          <tr>
+            <td>le.58</td>
+            <td>Scout: no way back to the root lane once a subagent lane is selected</td>
+            <td><strong>New 2026-07-28, observed twice by Peter on two different logs.</strong> With
+              <code>researcher</code> selected, clicking the <code>main</code> row in the swimlane strip and pressing
+              <code>h</code> both do nothing &mdash; the view stays on the subagent lane. Mechanism never traced.
+              Candidates worth checking first: whether both rows are actually in <code>laneKeys</code>
+              (<code>TranscriptLayout.tsx:379-400</code>), whether the root path's
+              <code>clearSelection()</code> + <code>?event=</code> parking round-trips in scout's URL-only adapter
+              (<code>apps/scout/src/app/timeline/hooks/useTimeline.ts:96-121</code>), and whether a stale
+              <code>?event=</code> belonging to the subagent lane re-selects it. Not filed upstream.</td>
+          </tr>
+          <tr>
             <td>le.47</td>
             <td>Lane-model redefinition &mdash; "a focus/h-l stop is every swimlane box"</td>
             <td>Was pre-decided as the next PR. <strong>I'd defer it and re-litigate whether it's worth doing.</strong>
@@ -209,17 +236,6 @@
               net-code-deletion hypothesis was refuted, and the only live symptom is utility wrappers not being
               iterable in focus view. 120&ndash;180 LOC across 4&ndash;5 files for conceptual uniformity. Sizing
               re-checked, still holds; no conflict with any in-flight PR.</td>
-          </tr>
-          <tr>
-            <td>le.01</td>
-            <td>Port backgroundUpdate protections (branches <code>cross-log-loading-fixes</code>,
-              <code>cross-log-backgroundupdate</code>)</td>
-            <td><strong>Unblocked &mdash; the blocker was a misreading.</strong> "Eric's collection-data rework" is
-              PR&nbsp;#457 <code>large-samples-<strong>cd</strong>-layout</code>, cd = <em>central-directory</em>, and
-              it shares zero files with either branch. <code>git merge-tree</code> gives <strong>one trivial conflict
-                each</strong> (<code>SampleDisplay.tsx</code> sticky-header region; <code>playwright.config.ts</code>
-              vs #458's port pinning). Caveat: <code>HANDOFF.md</code> claims the e2e ran 3/3 green, contradicting the
-              older note &mdash; under your fake-green rule that wants re-running, not trusting.</td>
           </tr>
           <tr>
             <td>le.27</td>
@@ -370,10 +386,17 @@
     </div>
 
     <div class="note">
-      <strong>Deleted from the loose-end list, so nobody re-triages them:</strong> le.02, le.13, le.14,
+      <strong>Deleted from the loose-end list, so nobody re-triages them:</strong> le.01, le.02, le.13, le.14,
       le.29&ndash;le.32, le.34, le.37, le.40, le.43, le.48, le.49, plus le.44(a) and le.45(iii). Either solved
       elsewhere, solved by #354 itself, ruled as-designed, or too trivial to need a decision. Three changed our
       understanding and are worth one line each:
+      <br>&bull; <strong>le.01</strong> shipped as
+      <a href="https://github.com/meridianlabs-ai/ts-mono/pull/465">PR&nbsp;#465</a> &mdash; but almost none of the
+      original work survived. The two branches proposed ~395 added lines; what landed is a deletion of ~24. The
+      announced log path and the resolved log directory are two different forms, so selecting the announced log
+      produced a doubled path that 404'd; the fix drops the selection instead of repairing the join. Four other
+      changes from those branches were dropped as unjustified, as were two end-to-end scenarios that could not fail
+      on the real bug. The "3/3 green e2e" claim in the handoff notes did not hold when re-run.
       <br>&bull; <strong>le.44(a)</strong> &mdash; the Python timeline writer already got utility-agent classification
       parity (<code>_timeline.py</code>, commit <code>fca145784</code> / inspect_ai#4516), merged
       <em>three days before</em> #354. Every server-baked timeline now carries the flags.
@@ -383,13 +406,9 @@
       <code>origin/main</code>; anything still passing guards nothing) was designed on Jul&nbsp;22 and cancelled as
       low-yield. It has <strong>never</strong> run against #354's merged suite, so the number of hollow tests already
       in there is genuinely unknown. Applied by hand to the 6 new tests on this branch only.
-      <br><strong>Also free:</strong> ts-mono
-      <a href="https://github.com/meridianlabs-ai/ts-mono/issues/291">#291</a> is fixed in code since #331
-      (<code>e0f48469</code>, 2026-06-15), with #354 closing the utility-lane gap #331 left open. Neither PR
-      referenced the issue number. One browser confirmation and it can be closed. Adjacent and unassigned if anyone
-      wants a clean single-commit PR: <a href="https://github.com/meridianlabs-ai/ts-mono/issues/440">#440</a>, whose
-      root cause is already written into a "Known issue" comment in <code>useSelectionActions.ts</code> that the fix
-      would delete.
+      <br><strong>Unassigned and adjacent</strong> if anyone wants a clean single-commit PR:
+      <a href="https://github.com/meridianlabs-ai/ts-mono/issues/440">#440</a>, whose root cause is already written
+      into a "Known issue" comment in <code>useSelectionActions.ts</code> that the fix would delete.
     </div>
 
 
