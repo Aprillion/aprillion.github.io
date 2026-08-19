@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>css-modules-kit — QA report</title>
+<style>
+:root {
+  --bg: #f7f7f8;
+  --card-bg: #ffffff;
+  --text: #1c1e21;
+  --muted: #5a5f66;
+  --border: #d9dce1;
+  --code-bg: #eceef1;
+  --green-bg: #d9f2e0; --green-fg: #135c2e; --green-bd: #86d5a3;
+  --amber-bg: #fdf0d3; --amber-fg: #7a5200; --amber-bd: #ecc86a;
+  --grey-bg: #e7e9ec;  --grey-fg: #40454c;  --grey-bd: #b7bcc3;
+  --red-bg: #fbdcdc;   --red-fg: #8a1717;   --red-bd: #eda0a0;
+  --warn-bg: #fff4e0;  --warn-bd: #e8a13c;
+  --box-bg: #eef2f8;   --box-bd: #b9c7dd;
+  --link: #0b5fbf;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17191c;
+    --card-bg: #202327;
+    --text: #e6e8ea;
+    --muted: #a2a8b0;
+    --border: #3a3f46;
+    --code-bg: #2c3138;
+    --green-bg: #16351f; --green-fg: #8bdca8; --green-bd: #2c6b41;
+    --amber-bg: #3a2f10; --amber-fg: #ecc86a; --amber-bd: #7a5f1e;
+    --grey-bg: #2c3138;  --grey-fg: #c2c7ce;  --grey-bd: #4a5058;
+    --red-bg: #401b1b;   --red-fg: #f0a0a0;   --red-bd: #7a2e2e;
+    --warn-bg: #362a12;  --warn-bd: #a9762c;
+    --box-bg: #20262f;   --box-bd: #3c4d66;
+    --link: #6cb1f5;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding: 1.5rem 1rem 4rem;
+}
+main { max-width: 1400px; margin: 0 auto; }
+h1 { font-size: 1.7rem; margin: 0 0 .35rem; }
+h2 { font-size: 1.25rem; margin: 2.2rem 0 .8rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+h3 { font-size: 1.02rem; margin: 0 0 .5rem; }
+p { margin: .4rem 0; }
+code {
+  font: .86em/1.4 ui-monospace, "Cascadia Code", Consolas, monospace;
+  background: var(--code-bg);
+  padding: .08em .35em;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+.context { color: var(--muted); font-size: .92rem; margin-bottom: .2rem; }
+.summary {
+  font-size: 1rem;
+  margin: .7rem 0 0;
+  padding: .55rem .8rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--green-bd);
+  border-radius: 6px;
+}
+.remaining {
+  background: var(--box-bg);
+  border: 1px solid var(--box-bd);
+  border-radius: 8px;
+  padding: .8rem 1rem;
+  margin: 1.2rem 0 0;
+}
+.remaining h3 { margin-bottom: .35rem; }
+.remaining ul { margin: .2rem 0 0; padding-left: 1.5rem; }
+.remaining li { margin: .2rem 0; }
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  margin: 1rem 0;
+}
+.card.warn { border: 1px solid var(--warn-bd); background: var(--warn-bg); }
+.badge {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: .18em .6em;
+  border-radius: 999px;
+  border: 1px solid;
+  vertical-align: middle;
+  margin-left: .5rem;
+  white-space: nowrap;
+}
+.badge.green { background: var(--green-bg); color: var(--green-fg); border-color: var(--green-bd); }
+.badge.amber { background: var(--amber-bg); color: var(--amber-fg); border-color: var(--amber-bd); }
+.badge.grey  { background: var(--grey-bg);  color: var(--grey-fg);  border-color: var(--grey-bd); }
+.badge.red   { background: var(--red-bg);   color: var(--red-fg);   border-color: var(--red-bd); }
+.pair {
+  display: flex;
+  gap: 1rem;
+  margin: .8rem 0;
+  flex-wrap: wrap;
+}
+.pair figure {
+  flex: 1 1 300px;
+  min-width: 0;
+  margin: 0;
+}
+.pair.single figure { flex-basis: 100%; }
+.pair figcaption {
+  font-size: .82rem;
+  color: var(--muted);
+  margin-bottom: .25rem;
+}
+.pair figcaption strong { color: var(--text); }
+.pair img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.pair figcaption.failed { color: var(--red-fg); }
+.pairname { font-size: .85rem; color: var(--muted); margin: .9rem 0 -0.4rem; font-style: italic; }
+.checklist { list-style: none; padding-left: 0; }
+.checklist > li {
+  margin: .8rem 0;
+  padding-left: 1.7rem;
+  position: relative;
+}
+.checklist > li::before {
+  content: "☐";
+  position: absolute;
+  left: .1rem;
+  top: -.05rem;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+.card.warn .checkitem-title, .checkitem-title { font-weight: 700; }
+a { color: var(--link); }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>css-modules-kit — QA report</h1>
+  <p class="context">Branch under test (PR <a href="https://github.com/meridianlabs-ai/ts-mono/pull/553">meridianlabs-ai/ts-mono#553</a>): <code>css-modules-kit</code> = <code>191b7fbb</code> + <code>a60a0d1a</code> + <code>5f06e403</code> on origin/main <code>01221757</code> (rebased 2026-08-20; embedder exports now merged upstream, cherry-pick dropped; typecheck/lint/test green; viewer dist rebuild deferred to the submodule bump). Setup: 5173/5174 = branch dev builds (inspect/scout apps), 7575/7576 = pre-refactor main dist builds, all serving the same local backends and logs. </p>
+  <p class="summary">Every CSS-module-affected surface compared branch vs pre-refactor main: <strong>pixel-identical except the two intended visual changes</strong> — A1 score-event metadata margin, and B2 lightbox fade + nav (both dead on main since Feb 2025). Coverage: headless 1440&times;900 pixel-diffs, synthetic fixtures for states no real log reaches (&gt;10MB header, human-baseline, 45/80-tag, edit-history), and human confirmation in the VS Code extension and the hawk embedder. The PR also fixes a pre-existing crash (A11 TagStrip, ~50+ tag chips — reproduced on the deployed viewer).</p>
+</header>
+
+<h2>A. Compared on the branch (5173 / 5174 / editor)</h2>
+
+<article class="card">
+  <h3>A1. Score-event metadata margin — intended visual change #1 <span class="badge amber">expected diff</span></h3>
+  <p>(Dangling <code>styles.metadataTree</code> &rarr; <code>styles.metadata</code>, restores <code>margin: 0.5em 0</code>.) Open <code>2025-11-19T08-45-26+01-00_task_V5SzfvuKhuMfpKt3u7seR8.eval</code> &rarr; sample 1 &rarr; Transcript &rarr; expand the <code>model_graded_fact</code> score event &rarr; Metadata tree. Correct: ~0.5em breathing room above/below. (Same fix in ScoreEditEventView — covered if you edit a score in the viewer.)</p>
+  <p><strong>Result:</strong> expected diff — branch metadata tree gains the 0.5em top/bottom margin (card 13px taller, tree shifted down; rest identical). ScoreEditEventView variant skipped (would mutate scores).</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a1-score-event-main.png"><img src="css-qa/a1-score-event-main.png" alt="A1 score-event metadata — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a1-score-event-branch.png"><img src="css-qa/a1-score-event-branch.png" alt="A1 score-event metadata — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A2. Transcript outline expanded/collapsed <span class="badge green">identical</span></h3>
+  <p>(Parent-reaching <code>.container:not(.outlineCollapsed) &gt; .outline</code> &rarr; self-applied <code>.outline.expanded</code> in <code>OutlineSidebar.module.css</code>.) Open <code>2025-11-19T19-56-43-08-00_metr-tasks-k8s_b85mJfKQTuVPusmRw4L5Rf-4.eval</code> (134MB) &rarr; a sample &rarr; Transcript, window wide enough for the sidebar. Correct: expanded outline height-capped, scrolls internally, sticky close button; collapsed chevron not clipped. Regressed: outline stretches page.</p>
+  <p><strong>Result:</strong> identical (pixel-exact, both states; sample bbot-2092/2). Coverage caveat: this sample's outline is short (6 rows), so the internal-scroll height cap isn't stressed.</p>
+  <p class="pairname">a2-outline-expanded</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a2-outline-expanded-main.png"><img src="css-qa/a2-outline-expanded-main.png" alt="A2 outline expanded — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a2-outline-expanded-branch.png"><img src="css-qa/a2-outline-expanded-branch.png" alt="A2 outline expanded — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a2-outline-collapsed</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a2-outline-collapsed-main.png"><img src="css-qa/a2-outline-collapsed-main.png" alt="A2 outline collapsed — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a2-outline-collapsed-branch.png"><img src="css-qa/a2-outline-collapsed-branch.png" alt="A2 outline collapsed — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A3. FindBand global&rarr;module <span class="badge green">identical</span></h3>
+  <p>(<code>FindBand.css</code> &rarr; <code>FindBandUI.module.css</code>, <code>.btn</code> specificity via <code>:global</code>.) Ctrl+F on the log-list root, then inside an open log, then inside a sample dialog. Correct: compact band top-right, small icon buttons, grey match count turning red on "0 of 0".</p>
+  <p><strong>Result:</strong> identical (all four, incl. red "No results" state).</p>
+  <p class="pairname">a3-findband-loglist</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a3-findband-loglist-main.png"><img src="css-qa/a3-findband-loglist-main.png" alt="A3 findband loglist — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a3-findband-loglist-branch.png"><img src="css-qa/a3-findband-loglist-branch.png" alt="A3 findband loglist — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a3-findband-nomatch</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a3-findband-nomatch-main.png"><img src="css-qa/a3-findband-nomatch-main.png" alt="A3 findband no-match — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a3-findband-nomatch-branch.png"><img src="css-qa/a3-findband-nomatch-branch.png" alt="A3 findband no-match — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a3-findband-log</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a3-findband-log-main.png"><img src="css-qa/a3-findband-log-main.png" alt="A3 findband in log — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a3-findband-log-branch.png"><img src="css-qa/a3-findband-log-branch.png" alt="A3 findband in log — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a3-findband-sample</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a3-findband-sample-main.png"><img src="css-qa/a3-findband-sample-main.png" alt="A3 findband in sample dialog — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a3-findband-sample-branch.png"><img src="css-qa/a3-findband-sample-branch.png" alt="A3 findband in sample dialog — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A4. MessageBand global&rarr;module + typed type-map <span class="badge green">identical</span></h3>
+  <p>Open <code>2026-02-10T08-58-01+00-00_sample-list-states_SN6rGY8cR73k9w55zwYR3x.eval</code> (18 samples, errors + limits) &rarr; Samples tab. Correct: light-grey info bands ("N of 18 samples had errors / exceeded a limit"), icon + text + working close button in one row.</p>
+  <p><strong>Result:</strong> identical (both bands render: errors + limit, icon/text/close in row).</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a4-messageband-main.png"><img src="css-qa/a4-messageband-main.png" alt="A4 message band — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a4-messageband-branch.png"><img src="css-qa/a4-messageband-branch.png" alt="A4 message band — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A5. JsonPanel global&rarr;module <span class="badge green">identical</span></h3>
+  <p>Any log (A4's works) &rarr; JSON tab; also a sample's JSON tab. Correct: monospace, pre-wrap (no horizontal scroll); grey rounded panel variant via a transcript info event.</p>
+  <p><strong>Result:</strong> identical (monospace, pre-wrap, no h-scroll). Grey rounded info-event panel variant human-confirmed 08-19 in the vscode-extension smoke test.</p>
+  <p class="pairname">a5-json-log</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a5-json-log-main.png"><img src="css-qa/a5-json-log-main.png" alt="A5 log JSON tab — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a5-json-log-branch.png"><img src="css-qa/a5-json-log-branch.png" alt="A5 log JSON tab — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a5-json-sample</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a5-json-sample-main.png"><img src="css-qa/a5-json-sample-main.png" alt="A5 sample JSON tab — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a5-json-sample-branch.png"><img src="css-qa/a5-json-sample-branch.png" alt="A5 sample JSON tab — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A6. DownloadPanel/Button global&rarr;module <span class="badge green">identical</span></h3>
+  <p>Cap semantics (<code>JsonTab.tsx</code> <code>kJsonMaxSize = 10000000</code>): chars of pretty-printed header-only JSON. Correct: centered "too large" message + outline-primary "Download JSON File" button, 3em panel padding-top and 3em button margin-top. No natural local log trips the cap (header-only stays small even for the 134MB log), so a log with 14.1M-char header was fabricated:
+  <code>logs/2026-08-19T12-00-00+00-00_a6-huge-header_A6HugeHeaderQA00000001.eval</code> (small log + 150k metadata strings; validates via <code>read_eval_log(header_only=True)</code>). Kept as a reusable fixture — synthetic logs are the pattern for QA of features no existing log exercises.</p>
+  <p><strong>Result (JSON tab under cap):</strong> identical.</p>
+  <p><strong>Result (DownloadPanel, 08-19):</strong> pixel-identical full pages (diff bbox None) vs a true pre-refactor main dist on 7575 (old global <code>download-panel</code>/<code>download-button</code> classnames confirmed in its DOM) — panel centered grid with 3em padding-top, message centered, btn-outline-primary with 3em margin-top; computed styles equal on both. Source diff also confirms rule bodies byte-identical, only selectors moved to module classes. Download button clicked on branch: 14,103,785-byte JSON download works. Human-confirmed 08-19 (both builds eyeballed).</p>
+  <p class="pairname">a6-download-panel</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575)</strong></figcaption>
+      <a href="css-qa/a6-download-panel-main.png"><img src="css-qa/a6-download-panel-main.png" alt="A6 download panel — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong></figcaption>
+      <a href="css-qa/a6-download-panel-branch.png"><img src="css-qa/a6-download-panel-branch.png" alt="A6 download panel — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a6-json-large-log (under cap)</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a6-json-large-log-main.png"><img src="css-qa/a6-json-large-log-main.png" alt="A6 large log JSON tab — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a6-json-large-log-branch.png"><img src="css-qa/a6-json-large-log-branch.png" alt="A6 large log JSON tab — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A7. Zustand devtools TreeNode <span class="badge green">dev-only OK</span> <span class="badge green">dark OK</span></h3>
+  <p>(Styles moved out of ZustandDevtoolsPanel + typed value-type map.) 5173 &rarr; TanStack devtools floating button &rarr; Zustand Inspector &rarr; expand store tree; toggle theme. Correct: indent guides, row hover, values colored by type, carets aligned. Dev-only — exists only on 5173, no main counterpart; both captures branch-only.</p>
+  <p><strong>Result (light):</strong> renders correctly — indent guides, aligned carets, values colored by type (bool pink, string green, keys blue), row hover.</p>
+  <p><strong>Result (dark, 08-19):</strong> renders correctly — panel carries the <code>dark</code> module class (bg #191c24); indent guides #292e3d legible; full <code>.dark</code> palette verified by computed styles (keys #84caff, string #32d583, bool #ec4899, number #fdb022, null #98a2b3 italic); carets in fixed 14px column with spacer alignment. Headless recipe: pre-seed <code>tanstack_devtools_settings</code> localStorage (<code>{"theme":"dark","defaultOpen":true}</code>) + dark color-scheme, no UI clicking needed.</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>branch (5173)</strong> — light</figcaption>
+      <a href="css-qa/a7-zustand-devtools-branch.png"><img src="css-qa/a7-zustand-devtools-branch.png" alt="A7 zustand devtools — branch" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong> — dark</figcaption>
+      <a href="css-qa/a7-zustand-devtools-dark-branch.png"><img src="css-qa/a7-zustand-devtools-dark-branch.png" alt="A7 zustand devtools dark — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A8. Scout project settings <span class="badge green">identical</span></h3>
+  <p>(Classes moved ProjectPanel &rarr; SettingsContent/FormFields modules.) 5174 &rarr; /project. Correct: shaded full-width section headers; text fields ~400px, number/select ~250px.</p>
+  <p><strong>Result:</strong> identical (only diff = 5174's dev-only TanStack devtools button bottom-right corner; masked diff is zero). Shaded headers + field widths as specced.</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a8-project-settings-main.png"><img src="css-qa/a8-project-settings-main.png" alt="A8 scout project settings — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a8-project-settings-branch.png"><img src="css-qa/a8-project-settings-branch.png" alt="A8 scout project settings — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A9. Scout Run Scan panel <span class="badge green">identical</span> <span class="badge green">ActiveScanView identical</span></h3>
+  <p>(<code>RunScanPanel.module.css</code> split into ActiveScanView/DefineScannerSection/LlmScannerParams/Placeholder modules.) 5174 &rarr; /run. Correct: "Define scanner" section border, scanner row layout; ActiveScanView (progress/stats/sidebar) shown while a scan runs.</p>
+  <p><strong>Result (idle):</strong> identical (Define Scanner section + "No scan started" placeholder; devtools-button corner masked, 11 sub-threshold antialias px on one border edge).</p>
+  <p><strong>Result (ActiveScanView, 08-19):</strong> identical — both UIs captured seconds apart during the same live CLI-started scan (no-LLM word-count scanner throttled to ~2 min; both frontends attach to the shared active-scans store). Pixel diff clean except live progress-bar fill + stats text and the dev-only devtools badge on 5174: card border/radius, header typography, progress bar styling, scanner table, workers sidebar + divider all pixel-identical. Scan result left at <code>scans/qa_a9_css/</code>.</p>
+  <p class="pairname">a9-active-scan (running, branch 44/216 vs main 54/216)</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7576)</strong></figcaption>
+      <a href="css-qa/a9-active-scan-main.png"><img src="css-qa/a9-active-scan-main.png" alt="A9 ActiveScanView — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5174)</strong></figcaption>
+      <a href="css-qa/a9-active-scan-branch.png"><img src="css-qa/a9-active-scan-branch.png" alt="A9 ActiveScanView — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a9-run-scan (idle)</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a9-run-scan-main.png"><img src="css-qa/a9-run-scan-main.png" alt="A9 run scan panel — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a9-run-scan-branch.png"><img src="css-qa/a9-run-scan-branch.png" alt="A9 run scan panel — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A10. Scout Columns button + duration filter <span class="badge green">identical</span></h3>
+  <p>(Moved into own modules.) 5174 &rarr; scans/transcripts list &rarr; Columns button (compact padding, not default ToolButton); popover Default/All/None unchanged. Then a duration-typed column filter: input + small grey helper hint.</p>
+  <p><strong>Result (scout):</strong> both identical (compact Columns button + Default/All/None popover; total_time filter on transcripts list: op select, "Seconds" input, grey "0 sec" hint, Apply).</p>
+  <p><strong>Result (inspect samples grid, 08-19):</strong> the earlier "same DurationInput move applies to 5173 samples-grid filters" premise was wrong — the inspect app derives filterType from the sort comparator, so its Duration column is a plain <strong>number</strong> filter; <code>inspect-components/DurationInput</code> (the file the branch moved to its own module) has no inspect-app code path on either build, verified statically and empirically. Its reachable consumers are scout-style embedders (scout covered above; downstream embedders in section B). The inspect Duration filter popover itself: pixel-identical 5173 vs 7575 (diff bbox None); the grey duration hint never existed on the inspect side. Also verified: the deleted <code>.columnId</code>/<code>.columnIdText</code> rules are referenced nowhere.</p>
+  <p class="pairname">a10-samples-duration-filter (inspect)</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575)</strong></figcaption>
+      <a href="css-qa/a10-samples-duration-filter-main.png"><img src="css-qa/a10-samples-duration-filter-main.png" alt="A10 inspect samples duration filter — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong></figcaption>
+      <a href="css-qa/a10-samples-duration-filter-branch.png"><img src="css-qa/a10-samples-duration-filter-branch.png" alt="A10 inspect samples duration filter — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a10-columns</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a10-columns-main.png"><img src="css-qa/a10-columns-main.png" alt="A10 columns button — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a10-columns-branch.png"><img src="css-qa/a10-columns-branch.png" alt="A10 columns button — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a10-duration-filter</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a10-duration-filter-main.png"><img src="css-qa/a10-duration-filter-main.png" alt="A10 duration filter — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a10-duration-filter-branch.png"><img src="css-qa/a10-duration-filter-branch.png" alt="A10 duration filter — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A11. Low priority — verified runtime-identical, one glance each <span class="badge green">identical</span> <span class="badge green">modal + pills identical</span></h3>
+  <p>Retry card (<code>&hellip;task_SJ6RC6wzpmJWhG8swnAA7N.eval</code> sample 1: green marker, colored headline); solver plan steps items&rarr;item no-op (<code>&hellip;task_fLxt6DqCeXA23ZZxY6UkpA.eval</code> &rarr; Info tab); Modal overflow typed map (title-bar pencil &rarr; Edit Tags/Metadata scrolls); dead-CSS deletion glances (title bar, results panel, Samples list, sample Scores/Usage/Info, History pills, scout scanner-result detail); rename-only MetaDataGrid/BreadCrumbs (<code>&hellip;task_DBZtwPgEgGPUWFs3MaBoGu.eval</code> sample 1 metadata card).</p>
+  <p><strong>Result:</strong> all identical (retry card, solver plan Info tab, metadata grid, scout scanner-result list incl. sidebar metrics; title bar/results panel/Samples list also covered incidentally by A4/A6 full shots).</p>
+  <p><strong>Result (Edit Tags modal overflow, 08-19):</strong> identical — the modal is the log-level title-bar pencil (renders <code>log.eval.tags</code> chips; the branch replaced the string-built <code>styles[`overflow${…}`]</code> lookup with a typed <code>OVERFLOW_CLASS</code> map). Synthetic log with 45 tags + 40 large metadata keys: on both builds the body gets <code>overflowAuto</code> (overflow-y auto, scrollHeight 663 &gt; clientHeight 603, dialog capped 80vh), wheel scrolls the body only (zero background containers moved), modal crops bitwise identical. Fixture kept: <code>logs/2026-08-19T13-00-00+00-00_a11-edit-modal_A11EditModalQA000001.eval</code>.</p>
+  <p><strong>Result (History pills, 08-19):</strong> identical — the pills are the Timeline tab's History category filters (All/Config/…/Tags &amp; metadata/Run), rendered from <code>log_updates</code>; produced via <code>edit_eval_log()</code> on a copied log (3 updates, two authors). Same pill set/counts, per-pill computed styles equal, pills+rows crop and full page 0 differing pixels. Human-confirmed 08-20 in the vscode-extension build, dark theme. Fixture kept: <code>logs/2026-08-19T13-30-00+00-00_a11-history-pills_A11HistoryPillsQA0001.eval</code>.</p>
+  <p><strong>Side finding — pre-existing crash, NOT a branch regression:</strong> a log whose tag chips need ~50+ trims kills the whole log view on BOTH builds: <code>TagStrip.tsx:72</code> trims one chip per nested <code>setState</code> in <code>useLayoutEffect</code>, hitting React's 50-nested-update cap ("Maximum update depth exceeded"). Evidence: <code>css-qa/a11-edit-modal-ERROR-{main,branch}.png</code> (80-tag fixture). Fixed by this PR&rsquo;s third commit — verified live on the branch: the 80-tag log renders 17 chips on two rows + &ldquo;63 more tags&rdquo; overflow pill, zero page errors (<code>css-qa/tagstrip-80-fix.png</code>). Human-confirmed 08-20 in the vscode-extension build (incl. Edit-tags modal over the 80-tag strip), and the crash independently reproduced on the deployed staging viewer (published build — React #185 at EvalPage), confirming it is a live production bug the fix resolves. Only other full-page diff seen: a nondeterministic bold outline node behind the modal backdrop — branch differs from itself across loads (dev-build scroll-spy timing), not CSS.</p>
+  <p class="pairname">a11-edit-modal-overflow</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575)</strong></figcaption>
+      <a href="css-qa/a11-edit-modal-overflow-main.png"><img src="css-qa/a11-edit-modal-overflow-main.png" alt="A11 edit tags modal overflow — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong></figcaption>
+      <a href="css-qa/a11-edit-modal-overflow-branch.png"><img src="css-qa/a11-edit-modal-overflow-branch.png" alt="A11 edit tags modal overflow — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a11-history-pills</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575)</strong></figcaption>
+      <a href="css-qa/a11-history-pills-main.png"><img src="css-qa/a11-history-pills-main.png" alt="A11 history pills — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong></figcaption>
+      <a href="css-qa/a11-history-pills-branch.png"><img src="css-qa/a11-history-pills-branch.png" alt="A11 history pills — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a11-retries</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a11-retries-main.png"><img src="css-qa/a11-retries-main.png" alt="A11 retry card — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a11-retries-branch.png"><img src="css-qa/a11-retries-branch.png" alt="A11 retry card — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a11-plan-info</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a11-plan-info-main.png"><img src="css-qa/a11-plan-info-main.png" alt="A11 solver plan info tab — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a11-plan-info-branch.png"><img src="css-qa/a11-plan-info-branch.png" alt="A11 solver plan info tab — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a11-metadata-grid</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a11-metadata-grid-main.png"><img src="css-qa/a11-metadata-grid-main.png" alt="A11 metadata grid — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a11-metadata-grid-branch.png"><img src="css-qa/a11-metadata-grid-branch.png" alt="A11 metadata grid — branch" loading="lazy"></a>
+    </figure>
+  </div>
+  <p class="pairname">a11-scout-result-detail</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575/7576)</strong></figcaption>
+      <a href="css-qa/a11-scout-result-detail-main.png"><img src="css-qa/a11-scout-result-detail-main.png" alt="A11 scout scanner-result detail — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173/5174)</strong></figcaption>
+      <a href="css-qa/a11-scout-result-detail-branch.png"><img src="css-qa/a11-scout-result-detail-branch.png" alt="A11 scout scanner-result detail — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>A12. Editor DX (cmk commit) <span class="badge green">human-confirmed</span></h3>
+  <p>State: core cmk editor behavior verified 08-18 with <code>mizdra.css-modules-kit-vscode</code> installed (pin/disable auto-update) — bogus <code>styles.nope</code> in any tsx &rarr; live squiggle; hover a real <code>styles.x</code> &rarr; typed. no dev watcher — live tsx/css typing via the cmk tsserver plugin (save-independent), generated d.ts refresh on any turbo run (hidden from the editor); apps/inspect fails loudly on missing generated d.ts — all in the adopt commit.</p>
+  <p><strong>Confirmed by the author 08-20 on the final branch: both directions live in the editor, both enforced in <code>pnpm check</code>, zero false positives.</strong> Expected reds when probing: live ts(2339) on a bogus class ONLY. The editor-only no-unsafe-* switch (in the adopt commit): the five no-unsafe-* rules are off unless <code>TSMONO_TYPED_LINT</code> is set, and every package lint script sets it inline — so every editor eslint host (vscode, Cursor, nvim, JetBrains, eslint_d) is quiet while <code>pnpm lint</code>/CI/per-package runs enforce fully, with no turbo-cache interaction; css-side lint (<code>no-unused-class-names</code> via @eslint/css + cmk plugin) verified byte-identical.</p>
+  <p class="context">No screenshots — editor-side verification.</p>
+</article>
+
+<h2>B. Downstream-embedder cases</h2>
+
+<article class="card">
+  <ul class="checklist">
+    <li>
+      <span class="checkitem-title">B1. Embedder coupling to the <code>findBand</code> class <span class="badge green">no downstream change needed</span></span>
+      <p>A downstream embedder's stylesheet excludes the find band by its literal global class (<code>div:not(.findBand)</code> in a height rule). Hashing <code>findBand</code> would break that exclusion. Rather than change the embedder (an earlier draft keyed hawk off <code>data-unsearchable</code>, but that overloads a search-semantics attribute and couples by accident), the viewer keeps <code>findBand</code> as a deliberate public class: the band renders <code>clsx(styles.findBand, "findBand")</code> — hashed class for the viewer's own styling, unhashed <code>findBand</code> as a documented, rule-less hook for embedders. So the embedder's existing selector keeps matching with <strong>no downstream change</strong>. A sweep of every class this branch converts found no other literal coupling in the embedder; its remaining global couplings (<code>header-nav</code>, <code>tab-content</code>, <code>markdown-content</code>) are unaffected (this branch doesn't touch them).</p>
+      <p><strong>Embedder before/after checklist</strong> (everything else is covered by this report): 1) Ctrl+F on an embedded sample detail — find band stays a compact top-right overlay, content behind keeps full height; 2) the embedder's own chrome around the viewer loads without "No QueryClient set" / "App config not loaded" (it consumes the react-query embedder exports, merged upstream in ts-mono main #473); 3) one glance over an embedded log list, sample detail, and transcript for style bleed — no specific risk known. Items 2&ndash;3 and the earlier <code>data-unsearchable</code> approach were verified 08-20 against real embedder data; item 1 re-verifies against the preserved global <code>findBand</code> class in the smoke test.</p>
+    </li>
+  </ul>
+</article>
+
+<article class="card">
+  <h3>B2. LightboxCarousel fade/nav <span class="badge green">verified 08-19</span> <span class="badge amber">fixes a main bug</span></h3>
+  <p>Verified locally via a synthetic human-baseline log (a real <code>inspect eval</code> mockllm run whose solver replays HumanAgentState store writes with two genuine <code>script -m advanced</code> pty recordings; the view renders only from a StoreEvent carrying <code>HumanAgentState:logs</code> + state fields, and store events are hidden behind the transcript's Events filter — switch to Debug to see it). Fixture kept: <code>logs/2026-08-19T12-32-04-00-00_b2-human-baseline_KMxXmdhSVuV3ndqUHMUYmK.eval</code>.</p>
+  <p><strong>Finding — on main the lightbox was actually broken:</strong> the tsx applied global <code>"open"</code>/<code>"closed"</code> strings that never matched the hashed module selectors, so main has no fade (content snaps to opacity 1) and both nav chevrons render unpositioned at center, painted under the content — invisible and unusable. The branch repairs this: content fades in over ~300ms (<code>transition: opacity .3s</code>; the backdrop itself intentionally has no transition), and nav renders prev(‹) left / next(›) right — the revived original had the offsets crossed (‹ at the right edge), uncrossed to convention after author review. Pixel diff of the open lightbox vs main: only the two chevrons appearing on branch. Human-confirmed 08-20 in the vscode-extension build, dark theme (nav to slide two, chevrons at correct edges).</p>
+  <p class="pairname">b2-lightbox</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575)</strong> — nav invisible (bug)</figcaption>
+      <a href="css-qa/b2-lightbox-main.png"><img src="css-qa/b2-lightbox-main.png" alt="B2 lightbox — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong> — chevrons at edges</figcaption>
+      <a href="css-qa/b2-lightbox-branch.png"><img src="css-qa/b2-lightbox-branch.png" alt="B2 lightbox — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<article class="card">
+  <h3>B3. HumanBaselineView module conversion <span class="badge green">identical</span></h3>
+  <p>Header layout — timestamp+runtime left, ANSWER right — verified on the same synthetic human-baseline log: pixel-identical (0 px diff), terminal playback frames identical on both builds. The deleted <code>.asciinema-player</code> viewport cap was dead CSS — player v3 emits only <code>ap-*</code> classes and the wrapper sets only an id — so no sizing behavior changed.</p>
+  <p class="pairname">b3-human-baseline</p>
+  <div class="pair">
+    <figure>
+      <figcaption><strong>main (7575)</strong></figcaption>
+      <a href="css-qa/b3-human-baseline-main.png"><img src="css-qa/b3-human-baseline-main.png" alt="B3 human baseline view — main" loading="lazy"></a>
+    </figure>
+    <figure>
+      <figcaption><strong>branch (5173)</strong></figcaption>
+      <a href="css-qa/b3-human-baseline-branch.png"><img src="css-qa/b3-human-baseline-branch.png" alt="B3 human baseline view — branch" loading="lazy"></a>
+    </figure>
+  </div>
+</article>
+
+<h2>Change &amp; review provenance</h2>
+
+<article class="card">
+  <p><strong>Branch:</strong> three commits on ts-mono main <code>01221757</code> (PR <a href="https://github.com/meridianlabs-ai/ts-mono/pull/553">meridianlabs-ai/ts-mono#553</a>). Title: <em>Enforce CSS-module class names repo-wide (tsc, lint, editors) and fix ~300 dead references it found.</em> Supersedes the closed #135 exploration — same co-located-d.ts design and codegen-gated tasks; css-modules-kit replaces typed-css-modules and adds the unused-class lint direction, live tsserver analysis, and cross-package (<code>^generate:css</code>) correctness (#135 closed 2026-06 with maintainer affirmation that css modules remain the direction).</p>
+  <ul>
+    <li><code>191b7fbb</code> — adopt css-modules-kit: per-class types in tsc (<code>generate:css</code> turbo task; typecheck/lint/build depend on it, incl. <code>^generate:css</code> for cross-package source compilation), unused-class lint in ordinary per-package eslint (live in editors via vscode-eslint; required files-scoping every JS/TS config block), optional <code>mizdra.css-modules-kit-vscode</code> extension for live tsx-side analysis. No dev watcher — live editor types come from the cmk tsserver plugin (in-memory, save-independent; extension effectively required), generated d.ts are batch artifacts refreshed by any turbo run and hidden via files.exclude; apps fail loudly on missing generated d.ts; the five eslint no-unsafe-* rules are batch-only (<code>TSMONO_TYPED_LINT</code>, set inline by every package lint script) so no editor eslint host false-positives on <code>styles.&lt;class&gt;</code> — tsserver owns tsx type errors live. Generated <code>*.module.css.d.ts</code> co-located, gitignored, unlinted, unformatted.</li>
+    <li><code>a60a0d1a</code> — fix everything the checks found: ~50 dangling tsx&rarr;css references (runtime-identical removals; <code>metadataTree</code>&rarr;<code>metadata</code> margin restore; <code>items</code>&rarr;<code>item</code> typo; Modal typed lookup), ~245 css-side findings (dead rules and orphaned files deleted; cross-component classes moved into their owners&rsquo; modules with real imports; computed <code>styles[expr]</code> &rarr; typed maps; no suppressions), one real bug: LightboxCarousel fade/nav styling dead since Feb 2025. Six needlessly-global stylesheets converted to modules (e2e selectors &rarr; data-testids). Net visual effect: exactly the two intended changes (A1, B2); everything else pixel-identical per this report.</li>
+    <li><code>5f06e403</code> — fix the pre-existing TagStrip crash (log view died on ~50+ trimmed tag chips via React&rsquo;s nested-update cap): batch trim computed from one measurement instead of one setState per chip; red-then-green jsdom regression test + unit tests; browser-verified (below).</li>
+  </ul>
+  <p><strong>Author review (2026-08-20):</strong> full manual walkthrough of all three commits. Outcomes folded into commit 2: dropped a now-redundant label <code>&lt;span&gt;</code> in EditableText, and made the FindBand embedder hook an explicit rule-less global <code>findBand</code> class (superseding an earlier <code>data-unsearchable</code> coupling, so no downstream embedder change is needed). Everything else was confirmed as-is.</p>
+  <p><strong>Validation at <code>01221757</code> (rebased 2026-08-20; conflicts only in the scout column-filter consolidation, resolved to main&rsquo;s structure with the branch&rsquo;s checks intact; duration-filter rule bodies verified byte-identical to main):</strong> typecheck 15/15, lint 15/15, test 9/9 projects (2500+ tests). Build 8/8 passed at an earlier base; a full build re-run is deferred to the submodule bump (it would overwrite this QA&rsquo;s baseline dists).</p>
+  <p><strong>Reviewer notes:</strong> generated d.ts survive branch switches (gitignored) &mdash; <code>git clean -fX</code> when checking out pre-cmk branches; cmk has no <code>--clean</code>, so deleting a stylesheet warrants the same. Scope-outs: apps/inspect missing-typings degrade via vite/client (documented in commit); in-range lockfile refresh is inherent to full regeneration (soaked by minimumReleaseAge).</p>
+  <p><strong>Already-adjudicated findings (for future reviewers — the rationale is not derivable from code/commits alone):</strong>
+  1) The ~15 single-argument <code>clsx(...)</code> call sites are kept deliberately: collapsing <code>clsx(cond ? x : undefined)</code> to a bare ternary changes output (<code>class=""</code> becomes an omitted attribute).
+  2) <code>"types": []</code> in 5 tsconfigs is not a no-op — it preserves the @types isolation that <code>@types/css-modules</code> removal would otherwise loosen.
+  3) There is deliberately no dev watcher for generated d.ts: editors type live via the cmk tsserver plugin; the on-disk d.ts serve tsc/eslint CLI only, refreshed by any turbo run and hidden via files.exclude (a turbo watch task would be bypassed by direct vite invocations like devup anyway — a watcher variant existed and was removed as unnecessary machinery).
+  4) The <code>engines.node &gt;=22.13.0</code> floor comes from <code>@eslint/css</code>, not css-modules-kit (which needs only 22.12).
+  5) The unused <code>className</code> prop on <code>AsciinemaPlayerImpl</code> stays — removing it is a public-API change.
+  6) The lightbox <code>.prev</code>/<code>.next</code> offsets deliberately differ from the dead-since-Feb-2025 original: the original shipped them crossed (‹ at the right edge); this PR revives the rules uncrossed, per author decision.
+  7) On the TagStrip commit: the old <code>react-hooks/set-state-in-effect</code> eslint-disable is genuinely unused in the new code shape — restoring it fails lint as an unused directive (one review pass claimed it must return; empirically refuted).</p>
+  <p><strong>Supply chain:</strong> npm side lockfile-pinned, 7-day-soaked, no install scripts. The editor extension is optional (same author as cmk, npm provenance attested) &mdash; pin/disable auto-update; all CI enforcement works without it.</p>
+</article>
+
+<article class="card">
+  <h3>Agent review &mdash; ten independent passes (five pre-QA fresh-context on the full diff, five post-QA full-scope/targeted)</h3>
+  <p>Authored with Claude Code (Fable 5). Every deletion backed by per-site git-history evidence (incl. pre-monorepo inspect_ai); knip findings manually verified; 7 verdicts independently match the earlier metr/view-css-cleanup branch.</p>
+  <ul>
+    <li>Deslop/diff-minimality (Claude): 8 findings &mdash; 6 applied (incl. a corrupted root .prettierignore and @types/css-modules remnants silently weakening the typing design), 1 dismissed (TabSet <code>styles</code> binding is the lint rule&rsquo;s documented contract), 1 moot.</li>
+    <li>Correctness (Claude): 7 findings &mdash; 1 blocker fixed (lint lacked the generate:css dependency: green only on warm trees), 4 applied, 1 answered as deliberate, 1 initially dismissed then fixed when re-flagged by Sol.</li>
+    <li>Grok 4.5 (Cursor CLI): 6 findings &mdash; 2 high fixed (<code>^generate:css</code>; apps/inspect lint glob never linted css), 1 fixed (empty compilerOptions), 1 documented as intentional debt, 2 dismissed (root-level cmk provisioning and apps-only watch are deliberate).</li>
+    <li>GPT-5.6 Sol (Cursor CLI): 6 findings &mdash; 2 duplicates of already-fixed highs, 2 new fixed (engines &gt;=22.12.0 to match cmk; dead asciinemaPlayer class), 2 dismissed with reasons (stale-d.ts limitation documented; lockfile refresh intentional).</li>
+    <li>Grok 4.6 (Cursor CLI), post-rebase pass on the final diff: 4 findings &mdash; 1 fixed (leftover debug script committed by mistake), 1 applied (<code>"types": []</code> in 5 tsconfigs to keep main&rsquo;s @types isolation), 2 dismissed as documented scope-outs. Also spot-verified a sample of css/tsx deletions against main&rsquo;s history and the pnpm-11 interaction surface clean.</li>
+    <li>GPT-5.6 Sol (Cursor CLI), post-QA full-scope pass, self-derived diff: 2 findings &mdash; both known (orphaned-d.ts scope-out documented in reviewer notes; lib-package dev watch — moot: the watcher was later removed by design, live types come from the tsserver plugin).</li>
+    <li>Claude Opus (fresh context), post-QA full-scope pass, self-derived diff, verdict approve: 10 findings &mdash; 1 confirmed after author review and fixed (lightbox nav chevrons uncrossed to prev ‹ left / next › right &mdash; the revived original had the offsets swapped), 5 applied (root typescript alias pin de-duplicating cmk codegen&rsquo;s compiler; engines &ge;22.13.0; <code>generate:css</code> turbo inputs; root JSON formatting revert; <code>tolerant</code> comment), 2 dismissed (single-arg <code>clsx</code> residue &mdash; collapsing changes <code>class=""</code> emission; dead <code>className</code> prop is public API), 1 overtaken by design change (dev watch — later removed; tsserver plugin owns live types), 1 deferred (dead <code>.vscode-dark</code> JsonPanel theme override &mdash; restoring is a visual change, filed as follow-up). Also mechanically verified all 288 module pairs, every removed class repo-and-downstream-wide, and the lint gate simulation: clean.</li>
+    <li>Grok 4.6 (Cursor CLI), targeted on the editor-eslint commit: detection judged sound but residual editor misses unacceptable to the author &mdash; superseded by the inverted <code>TSMONO_TYPED_LINT</code> gate (folded into the adopt commit).</li>
+    <li>Grok 4.6 (Cursor CLI), targeted on the TagStrip crash fix: approve with nits, all applied (exact-count test assertion; invariant comment precision; eslint-directive claim empirically refuted &mdash; the directive is unused in the new code shape).</li>
+    <li>Grok 4.6 (Cursor CLI), final fresh-context pass on the restructured diff, verdict ship it: 1 medium fixed (commit-2 message still described the pre-swap chevron layout), 4 low doc/message drifts fixed, 1 dismissed (root-only <code>cmk</code> bin matches the repo&rsquo;s established root-only-prettier pattern).</li>
+  </ul>
+</article>
+
+</main>
+</body>
+</html>
